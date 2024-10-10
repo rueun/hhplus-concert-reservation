@@ -1,4 +1,4 @@
-package com.hhplus.concertreservation.presentation.dto.response;
+package com.hhplus.concertreservation.queue.presentation.dto.response;
 
 public record GetQueueStatusResponse(
         Long id,
