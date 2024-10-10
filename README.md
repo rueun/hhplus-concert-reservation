@@ -1,16 +1,16 @@
 # 콘서트 예약 시스템
 
----
-
 ## 문서 목차
+
+---
 ### 1. [Milestone](https://github.com/users/rueun/projects/1)
 ### 2. [Sequence Diagram](https://github.com/rueun/hhplus-concert-reservation/blob/step5/docs/SEQUENCE_DIAGRAM.md)
 
----
-
+<br>
 
 ## 요구사항
 
+---
 ## Description
 
 - `콘서트 예약 서비스`를 구현해 봅니다.
