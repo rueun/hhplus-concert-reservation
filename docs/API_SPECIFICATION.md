@@ -66,8 +66,8 @@
 - **Response Body**:
   ```json
   {
-    "queueId": 1,
-    "joinAt": "2024-07-04 10:00:00",
+    "id": 1,
+    "userId": 1,
     "status": "WAITING",
     "waitingNumber": 500
   }
