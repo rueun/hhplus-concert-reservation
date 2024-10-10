@@ -5,6 +5,9 @@
 ---
 ### 1. [Milestone](https://github.com/users/rueun/projects/1)
 ### 2. [Sequence Diagram](https://github.com/rueun/hhplus-concert-reservation/blob/step5/docs/SEQUENCE_DIAGRAM.md)
+### 3. [API Specification](https://github.com/rueun/hhplus-concert-reservation/blob/step6/docs/API_SPECIFICATION.md)
+### 4. [ERD](https://github.com/rueun/hhplus-concert-reservation/blob/step6/docs/ERD.md)
+### 5. [Project Structure](https://github.com/rueun/hhplus-concert-reservation/blob/step6/docs/PROJECT_STRUCTURE.md)
 
 <br>
 
