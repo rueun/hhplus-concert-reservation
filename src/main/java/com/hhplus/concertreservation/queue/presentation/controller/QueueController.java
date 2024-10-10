@@ -2,8 +2,8 @@ package com.hhplus.concertreservation.queue.presentation.controller;
 
 import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
 import com.hhplus.concertreservation.queue.presentation.dto.request.CreateQueueRequest;
-import com.hhplus.concertreservation.queue.presentation.dto.response.CreateQueueResponse;
-import com.hhplus.concertreservation.queue.presentation.dto.response.GetQueueStatusResponse;
+import com.hhplus.concertreservation.queue.presentation.dto.response.QueueResponse.CreateQueueResponse;
+import com.hhplus.concertreservation.queue.presentation.dto.response.QueueResponse.GetQueueStatusResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
