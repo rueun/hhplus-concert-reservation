@@ -1,10 +1,11 @@
 package com.hhplus.concertreservation.queue.presentation.dto.response;
 
+import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
+
 public record GetQueueStatusResponse(
         Long id,
         Long userId,
-        // TODO: 추후 enum으로 변경 (WAITING, ACTIVE, EXPIRED)
-        String status,
+        QueueStatus status,
         Long waitingCount
 ) {
 }

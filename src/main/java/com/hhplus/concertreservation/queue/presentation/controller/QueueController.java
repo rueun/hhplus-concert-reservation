@@ -1,5 +1,6 @@
 package com.hhplus.concertreservation.queue.presentation.controller;
 
+import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
 import com.hhplus.concertreservation.queue.presentation.dto.request.CreateQueueRequest;
 import com.hhplus.concertreservation.queue.presentation.dto.response.CreateQueueResponse;
 import com.hhplus.concertreservation.queue.presentation.dto.response.GetQueueStatusResponse;
@@ -23,7 +24,7 @@ public class QueueController {
     public ResponseEntity<GetQueueStatusResponse> getQueue(
             @PathVariable String userId
     ) {
-        return ResponseEntity.ok(new GetQueueStatusResponse(1L, 1L, "WAITING", 10L));
+        return ResponseEntity.ok(new GetQueueStatusResponse(1L, 1L, QueueStatus.WAITING, 10L));
     }
 
 }
