@@ -5,9 +5,6 @@
 ## 문서 목차
 ### 1. [Milestone](https://github.com/users/rueun/projects/1)
 ### 2. [Sequence Diagram](https://github.com/rueun/hhplus-concert-reservation/blob/step5/docs/SEQUENCE_DIAGRAM.md)
-### 3. [API 명세]()
-### 4. [ERD]()
-### 5. [Package Structure]()
 
 ---
 
