@@ -148,7 +148,7 @@
 - **Response Body**:
   ```json
   {
-    "totalSeatCnt": 200,
+    "totalSeatCount": 200,
     "unavailableSeats": [
         {
             "seatId": 101,

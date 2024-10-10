@@ -26,7 +26,8 @@ erDiagram
         bigint id PK "콘서트 id"
         string name "콘서트명"
         string place "콘서트 장소"
-        date reservation_open_at "예약 시작일"
+        date reservation_open_at "예약 오픈 일시"
+        date reservation_close_at "예약 마감 일시"
     }
 
     concert_session {
@@ -39,9 +40,9 @@ erDiagram
     concert_seat {
         bigint id PK "좌석 id"
         bigint concert_session_id FK "콘서트 회차 id"
-        int seat_number "좌석 번호"
+        string seat_number "좌석 번호"
         string status "좌석 상태(임시 예약, 예약 가능, 판매 완료)"
-        int price "좌석 가격"
+        decimal price "좌석 가격"
     }
 
     reservation {
@@ -49,7 +50,7 @@ erDiagram
         bigint user_id "사용자 id"
         bigint status "예약 상태(임시 예약, 예약 완료, 취소)"
         string seat_ids "좌석 id 목록"
-        bigint total_price "총 가격"    
+        decimal total_price "총 가격"    
         date reservation_at "예약 일시"
     }
 
