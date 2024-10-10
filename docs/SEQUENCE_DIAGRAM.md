@@ -298,6 +298,8 @@ sequenceDiagram
 ### 9. 대기열 활성/만료 스케줄링
 
 ---
+
+`대기열 토큰 활성`
 ```mermaid
 sequenceDiagram
     participant Scheduler
@@ -307,21 +309,31 @@ sequenceDiagram
         Scheduler ->>+ Queue: 대기 중인 대기열 N개를 활성 상태로 변경 요청
         Queue ->> Queue: 활성 상태로 변경 및 활성 일시 저장
     end
+```
 
+`대기열 활성 토큰 만료`
+```mermaid
+sequenceDiagram
+    participant Scheduler
+    participant Queue
+    
     loop N초마다 활성 토큰 만료 처리
         Scheduler->>+Queue: 활성 토큰 만료 처리 요청
         Queue ->> Queue: 만료 시간 초과된 활성 토큰 만료 처리
+        Queue ->> Queue: 마지막 액션 시간이 N분 이상 지난 활성 토큰 만료 처리
     end
 ```
 
 ### Description
-대기열 활성/만료 스케줄링에 대한 시퀀스 다이어그램입니다.
-- `대기열 활성`
+대기열 토큰 활성/만료 스케줄링에 대한 시퀀스 다이어그램입니다.
+- `대기열 토큰 활성`
   - 일정 시간마다 대기 중인 대기열 N 개를 활성 상태로 변경합니다.
-- `대기열 토큰 만료`
+- `대기열 활성 토큰 만료`
   - 일정 시간마다 활성 토큰을 만료 처리합니다.
-  - 만료시킬 기준은 활성 일시를 기준으로 합니다.
-    - 활성 일시가 N분 이상 지난 토큰은 만료 처리합니다.
+  1. 만료시킬 기준은 활성 일시를 기준으로 합니다.
+     - 활성 일시가 N분 이상 지난 토큰은 만료 처리합니다.
+  2. 마지막 액션 시간이 N분 이상 지난 활성 토큰은 만료 처리합니다.
+
 
 <br>
 
