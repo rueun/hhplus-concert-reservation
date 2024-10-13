@@ -5,8 +5,8 @@ import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
 
 import java.time.LocalDateTime;
 
-public class QueueResponse {
-    public record CreateQueueResponse (
+public class WaitingQueueResponse {
+    public record CreateWaitingQueueResponse(
             String id,
             String token,
             @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -14,7 +14,7 @@ public class QueueResponse {
     ) {
     }
 
-    public record GetQueueStatusResponse(
+    public record GetWaitingQueueStatusResponse(
             Long id,
             Long userId,
             QueueStatus status,
