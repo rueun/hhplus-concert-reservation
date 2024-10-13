@@ -19,7 +19,7 @@
 
 ### Request
 - **Method**: POST
-- **URL**: `/api/v1/queues`
+- **URL**: `/api/v1/waiting-queues`
 - **Headers**:
   - `Content-Type`: application/json
 - **Request Body**:
@@ -56,10 +56,11 @@
 
 ### Request
 - **Method**: GET
-- **URL**: `/api/v1/queues/users/{userId}`
+- **URL**: `/api/v1/waiting-queues`
 - **Headers**:
   - `Content-Type`: application/json
   - `QUEUE_TOKEN`: String (대기열 토큰)
+  - `USER_ID`: Long (사용자 ID)
 
 ### Response
 - **Status Code**: 200
@@ -299,11 +300,11 @@
 
 ---
 ### Description
-- 사용자의 잔액을 충전합니다.
+- 사용자의 잔액(포인트)을 충전합니다.
 
 ### Request
-- **Method**: POST
-- **URL**: `/api/v1/users/{userId}/balance/recharge`
+- **Method**: PATCH
+- **URL**: `/api/v1/users/{userId}/points/charge`
 - **Headers**:
   - `Content-Type`: application/json
 - **URL Params**:
@@ -336,11 +337,11 @@
 
 ---
 ### Description
-- 사용자의 현재 잔액을 조회합니다.
+- 사용자의 현재 잔액(포인트)을 조회합니다.
 
 ### Request
-- **Method**: `GET`
-- **URL**: `/api/v1/users/{userId}/balance`
+- **Method**: GET
+- **URL**: `/api/v1/users/{userId}/points`
 - **Path Params**:
     - `userId`: Long (사용자 ID)
 
