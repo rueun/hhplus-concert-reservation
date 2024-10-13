@@ -1,6 +1,6 @@
 package com.hhplus.concertreservation.user.presentation.dto.response;
 
-public record ChargeUserBalanceResponse(
+public record ChargeUserPointResponse(
         long totalAmount
 ) {
 }

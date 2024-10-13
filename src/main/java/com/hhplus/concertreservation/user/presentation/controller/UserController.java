@@ -1,8 +1,8 @@
 package com.hhplus.concertreservation.user.presentation.controller;
 
-import com.hhplus.concertreservation.user.presentation.dto.request.ChargeUserBalanceRequest;
-import com.hhplus.concertreservation.user.presentation.dto.response.ChargeUserBalanceResponse;
-import com.hhplus.concertreservation.user.presentation.dto.response.GetUserBalanceResponse;
+import com.hhplus.concertreservation.user.presentation.dto.request.ChargeUserPointRequest;
+import com.hhplus.concertreservation.user.presentation.dto.response.ChargeUserPointResponse;
+import com.hhplus.concertreservation.user.presentation.dto.response.GetUserPointResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,21 +11,21 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     // 잔액 충전
-    @PostMapping("/{userId}/balance/charge")
-    public ResponseEntity<ChargeUserBalanceResponse> chargeBalance(
+    @PostMapping("/{userId}/points/charge")
+    public ResponseEntity<ChargeUserPointResponse> chargeUserPoint(
             @PathVariable Long userId,
-            @RequestBody ChargeUserBalanceRequest request
+            @RequestBody ChargeUserPointRequest request
     ) {
-        ChargeUserBalanceResponse response = new ChargeUserBalanceResponse(1000);
+        ChargeUserPointResponse response = new ChargeUserPointResponse(1000);
         return ResponseEntity.ok(response);
     }
 
     // 잔액 조회
-    @GetMapping("/{userId}/balance")
-    public ResponseEntity<GetUserBalanceResponse> getBalance(
+    @GetMapping("/{userId}/points")
+    public ResponseEntity<GetUserPointResponse> getUserPoint(
             @PathVariable Long userId
     ) {
-        GetUserBalanceResponse response = new GetUserBalanceResponse(1000);
+        GetUserPointResponse response = new GetUserPointResponse(1000);
         return ResponseEntity.ok(response);
     }
 }
