@@ -17,10 +17,9 @@ erDiagram
         bigint user_id "사용자 id"
         varchar token "대기열 토큰"
         varchar status "대기열 상태(대기, 활성, 만료)"
-        datetime joined_at "대기열 참여 일시"
         datetime activated_at "대기열 활성 일시"
         datetime expired_at "대기열 만료 일시"
-        datetime last_action_at "마지막 동작 일시"
+        datetime last_actioned_at "마지막 동작 일시"
     }
 
     concert {
