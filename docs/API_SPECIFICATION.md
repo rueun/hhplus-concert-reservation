@@ -200,7 +200,7 @@
 
 ### Request
 - **Method**: POST
-- **URL**: `/api/v1/reservations`
+- **URL**: `/api/v1/concerts/{concertId}/sessions/{sessionId}/reservations`
 - **Headers**:
   - `Content-Type`: application/json
   - `QUEUE_TOKEN`: String (대기열 토큰)
@@ -208,8 +208,6 @@
 ```json
 {
   "userId": 1,
-  "concertId": 1,
-  "sessionId": 1,
   "seatIds": [10, 11]
 }
 ```
@@ -258,14 +256,15 @@
 
 ### Request
 - **Method**: POST
-- **URL**: `/api/v1/reservations/{reservationId}/payments`
+- **URL**: `/api/v1/payments`
 - **Headers**:
   - `Content-Type`: application/json
   - `QUEUE_TOKEN`: String (대기열 토큰)
 - **Request Body**:
 ```json
 {
-  "userId": 1
+  "userId": 1,
+  "reservationId": 1
 }
 ```
 
