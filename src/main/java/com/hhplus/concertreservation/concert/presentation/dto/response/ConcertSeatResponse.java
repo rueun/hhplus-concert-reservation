@@ -8,6 +8,6 @@ public record ConcertSeatResponse(
         Long seatId,
         String number,
         ConcertSeatStatus status,
-        BigDecimal price
+        int price
 ) {
 }

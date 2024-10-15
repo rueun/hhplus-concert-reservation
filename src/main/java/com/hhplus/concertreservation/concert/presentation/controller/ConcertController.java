@@ -1,15 +1,11 @@
 package com.hhplus.concertreservation.concert.presentation.controller;
 
 import com.hhplus.concertreservation.concert.domain.model.vo.ConcertSeatStatus;
-import com.hhplus.concertreservation.concert.presentation.dto.response.ConcertSeatResponse;
-import com.hhplus.concertreservation.concert.presentation.dto.response.ConcertSessionResponse;
-import com.hhplus.concertreservation.concert.presentation.dto.response.GetConcertSeatsResponse;
-import com.hhplus.concertreservation.concert.presentation.dto.response.GetConcertSessionsResponse;
+import com.hhplus.concertreservation.concert.presentation.dto.request.ReserveConcertRequest;
+import com.hhplus.concertreservation.concert.presentation.dto.response.*;
+import com.hhplus.concertreservation.concert.presentation.dto.response.ReserveConcertResponse.ReserveSeatResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -33,10 +29,19 @@ public class ConcertController {
             @PathVariable Long sessionId
     )
     {
-        ConcertSeatResponse unAvailableSeat = new ConcertSeatResponse(2L, "A2", ConcertSeatStatus.RESERVED, BigDecimal.valueOf(1000L));
-        ConcertSeatResponse availableSeat = new ConcertSeatResponse(1L, "A1",ConcertSeatStatus.AVAILABLE, BigDecimal.valueOf(1000L));
+        ConcertSeatResponse unAvailableSeat = new ConcertSeatResponse(2L, "A2", ConcertSeatStatus.RESERVED, 1000);
+        ConcertSeatResponse availableSeat = new ConcertSeatResponse(1L, "A1",ConcertSeatStatus.AVAILABLE, 1000);
 
         return ResponseEntity.ok(new GetConcertSeatsResponse(100, List.of(unAvailableSeat), List.of(availableSeat)));
     }
 
+    @PostMapping("/{concertId}/sessions/{sessionId}/reservations")
+    public ResponseEntity<ReserveConcertResponse> reserveConcert(
+            @PathVariable Long concertId,
+            @PathVariable Long sessionId,
+            @RequestBody ReserveConcertRequest request
+    ) {
+        ReserveSeatResponse reservedSeat = new ReserveSeatResponse(1L, "A1", 100);
+        return ResponseEntity.ok(new ReserveConcertResponse(1L, 100, List.of(reservedSeat)));
+    }
 }
