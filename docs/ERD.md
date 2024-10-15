@@ -42,23 +42,23 @@ erDiagram
         bigint concert_session_id FK "콘서트 회차 id"
         varchar seat_number "좌석 번호"
         varchar status "좌석 상태(임시 예약, 예약 가능, 판매 완료)"
-        decimal price "좌석 가격"
+        int price "좌석 가격"
     }
 
-    reservation {
+    concert_reservation {
         bigint id PK "예약 id"
         bigint user_id "사용자 id"
-        bigint status "예약 상태(임시 예약, 예약 완료, 취소)"
+        varchar status "예약 상태(임시 예약, 예약 완료, 취소)"
         varchar seat_ids "좌석 id 목록"
-        decimal total_price "총 가격"    
-        date reservation_at "예약 일시"
+        int total_price "총 좌석 금액"
+        datetime reservation_at "예약 일시"
     }
 
     payment {
         bigint id PK "결제 id"
         bigint user_id "사용자 id"
         bigint reservation_id "예약 id"
-        bigint amount "결제 금액"
+        int total_amount "결제 금액"
         varchar status "결제 상태"
         datetime payment_at "결제 일시"
     }
