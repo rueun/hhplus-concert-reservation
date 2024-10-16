@@ -29,8 +29,8 @@ public class ConcertController {
             @PathVariable Long sessionId
     )
     {
-        ConcertSeatResponse unAvailableSeat = new ConcertSeatResponse(2L, "A2", ConcertSeatStatus.RESERVED, 1000);
-        ConcertSeatResponse availableSeat = new ConcertSeatResponse(1L, "A1",ConcertSeatStatus.AVAILABLE, 1000);
+        ConcertSeatResponse unAvailableSeat = new ConcertSeatResponse(2L, 2, ConcertSeatStatus.TEMPORARY_RESERVED, 1000);
+        ConcertSeatResponse availableSeat = new ConcertSeatResponse(1L, 1,ConcertSeatStatus.AVAILABLE, 1000);
 
         return ResponseEntity.ok(new GetConcertSeatsResponse(100, List.of(unAvailableSeat), List.of(availableSeat)));
     }
@@ -41,7 +41,7 @@ public class ConcertController {
             @PathVariable Long sessionId,
             @RequestBody ReserveConcertRequest request
     ) {
-        ReserveSeatResponse reservedSeat = new ReserveSeatResponse(1L, "A1", 100);
+        ReserveSeatResponse reservedSeat = new ReserveSeatResponse(1L, 1, 100);
         return ResponseEntity.ok(new ReserveConcertResponse(1L, 100, List.of(reservedSeat)));
     }
 }
