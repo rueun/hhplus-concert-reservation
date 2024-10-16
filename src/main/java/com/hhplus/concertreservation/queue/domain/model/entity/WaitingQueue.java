@@ -1,12 +1,16 @@
 package com.hhplus.concertreservation.queue.domain.model.entity;
 
 import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class WaitingQueue {
 
     private Long id;
@@ -19,19 +23,11 @@ public class WaitingQueue {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @Builder
-    public WaitingQueue(Long id, Long userId, String token, QueueStatus status, LocalDateTime activatedAt, LocalDateTime expiredAt, LocalDateTime lastActionedAt, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
-        this.userId = userId;
-        this.token = token;
-        this.status = status;
-        this.activatedAt = activatedAt;
-        this.expiredAt = expiredAt;
-        this.lastActionedAt = lastActionedAt;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
+    /**
+     * 대기열 새로 생성 시 사용
+     * @param userId 사용자 ID
+     * @param token 대기열 토큰
+     */
     public WaitingQueue (final Long userId, final String token) {
         this.userId = userId;
         this.token = token;
