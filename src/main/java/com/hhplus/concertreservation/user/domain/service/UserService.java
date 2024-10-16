@@ -20,10 +20,18 @@ public class UserService {
         }
     }
 
-    public void usePoint(final Long userId, final long amount) {
+    public UserPoint chargePoint(final Long userId, final long amount) {
+        checkUserExist(userId);
+        final UserPoint userPoint = userReader.getUserPointByUserId(userId);
+        userPoint.charge(amount);
+        return userWriter.saveUserPoint(userPoint);
+    }
+
+
+    public UserPoint usePoint(final Long userId, final long amount) {
         checkUserExist(userId);
         final UserPoint userPoint = userReader.getUserPointByUserId(userId);
         userPoint.use(amount);
-        userWriter.saveUserPoint(userPoint);
+        return userWriter.saveUserPoint(userPoint);
     }
 }
