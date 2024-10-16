@@ -16,7 +16,7 @@ public class UserPoint {
     private long amount;
 
     public void charge(final long amount) {
-        if (amount < 0) {
+        if (amount <= 0) {
             throw new PointAmountInvalidException("충전하려는 포인트는 0보다 커야 합니다.");
         }
 
@@ -25,7 +25,7 @@ public class UserPoint {
 
     public void use(final long amount) {
 
-        if (amount < 0) {
+        if (amount <= 0) {
             throw new PointAmountInvalidException("사용하려는 포인트는 0보다 커야 합니다.");
         }
 
