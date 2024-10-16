@@ -1,49 +1,36 @@
 package com.hhplus.concertreservation.user.domain.model.entity;
 
-import com.hhplus.concertreservation.common.auditing.BaseEntity;
-import jakarta.persistence.*;
+import com.hhplus.concertreservation.user.domain.exception.PointAmountInvalidException;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "user_point")
-public class UserPoint extends BaseEntity {
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public class UserPoint {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long userId;
+    private long amount;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    private int amount;
-
-    public UserPoint(final User user) {
-        this.user = user;
-        this.amount = 0;
-    }
-
-    public void charge(final int amount) {
-
+    public void charge(final long amount) {
         if (amount < 0) {
-            throw new IllegalArgumentException("The amount must be greater than 0.");
+            throw new PointAmountInvalidException("충전하려는 포인트는 0보다 커야 합니다.");
         }
 
         this.amount += amount;
     }
 
-    public void use(final int amount) {
+    public void use(final long amount) {
 
         if (amount < 0) {
-            throw new IllegalArgumentException("The amount must be greater than 0.");
+            throw new PointAmountInvalidException("사용하려는 포인트는 0보다 커야 합니다.");
         }
 
         if (this.amount < amount) {
-            throw new IllegalArgumentException("The amount is insufficient.");
+            throw new PointAmountInvalidException("잔여 포인트가 부족합니다.");
         }
 
         this.amount -= amount;

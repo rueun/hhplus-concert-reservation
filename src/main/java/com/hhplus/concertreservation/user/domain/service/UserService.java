@@ -19,4 +19,11 @@ public class UserService {
             throw new UserNotFoundException();
         }
     }
+
+    public void usePoint(final Long userId, final long amount) {
+        checkUserExist(userId);
+        final UserPoint userPoint = userReader.getUserPointByUserId(userId);
+        userPoint.use(amount);
+        userWriter.saveUserPoint(userPoint);
+    }
 }

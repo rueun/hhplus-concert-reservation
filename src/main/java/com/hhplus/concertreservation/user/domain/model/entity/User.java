@@ -1,22 +1,25 @@
 package com.hhplus.concertreservation.user.domain.model.entity;
 
-import com.hhplus.concertreservation.common.auditing.BaseEntity;
-import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
-@Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "user")
-public class User extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public class User {
     private Long id;
-
     private String name;
-
     private String email;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    public User(Long id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
 }
