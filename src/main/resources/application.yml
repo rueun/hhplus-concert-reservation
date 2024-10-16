@@ -5,9 +5,29 @@ spring:
   application:
     name: hhplus-concert-reservation
   datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password: password
+    url: jdbc:mysql://localhost:3306/hhplus_concert_reservation?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      max-lifetime: 1800000
+      idle-timeout: 30000
+      connection-timeout: 30000
   jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        show_sql: true
+        default_batch_fetch_size: 1000
+        jdbc:
+          batch_size: 1000
+    show-sql: true
     open-in-view: false
 
