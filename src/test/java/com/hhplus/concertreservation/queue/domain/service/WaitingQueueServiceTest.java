@@ -1,6 +1,8 @@
 package com.hhplus.concertreservation.queue.domain.service;
 
 import com.hhplus.concertreservation.common.uuid.UUIDGenerator;
+import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueExpiredException;
+import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueNotActivatedException;
 import com.hhplus.concertreservation.queue.domain.model.dto.WaitingQueueInfo;
 import com.hhplus.concertreservation.queue.domain.model.entity.WaitingQueue;
 import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
@@ -16,8 +18,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.BDDAssertions.thenThrownBy;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -149,5 +151,62 @@ class WaitingQueueServiceTest {
                 () -> then(waitingQueueReader).should(times(1)).getByToken(token),
                 () -> then(waitingQueueReader).should(times(1)).getLatestActivatedQueue()
         );
+    }
+
+
+    @Test
+    void 활성화된_대기열이면_예외가_발생하지_않는다() {
+        // given
+        final String token = "token-uuid";
+
+        final WaitingQueue waitingQueue = WaitingQueue.builder()
+                .id(200L)
+                .token(token)
+                .status(QueueStatus.ACTIVATED)
+                .build();
+
+        given(waitingQueueReader.getByToken(token)).willReturn(waitingQueue);
+
+        // when & then
+        assertDoesNotThrow(() -> waitingQueueService.checkActivatedQueue(token));
+
+        then(waitingQueueReader).should(times(1)).getByToken(token);
+
+    }
+
+    @Test
+    void 만료된_대기열이면_만료된_대기열_예외가_발생한다() {
+        // given
+        final String token = "token-uuid";
+
+        final WaitingQueue waitingQueue = WaitingQueue.builder()
+                .id(200L)
+                .token(token)
+                .status(QueueStatus.EXPIRED)
+                .build();
+
+        given(waitingQueueReader.getByToken(token)).willReturn(waitingQueue);
+
+        // when & then
+        thenThrownBy(() -> waitingQueueService.checkActivatedQueue(token))
+                .isInstanceOf(WaitingQueueExpiredException.class);
+    }
+
+    @Test
+    void 활성화되지_않은_대기열이면_활성화되지_않은_대기열_예외가_발생한다() {
+        // given
+        final String token = "token-uuid";
+
+        final WaitingQueue waitingQueue = WaitingQueue.builder()
+                .id(200L)
+                .token(token)
+                .status(QueueStatus.WAITING)
+                .build();
+
+        given(waitingQueueReader.getByToken(token)).willReturn(waitingQueue);
+
+        // when & then
+        thenThrownBy(() -> waitingQueueService.checkActivatedQueue(token))
+                .isInstanceOf(WaitingQueueNotActivatedException.class);
     }
 }

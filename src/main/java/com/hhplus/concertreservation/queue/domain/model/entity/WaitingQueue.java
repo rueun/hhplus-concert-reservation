@@ -42,4 +42,12 @@ public class WaitingQueue {
     public boolean isWaiting() {
         return this.status == QueueStatus.WAITING;
     }
+
+    public boolean isActivated() {
+        return this.status == QueueStatus.ACTIVATED;
+    }
+
+    public boolean isExpired() {
+        return this.status == QueueStatus.EXPIRED;
+    }
 }
