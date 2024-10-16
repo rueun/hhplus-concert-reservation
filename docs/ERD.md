@@ -40,17 +40,17 @@ erDiagram
     concert_seat {
         bigint id PK "좌석 id"
         bigint concert_session_id FK "콘서트 회차 id"
-        varchar seat_number "좌석 번호"
-        varchar status "좌석 상태(임시 예약, 예약 가능, 판매 완료)"
-        int price "좌석 가격"
+        int seat_number "좌석 번호"
+        varchar status "좌석 상태(임시 예약, 결제 완료, 예약 가능)"
+        bigint price "좌석 가격"
     }
 
     concert_reservation {
         bigint id PK "예약 id"
         bigint user_id "사용자 id"
-        varchar status "예약 상태(임시 예약, 예약 완료, 취소)"
+        varchar status "예약 상태(임시 예약, 결제 완료, 예약 취소)"
         varchar seat_ids "좌석 id 목록"
-        int total_price "총 좌석 금액"
+        bigint total_price "총 좌석 금액"
         datetime reservation_at "예약 일시"
     }
 

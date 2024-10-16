@@ -59,8 +59,8 @@
 - **URL**: `/api/v1/waiting-queues`
 - **Headers**:
   - `Content-Type`: application/json
-  - `QUEUE_TOKEN`: String (대기열 토큰)
-  - `USER_ID`: Long (사용자 ID)
+  - `QUEUE-TOKEN`: String (대기열 토큰)
+  - `USER-ID`: Long (사용자 ID)
 
 ### Response
 - **Status Code**: 200
@@ -97,7 +97,7 @@
 - **URL**: `/api/v1/concerts/{concertId}/sessions`
 - **Headers**:
   - `Content-Type`: application/json
-  - `QUEUE_TOKEN`: String (대기열 토큰)
+  - `QUEUE-TOKEN`: String (대기열 토큰)
 - **Path Params**:
     - `concertId`: Long (콘서트 ID)
 
@@ -139,7 +139,7 @@
 - **URL**: `/api/v1/concerts/{concertId}/sessions/{sessionId}/seats`
 - **Headers**:
   - `Content-Type`: application/json
-  - `QUEUE_TOKEN`: String (대기열 토큰)
+  - `QUEUE-TOKEN`: String (대기열 토큰)
 - **Path Params**:
     - `concertId`: Long (콘서트 ID)
     - `sessionId`: Long (콘서트 회차 ID)
@@ -203,7 +203,7 @@
 - **URL**: `/api/v1/concerts/{concertId}/sessions/{sessionId}/reservations`
 - **Headers**:
   - `Content-Type`: application/json
-  - `QUEUE_TOKEN`: String (대기열 토큰)
+  - `QUEUE-TOKEN`: String (대기열 토큰)
 - **Body**:
 ```json
 {
@@ -259,7 +259,7 @@
 - **URL**: `/api/v1/payments`
 - **Headers**:
   - `Content-Type`: application/json
-  - `QUEUE_TOKEN`: String (대기열 토큰)
+  - `QUEUE-TOKEN`: String (대기열 토큰)
 - **Request Body**:
 ```json
 {
