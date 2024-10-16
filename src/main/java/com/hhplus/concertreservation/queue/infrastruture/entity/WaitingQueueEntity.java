@@ -48,6 +48,16 @@ public class WaitingQueueEntity extends BaseEntity {
     }
 
     public WaitingQueue toDomain() {
-        return new WaitingQueue(id, userId, token, status, activatedAt, expiredAt, lastActionedAt);
+        return WaitingQueue.builder()
+                .id(id)
+                .userId(userId)
+                .token(token)
+                .status(status)
+                .activatedAt(activatedAt)
+                .expiredAt(expiredAt)
+                .lastActionedAt(lastActionedAt)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
+                .build();
     }
 }

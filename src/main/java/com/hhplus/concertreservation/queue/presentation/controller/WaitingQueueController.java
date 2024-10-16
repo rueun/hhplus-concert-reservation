@@ -1,8 +1,9 @@
 package com.hhplus.concertreservation.queue.presentation.controller;
 
 import com.hhplus.concertreservation.queue.application.usecase.CreateWaitingQueueUseCase;
+import com.hhplus.concertreservation.queue.application.usecase.GetWaitingQueueUseCase;
+import com.hhplus.concertreservation.queue.domain.model.dto.WaitingQueueInfo;
 import com.hhplus.concertreservation.queue.domain.model.entity.WaitingQueue;
-import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
 import com.hhplus.concertreservation.queue.presentation.dto.request.CreateWaitingQueueRequest;
 import com.hhplus.concertreservation.queue.presentation.dto.response.CreateWaitingQueueResponse;
 import com.hhplus.concertreservation.queue.presentation.dto.response.GetWaitingQueueStatusResponse;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class WaitingQueueController {
 
     private final CreateWaitingQueueUseCase createWaitingQueueUseCase;
+    private final GetWaitingQueueUseCase getWaitingQueueUseCase;
 
     @PostMapping
     public ResponseEntity<CreateWaitingQueueResponse> createWaitingQueue(
@@ -28,9 +30,11 @@ public class WaitingQueueController {
 
     @GetMapping
     public ResponseEntity<GetWaitingQueueStatusResponse> getWaitingQueue(
+            @RequestHeader("QUEUE-TOKEN") String token,
             @RequestHeader("USER-ID") Long userId
     ) {
-        return ResponseEntity.ok(new GetWaitingQueueStatusResponse(1L, 1L, QueueStatus.WAITING, 10L));
+        final WaitingQueueInfo waitingQueueInfo = getWaitingQueueUseCase.getWaitingQueueInfo(token);
+        return ResponseEntity.ok(GetWaitingQueueStatusResponse.of(waitingQueueInfo));
     }
 
 }

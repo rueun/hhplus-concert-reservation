@@ -1,9 +1,13 @@
 package com.hhplus.concertreservation.queue.domain.repository;
 
-import com.hhplus.concertreservation.queue.infrastruture.entity.WaitingQueueEntity;
+import com.hhplus.concertreservation.queue.domain.model.entity.WaitingQueue;
+
+import java.util.Optional;
 
 public interface WaitingQueueReader {
-    WaitingQueueEntity getById(Long id);
+    WaitingQueue getById(Long id);
 
-    WaitingQueueEntity getByToken(String token);
+    WaitingQueue getByToken(String token);
+
+    Optional<WaitingQueue> getLatestActivatedQueue();
 }
