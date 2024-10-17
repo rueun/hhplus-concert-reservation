@@ -2,6 +2,7 @@ package com.hhplus.concertreservation.user.domain.service;
 
 import com.hhplus.concertreservation.user.domain.exception.PointAmountInvalidException;
 import com.hhplus.concertreservation.user.domain.exception.UserNotFoundException;
+import com.hhplus.concertreservation.user.domain.exception.UserPointNotEnoughException;
 import com.hhplus.concertreservation.user.domain.model.entity.UserPoint;
 import com.hhplus.concertreservation.user.domain.repository.UserReader;
 import com.hhplus.concertreservation.user.domain.repository.UserWriter;
@@ -156,7 +157,7 @@ class UserServiceTest {
 
         // when & then
         assertThatThrownBy(() -> userService.usePoint(userId, useAmount))
-                .isInstanceOf(PointAmountInvalidException.class)
+                .isInstanceOf(UserPointNotEnoughException.class)
                 .hasMessage("잔여 포인트가 부족합니다.");
 
         assertAll(

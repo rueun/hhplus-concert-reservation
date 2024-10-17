@@ -1,5 +1,7 @@
 package com.hhplus.concertreservation.queue.domain.model.entity;
 
+import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueAlreadyActivatedException;
+import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueExpiredException;
 import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -44,6 +46,19 @@ public class WaitingQueue {
 
     public boolean isExpired() {
         return this.status == QueueStatus.EXPIRED;
+    }
+
+    public void activate(final LocalDateTime activatedAt) {
+        if (this.isActivated()) {
+            throw new WaitingQueueAlreadyActivatedException("이미 활성화된 대기열입니다.");
+        }
+
+        if (this.isExpired()) {
+            throw new WaitingQueueExpiredException("만료된 대기열은 활성화할 수 없습니다.");
+        }
+
+        this.status = QueueStatus.ACTIVATED;
+        this.activatedAt = activatedAt;
     }
 
     public void expire(final LocalDateTime expiredAt) {

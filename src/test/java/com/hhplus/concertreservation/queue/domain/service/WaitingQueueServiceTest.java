@@ -2,6 +2,7 @@ package com.hhplus.concertreservation.queue.domain.service;
 
 import com.hhplus.concertreservation.common.time.TimeProvider;
 import com.hhplus.concertreservation.common.uuid.UUIDGenerator;
+import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueAlreadyActivatedException;
 import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueExpiredException;
 import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueNotActivatedException;
 import com.hhplus.concertreservation.queue.domain.model.dto.WaitingQueueInfo;
@@ -215,6 +216,63 @@ class WaitingQueueServiceTest {
         // when & then
         thenThrownBy(() -> waitingQueueService.checkActivatedQueue(token))
                 .isInstanceOf(WaitingQueueNotActivatedException.class);
+    }
+
+    @Test
+    void 대기열이_정상적으로_활성화된다() {
+        // given
+        String token = "test-token";
+        LocalDateTime now = LocalDateTime.now();
+
+        // Mock 대기열 생성
+        WaitingQueue waitingQueue = WaitingQueue.builder()
+                .userId(1L)
+                .token(token)
+                .status(QueueStatus.WAITING)
+                .build();
+
+        when(waitingQueueReader.getByToken(token)).thenReturn(waitingQueue);
+        when(timeProvider.now()).thenReturn(now);
+
+        // when
+        waitingQueueService.activateQueue(token);
+
+        // then
+        assertAll(
+                () -> assertEquals(QueueStatus.ACTIVATED, waitingQueue.getStatus()),
+                () -> assertEquals(now, waitingQueue.getActivatedAt()),
+                () -> then(waitingQueueWriter).should(times(1)).save(waitingQueue)
+        );
+    }
+
+    @Test
+    void 이미_활성화된_대기열을_활성화_시키는_경우_활성화_예외가_발생한다() {
+        // given
+        WaitingQueue waitingQueue = WaitingQueue.builder()
+                .userId(1L)
+                .token("test-token")
+                .status(QueueStatus.ACTIVATED)
+                .build();
+
+        // when & then
+        thenThrownBy(() -> waitingQueue.activate(LocalDateTime.now()))
+                .isInstanceOf(WaitingQueueAlreadyActivatedException.class)
+                .hasMessage("이미 활성화된 대기열입니다.");
+    }
+
+    @Test
+    void 만료된_대기열을_활성화_시키는_경우_활성화_예외가_발생한다() {
+        // given
+        WaitingQueue waitingQueue = WaitingQueue.builder()
+                .userId(1L)
+                .token("test-token")
+                .status(QueueStatus.EXPIRED)
+                .build();
+
+        // when & then
+        thenThrownBy(() -> waitingQueue.activate(LocalDateTime.now()))
+                .isInstanceOf(WaitingQueueExpiredException.class)
+                .hasMessage("만료된 대기열은 활성화할 수 없습니다.");
     }
 
 

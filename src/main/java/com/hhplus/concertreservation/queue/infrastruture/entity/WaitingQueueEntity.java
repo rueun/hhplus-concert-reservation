@@ -45,6 +45,8 @@ public class WaitingQueueEntity extends BaseEntity {
         this.activatedAt = waitingQueue.getActivatedAt();
         this.expiredAt = waitingQueue.getExpiredAt();
         this.lastActionedAt = waitingQueue.getLastActionedAt();
+        this.createdAt = waitingQueue.getCreatedAt();
+        this.updatedAt = waitingQueue.getUpdatedAt();
     }
 
     public WaitingQueue toDomain() {

@@ -2,6 +2,7 @@ package com.hhplus.concertreservation.payment.infrastruture.entity;
 
 import com.hhplus.concertreservation.common.auditing.BaseEntity;
 import com.hhplus.concertreservation.payment.domain.model.entity.Payment;
+import com.hhplus.concertreservation.payment.domain.model.vo.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -25,6 +26,9 @@ public class PaymentEntity extends BaseEntity {
     @Column(name = "reservation_id")
     private Long reservationId;
 
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus status;
+
     @Column(name = "total_price")
     private long totalPrice;
 
@@ -36,6 +40,7 @@ public class PaymentEntity extends BaseEntity {
         this.id = payment.getId();
         this.userId = payment.getUserId();
         this.reservationId = payment.getReservationId();
+        this.status = payment.getStatus();
         this.totalPrice = payment.getTotalPrice();
         this.paymentAt = payment.getPaymentAt();
     }
@@ -46,6 +51,7 @@ public class PaymentEntity extends BaseEntity {
                 .userId(userId)
                 .reservationId(reservationId)
                 .totalPrice(totalPrice)
+                .status(status)
                 .paymentAt(paymentAt)
                 .createdAt(getCreatedAt())
                 .updatedAt(getUpdatedAt())

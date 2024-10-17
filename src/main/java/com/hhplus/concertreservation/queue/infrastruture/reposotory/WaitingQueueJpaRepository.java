@@ -19,5 +19,5 @@ public interface WaitingQueueJpaRepository extends JpaRepository<WaitingQueueEnt
                 ORDER BY e.id DESC
                 LIMIT 1
             """)
-    Optional<WaitingQueue> getLatestActivatedQueue();
+    Optional<WaitingQueueEntity> getLatestActivatedQueue();
 }

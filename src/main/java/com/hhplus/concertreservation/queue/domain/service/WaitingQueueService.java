@@ -66,8 +66,21 @@ public class WaitingQueueService {
         }
     }
 
+
+
     /**
-     * 활성화된 대기열 만료 처리
+     * 대기열 활성화 처리 (스케줄러에서 주기적으로 호출)
+     * @param token 대기열 토큰 정보
+     */
+    public void activateQueue(final String token) {
+        final WaitingQueue currentWaitingQueue = waitingQueueReader.getByToken(token);
+        currentWaitingQueue.activate(timeProvider.now());
+        waitingQueueWriter.save(currentWaitingQueue);
+    }
+
+
+    /**
+     * 활성화된 대기열 만료 처리 (스케줄러에서 주기적으로 호출)
      * @param token 대기열 토큰 정보
      */
     public void expireQueue(final String token) {

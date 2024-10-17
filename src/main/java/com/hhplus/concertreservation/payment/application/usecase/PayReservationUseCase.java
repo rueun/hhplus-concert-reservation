@@ -1,6 +1,7 @@
 package com.hhplus.concertreservation.payment.application.usecase;
 
 import com.hhplus.concertreservation.common.UseCase;
+import com.hhplus.concertreservation.concert.domain.exception.InvalidConcertReservationStatusException;
 import com.hhplus.concertreservation.concert.domain.model.entity.ConcertReservation;
 import com.hhplus.concertreservation.concert.domain.service.ConcertService;
 import com.hhplus.concertreservation.payment.domain.model.dto.CreatePaymentCommand;
@@ -24,7 +25,7 @@ public class PayReservationUseCase {
     public Payment payReservation(final Long userId, final Long reservationId, final String token) {
         final ConcertReservation concertReservation = concertService.getConcertReservation(reservationId);
         if (!concertReservation.isTemporaryReserved()) {
-            throw new IllegalArgumentException("예약이 임시 예약 상태가 아닙니다.");
+            throw new InvalidConcertReservationStatusException("예약이 임시 예약 상태가 아닙니다.");
         }
         // 유저 포인트 사용
         userService.usePoint(userId, concertReservation.getTotalPrice());
