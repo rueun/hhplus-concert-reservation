@@ -1,5 +1,6 @@
 package com.hhplus.concertreservation.queue.domain.service;
 
+import com.hhplus.concertreservation.common.time.TimeProvider;
 import com.hhplus.concertreservation.common.uuid.UUIDGenerator;
 import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueExpiredException;
 import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueNotActivatedException;
@@ -18,6 +19,7 @@ public class WaitingQueueService {
     private final WaitingQueueWriter waitingQueueWriter;
 
     private final UUIDGenerator uuidGenerator;
+    private final TimeProvider timeProvider;
 
     public WaitingQueue createWaitingQueue(final Long userId) {
         final String token = uuidGenerator.generate();
@@ -62,5 +64,15 @@ public class WaitingQueueService {
         if (!currentWaitingQueue.isActivated()) {
             throw new WaitingQueueNotActivatedException("대기열이 활성상태가 아닙니다.");
         }
+    }
+
+    /**
+     * 활성화된 대기열 만료 처리
+     * @param token 대기열 토큰 정보
+     */
+    public void expireQueue(final String token) {
+        final WaitingQueue currentWaitingQueue = waitingQueueReader.getByToken(token);
+        currentWaitingQueue.expire(timeProvider.now());
+        waitingQueueWriter.save(currentWaitingQueue);
     }
 }

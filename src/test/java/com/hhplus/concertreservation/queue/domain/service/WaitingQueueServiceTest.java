@@ -1,5 +1,6 @@
 package com.hhplus.concertreservation.queue.domain.service;
 
+import com.hhplus.concertreservation.common.time.TimeProvider;
 import com.hhplus.concertreservation.common.uuid.UUIDGenerator;
 import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueExpiredException;
 import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueNotActivatedException;
@@ -8,6 +9,7 @@ import com.hhplus.concertreservation.queue.domain.model.entity.WaitingQueue;
 import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
 import com.hhplus.concertreservation.queue.domain.repository.WaitingQueueReader;
 import com.hhplus.concertreservation.queue.domain.repository.WaitingQueueWriter;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
@@ -25,6 +28,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
+@DisplayName("대기열 서비스 단위 테스트")
 @ExtendWith(MockitoExtension.class)
 class WaitingQueueServiceTest {
 
@@ -36,6 +40,9 @@ class WaitingQueueServiceTest {
 
     @Mock
     private UUIDGenerator uuidGenerator;
+
+    @Mock
+    private TimeProvider timeProvider;
 
     @InjectMocks
     private WaitingQueueService waitingQueueService;
@@ -209,4 +216,34 @@ class WaitingQueueServiceTest {
         thenThrownBy(() -> waitingQueueService.checkActivatedQueue(token))
                 .isInstanceOf(WaitingQueueNotActivatedException.class);
     }
+
+
+    @Test
+    void 대기열이_정상적으로_만료된다() {
+        // given
+        String token = "test-token";
+        LocalDateTime now = LocalDateTime.now();
+
+        // Mock 대기열 생성
+        WaitingQueue waitingQueue = WaitingQueue.builder()
+                .userId(1L)
+                .token(token)
+                .status(QueueStatus.ACTIVATED)
+                .build();
+
+
+        when(waitingQueueReader.getByToken(token)).thenReturn(waitingQueue);
+        when(timeProvider.now()).thenReturn(now);
+
+        // when
+        waitingQueueService.expireQueue(token);
+
+        // then
+        assertAll(
+                () -> assertEquals(QueueStatus.EXPIRED, waitingQueue.getStatus()),
+                () -> assertEquals(now, waitingQueue.getExpiredAt()),
+                () -> then(waitingQueueWriter).should(times(1)).save(waitingQueue)
+        );
+    }
+
 }
