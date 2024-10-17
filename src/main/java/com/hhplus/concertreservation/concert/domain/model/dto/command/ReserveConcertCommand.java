@@ -1,4 +1,4 @@
-package com.hhplus.concertreservation.concert.domain.model.dto;
+package com.hhplus.concertreservation.concert.domain.model.dto.command;
 
 import java.util.List;
 

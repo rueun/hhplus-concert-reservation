@@ -32,7 +32,6 @@ public class WaitingQueue {
         this.userId = userId;
         this.token = token;
         this.status = QueueStatus.WAITING;
-        this.lastActionedAt = LocalDateTime.now();
     }
 
     public boolean isWaiting() {
@@ -45,5 +44,10 @@ public class WaitingQueue {
 
     public boolean isExpired() {
         return this.status == QueueStatus.EXPIRED;
+    }
+
+    public void expire(final LocalDateTime expiredAt) {
+        this.status = QueueStatus.EXPIRED;
+        this.expiredAt = expiredAt;
     }
 }

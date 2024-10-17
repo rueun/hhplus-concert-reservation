@@ -5,6 +5,7 @@ import com.hhplus.concertreservation.user.domain.exception.UserNotFoundException
 import com.hhplus.concertreservation.user.domain.model.entity.UserPoint;
 import com.hhplus.concertreservation.user.domain.repository.UserReader;
 import com.hhplus.concertreservation.user.domain.repository.UserWriter;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,6 +22,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 
+@DisplayName("사용자 서비스 단위 테스트")
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
@@ -32,7 +34,6 @@ class UserServiceTest {
 
     @InjectMocks
     private UserService userService;
-
 
     @Test
     void 유저가_존재한다면_에러를_발생시키지_않는다() {

@@ -1,47 +1,66 @@
 package com.hhplus.concertreservation.concert.presentation.controller;
 
-import com.hhplus.concertreservation.concert.domain.model.vo.ConcertSeatStatus;
+import com.hhplus.concertreservation.concert.application.usecase.GetConcertSeatsUseCase;
+import com.hhplus.concertreservation.concert.application.usecase.GetAvailableConcertSessionsUseCase;
+import com.hhplus.concertreservation.concert.application.usecase.ReserveConcertUseCase;
+import com.hhplus.concertreservation.concert.domain.model.dto.ConcertReservationInfo;
+import com.hhplus.concertreservation.concert.domain.model.dto.ConcertSeatsInfo;
+import com.hhplus.concertreservation.concert.domain.model.entity.ConcertSession;
 import com.hhplus.concertreservation.concert.presentation.dto.request.ReserveConcertRequest;
 import com.hhplus.concertreservation.concert.presentation.dto.response.*;
-import com.hhplus.concertreservation.concert.presentation.dto.response.ReserveConcertResponse.ReserveSeatResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/concerts")
+@RequiredArgsConstructor
+@Tag(name = "Concert", description = "콘서트 API")
 public class ConcertController {
 
+    private final GetAvailableConcertSessionsUseCase getAvailableConcertSessionsUseCase;
+    private final GetConcertSeatsUseCase getConcertSeatsUseCase;
+    private final ReserveConcertUseCase reserveConcertUseCase;
+
+    @Operation(summary = "콘서트 세션 조회 - 예약 가능한 세션 조회")
+    @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GetConcertSessionsResponse.class)))
     @GetMapping("/{concertId}/sessions")
     public ResponseEntity<GetConcertSessionsResponse> getAvailableSessions(
             @PathVariable Long concertId
     ) {
-        ConcertSessionResponse session = new ConcertSessionResponse(1L, LocalDateTime.parse("2021-01-01T00:00:00"));
-        return ResponseEntity.ok(new GetConcertSessionsResponse(List.of(session)));
+        final List<ConcertSession> availableConcertSessions = getAvailableConcertSessionsUseCase.getAvailableConcertSessions(concertId);
+        return ResponseEntity.ok(GetConcertSessionsResponse.of(availableConcertSessions));
     }
 
+    @Operation(summary = "콘서트 좌석 조회")
+    @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GetConcertSeatsResponse.class)))
     @GetMapping("/{concertId}/sessions/{sessionId}/seats")
     public ResponseEntity<GetConcertSeatsResponse> getConcertSeats(
             @PathVariable Long concertId,
             @PathVariable Long sessionId
     )
     {
-        ConcertSeatResponse unAvailableSeat = new ConcertSeatResponse(2L, 2, ConcertSeatStatus.TEMPORARY_RESERVED, 1000);
-        ConcertSeatResponse availableSeat = new ConcertSeatResponse(1L, 1,ConcertSeatStatus.AVAILABLE, 1000);
-
-        return ResponseEntity.ok(new GetConcertSeatsResponse(100, List.of(unAvailableSeat), List.of(availableSeat)));
+        final ConcertSeatsInfo concertSeats = getConcertSeatsUseCase.getConcertSeats(sessionId);
+        return ResponseEntity.ok(GetConcertSeatsResponse.of(concertSeats));
     }
 
+    @Operation(summary = "콘서트 예약")
+    @ApiResponse(responseCode = "201", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ReserveConcertResponse.class)))
     @PostMapping("/{concertId}/sessions/{sessionId}/reservations")
     public ResponseEntity<ReserveConcertResponse> reserveConcert(
             @PathVariable Long concertId,
             @PathVariable Long sessionId,
             @RequestBody ReserveConcertRequest request
     ) {
-        ReserveSeatResponse reservedSeat = new ReserveSeatResponse(1L, 1, 100);
-        return ResponseEntity.ok(new ReserveConcertResponse(1L, 100, List.of(reservedSeat)));
+        final ConcertReservationInfo concertReservationInfo = reserveConcertUseCase.reserveConcert(request.toCommand(concertId, sessionId));
+        return ResponseEntity.status(201)
+                .body(ReserveConcertResponse.of(concertReservationInfo));
     }
 }

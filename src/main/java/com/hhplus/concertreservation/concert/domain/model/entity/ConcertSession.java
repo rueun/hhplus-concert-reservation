@@ -19,4 +19,7 @@ public class ConcertSession {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    public boolean isAvailable(final LocalDateTime now) {
+        return concertAt.isAfter(now);
+    }
 }

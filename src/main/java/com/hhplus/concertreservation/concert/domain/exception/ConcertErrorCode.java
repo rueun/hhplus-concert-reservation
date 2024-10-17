@@ -10,7 +10,9 @@ public enum ConcertErrorCode {
     CONCERT_SEAT_NOT_FOUND(404, "CONCERT_SEAT_001", "해당 콘서트 좌석을 찾을 수 없습니다"),
     CONCERT_SEAT_UNAVAILABLE_FOR_RESERVATION(400, "CONCERT_SEAT_002", "예약 가능한 좌석이 아닙니다"),
 
-    CONCERT_RESERVATION_NOT_FOUND(404, "CONCERT_RESERVATION_001", "해당 콘서트 예약을 찾을 수 없습니다");
+
+    CONCERT_RESERVATION_NOT_FOUND(404, "CONCERT_RESERVATION_001", "해당 콘서트 예약을 찾을 수 없습니다"),
+    INVALID_CONCERT_RESERVATION_STATUS(400, "CONCERT_RESERVATION_002", "올바르지 않은 콘서트 예약 상태입니다");
 
 
 
