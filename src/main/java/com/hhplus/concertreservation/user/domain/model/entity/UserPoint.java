@@ -1,6 +1,8 @@
 package com.hhplus.concertreservation.user.domain.model.entity;
 
+import com.hhplus.concertreservation.concert.domain.exception.InvalidConcertReservationStatusException;
 import com.hhplus.concertreservation.user.domain.exception.PointAmountInvalidException;
+import com.hhplus.concertreservation.user.domain.exception.UserPointNotEnoughException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,7 +39,7 @@ public class UserPoint {
         }
 
         if (this.amount < amount) {
-            throw new PointAmountInvalidException("잔여 포인트가 부족합니다.");
+            throw new UserPointNotEnoughException("잔여 포인트가 부족합니다.");
         }
 
         this.amount -= amount;

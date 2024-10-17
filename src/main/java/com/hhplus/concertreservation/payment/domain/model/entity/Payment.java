@@ -1,6 +1,7 @@
 package com.hhplus.concertreservation.payment.domain.model.entity;
 
 import com.hhplus.concertreservation.payment.domain.model.dto.CreatePaymentCommand;
+import com.hhplus.concertreservation.payment.domain.model.vo.PaymentStatus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +18,7 @@ public class Payment {
     private Long userId;
     private Long reservationId;
     private long totalPrice;
+    private PaymentStatus status;
     private LocalDateTime paymentAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -26,6 +28,7 @@ public class Payment {
                 .userId(command.userId())
                 .reservationId(command.reservationId())
                 .totalPrice(command.totalPrice())
+                .status(PaymentStatus.PAID)
                 .paymentAt(paymentAt)
                 .build();
     }
