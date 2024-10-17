@@ -25,6 +25,11 @@ public class ConcertService {
     private final ConcertReader concertReader;
     private final TimeProvider timeProvider;
 
+    /**
+     * 콘서트 임시 예약
+     * @param command
+     * @return 예약 정보
+     */
     @Transactional
     public ConcertReservationInfo reserveConcert(final ReserveConcertCommand command) {
         final Concert concert = concertReader.getConcertById(command.concertId());
@@ -55,6 +60,11 @@ public class ConcertService {
         return concertReader.getConcertReservationById(concertReservationId);
     }
 
+
+    /**
+     * 콘서트 예약 확정 처리
+     * @param reservationId 예약 ID
+     */
     @Transactional
     public void completeReservation(final Long reservationId) {
         final ConcertReservation concertReservation = concertReader.getConcertReservationById(reservationId);
@@ -65,23 +75,6 @@ public class ConcertService {
 
         concertWriter.save(concertReservation);
         concertWriter.saveAll(concertSeats);
-    }
-
-
-    @Transactional
-    public void cancelTemporaryReservation(final Long reservationId) {
-        final ConcertReservation concertReservation = concertReader.getConcertReservationById(reservationId);
-        final List<ConcertSeat> concertSeats = concertReader.getConcertSeatsByIds(concertReservation.getSeatIds());
-
-        concertReservation.cancelTemporaryReservation();
-        concertSeats.forEach(ConcertSeat::cancel);
-
-        concertWriter.save(concertReservation);
-        concertWriter.saveAll(concertSeats);
-    }
-
-    public List<ConcertSeat> getConcertSeats(final List<Long> seatIds) {
-        return concertReader.getConcertSeatsByIds(seatIds);
     }
 
 
@@ -121,5 +114,22 @@ public class ConcertService {
                 .toList();
 
         return ConcertSeatsInfo.of(concertSession, availableSeats, unavailableSeats);
+    }
+
+    /**
+     * 콘서트 임시 예약 취소
+     * 스케줄러를 통해 호출되는 메서드
+     * @param reservationId 예약 ID
+     */
+    @Transactional
+    public void cancelTemporaryReservation(final Long reservationId) {
+        final ConcertReservation concertReservation = concertReader.getConcertReservationById(reservationId);
+        final List<ConcertSeat> concertSeats = concertReader.getConcertSeatsByIds(concertReservation.getSeatIds());
+
+        concertReservation.cancelTemporaryReservation();
+        concertSeats.forEach(ConcertSeat::cancel);
+
+        concertWriter.save(concertReservation);
+        concertWriter.saveAll(concertSeats);
     }
 }
