@@ -21,14 +21,30 @@ public class ConcertSeat {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public void reserve() {
-        if (!isAvailableForReservation()) {
+    public void reserveTemporary() {
+        if (!isAvailable()) {
             throw new ConcertSeatUnavailableException("예약 가능한 좌석이 아닙니다.");
         }
         this.status = ConcertSeatStatus.TEMPORARY_RESERVED;
     }
 
-    public boolean isAvailableForReservation() {
+    public void confirm() {
+        if (this.status != ConcertSeatStatus.TEMPORARY_RESERVED) {
+            throw new ConcertSeatUnavailableException("임시 예약된 좌석만 확정할 수 있습니다.");
+        }
+
+        this.status = ConcertSeatStatus.CONFIRMED;
+    }
+
+    public void cancel() {
+        this.status = ConcertSeatStatus.AVAILABLE;
+    }
+
+    public boolean isAvailable() {
         return this.status == ConcertSeatStatus.AVAILABLE;
+    }
+
+    public boolean isUnavailable() {
+        return !isAvailable();
     }
 }

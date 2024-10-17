@@ -28,6 +28,8 @@ public class ConcertReservationEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ConcertReservationStatus status;
 
+    private Long concertId;
+
     private Long concertSessionId;
 
     @Column(name = "seat_ids")
@@ -44,6 +46,7 @@ public class ConcertReservationEntity extends BaseEntity {
         this.id = concertReservation.getId();
         this.userId = concertReservation.getUserId();
         this.status = concertReservation.getStatus();
+        this.concertId = concertReservation.getConcertId();
         this.concertSessionId = concertReservation.getConcertSessionId();
         this.seatIds = concertReservation.getSeatIds();
         this.totalPrice = concertReservation.getTotalPrice();
@@ -57,6 +60,7 @@ public class ConcertReservationEntity extends BaseEntity {
                 .id(id)
                 .userId(userId)
                 .status(status)
+                .concertId(concertId)
                 .concertSessionId(concertSessionId)
                 .seatIds(seatIds)
                 .totalPrice(totalPrice)

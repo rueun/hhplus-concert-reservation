@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ConcertSeatStatus {
     TEMPORARY_RESERVED("임시 예약"),
-    PAYMENT_COMPLETED("결제 완료"),
+    CONFIRMED("확정 예약"),
     AVAILABLE("예약 가능");
 
     private final String value;

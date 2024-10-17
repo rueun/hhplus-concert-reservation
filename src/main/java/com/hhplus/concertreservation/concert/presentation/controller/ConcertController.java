@@ -1,26 +1,34 @@
 package com.hhplus.concertreservation.concert.presentation.controller;
 
-import com.hhplus.concertreservation.concert.domain.model.vo.ConcertSeatStatus;
+import com.hhplus.concertreservation.concert.application.usecase.GetConcertSeatsUseCase;
+import com.hhplus.concertreservation.concert.application.usecase.GetAvailableConcertSessionsUseCase;
+import com.hhplus.concertreservation.concert.application.usecase.ReserveConcertUseCase;
+import com.hhplus.concertreservation.concert.domain.model.dto.ConcertReservationInfo;
+import com.hhplus.concertreservation.concert.domain.model.dto.ConcertSeatsInfo;
+import com.hhplus.concertreservation.concert.domain.model.entity.ConcertSession;
 import com.hhplus.concertreservation.concert.presentation.dto.request.ReserveConcertRequest;
 import com.hhplus.concertreservation.concert.presentation.dto.response.*;
-import com.hhplus.concertreservation.concert.presentation.dto.response.ReserveConcertResponse.ReserveSeatResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/concerts")
+@RequiredArgsConstructor
 public class ConcertController {
+
+    private final GetAvailableConcertSessionsUseCase getAvailableConcertSessionsUseCase;
+    private final GetConcertSeatsUseCase getConcertSeatsUseCase;
+    private final ReserveConcertUseCase reserveConcertUseCase;
 
     @GetMapping("/{concertId}/sessions")
     public ResponseEntity<GetConcertSessionsResponse> getAvailableSessions(
             @PathVariable Long concertId
     ) {
-        ConcertSessionResponse session = new ConcertSessionResponse(1L, LocalDateTime.parse("2021-01-01T00:00:00"));
-        return ResponseEntity.ok(new GetConcertSessionsResponse(List.of(session)));
+        final List<ConcertSession> availableConcertSessions = getAvailableConcertSessionsUseCase.getAvailableConcertSessions(concertId);
+        return ResponseEntity.ok(GetConcertSessionsResponse.of(availableConcertSessions));
     }
 
     @GetMapping("/{concertId}/sessions/{sessionId}/seats")
@@ -29,10 +37,8 @@ public class ConcertController {
             @PathVariable Long sessionId
     )
     {
-        ConcertSeatResponse unAvailableSeat = new ConcertSeatResponse(2L, 2, ConcertSeatStatus.TEMPORARY_RESERVED, 1000);
-        ConcertSeatResponse availableSeat = new ConcertSeatResponse(1L, 1,ConcertSeatStatus.AVAILABLE, 1000);
-
-        return ResponseEntity.ok(new GetConcertSeatsResponse(100, List.of(unAvailableSeat), List.of(availableSeat)));
+        final ConcertSeatsInfo concertSeats = getConcertSeatsUseCase.getConcertSeats(sessionId);
+        return ResponseEntity.ok(GetConcertSeatsResponse.of(concertSeats));
     }
 
     @PostMapping("/{concertId}/sessions/{sessionId}/reservations")
@@ -41,7 +47,7 @@ public class ConcertController {
             @PathVariable Long sessionId,
             @RequestBody ReserveConcertRequest request
     ) {
-        ReserveSeatResponse reservedSeat = new ReserveSeatResponse(1L, 1, 100);
-        return ResponseEntity.ok(new ReserveConcertResponse(1L, 100, List.of(reservedSeat)));
+        final ConcertReservationInfo concertReservationInfo = reserveConcertUseCase.reserveConcert(request.toCommand(concertId, sessionId));
+        return ResponseEntity.ok(ReserveConcertResponse.of(concertReservationInfo));
     }
 }
