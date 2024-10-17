@@ -1,6 +1,7 @@
 package com.hhplus.concertreservation.user.domain.model.entity;
 
 import com.hhplus.concertreservation.user.domain.exception.PointAmountInvalidException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -8,6 +9,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@DisplayName("사용자 포인트 단위 테스트")
 class UserPointTest {
 
     @Test
