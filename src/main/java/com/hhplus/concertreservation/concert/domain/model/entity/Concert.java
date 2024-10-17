@@ -14,12 +14,12 @@ public class Concert {
     private Long id;
     private String name;
     private String place;
-    private LocalDateTime reservationStartAt;
+    private LocalDateTime reservationOpenAt;
     private LocalDateTime reservationCloseAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public boolean isWithinReservationPeriod(final LocalDateTime now) {
-        return now.isAfter(reservationStartAt) && now.isBefore(reservationCloseAt);
+        return now.isAfter(reservationOpenAt) && now.isBefore(reservationCloseAt);
     }
 }

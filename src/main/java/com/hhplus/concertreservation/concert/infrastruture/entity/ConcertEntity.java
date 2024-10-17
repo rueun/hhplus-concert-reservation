@@ -24,7 +24,7 @@ public class ConcertEntity extends BaseEntity {
     private String place;
 
     @Column(name = "reservation_open_at")
-    private LocalDateTime reservationStartAt;
+    private LocalDateTime reservationOpenAt;
 
     @Column(name = "reservation_close_at")
     private LocalDateTime reservationCloseAt;
@@ -33,7 +33,7 @@ public class ConcertEntity extends BaseEntity {
         this.id = concert.getId();
         this.name = concert.getName();
         this.place = concert.getPlace();
-        this.reservationStartAt = concert.getReservationStartAt();
+        this.reservationOpenAt = concert.getReservationOpenAt();
         this.reservationCloseAt = concert.getReservationCloseAt();
     }
 
@@ -42,7 +42,7 @@ public class ConcertEntity extends BaseEntity {
                 .id(id)
                 .name(name)
                 .place(place)
-                .reservationStartAt(reservationStartAt)
+                .reservationOpenAt(reservationOpenAt)
                 .reservationCloseAt(reservationCloseAt)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
