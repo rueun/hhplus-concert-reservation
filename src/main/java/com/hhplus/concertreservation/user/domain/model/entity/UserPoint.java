@@ -15,6 +15,13 @@ public class UserPoint {
     private Long userId;
     private long amount;
 
+    public static UserPoint create(final Long userId) {
+        return UserPoint.builder()
+                .userId(userId)
+                .amount(0)
+                .build();
+    }
+
     public void charge(final long amount) {
         if (amount <= 0) {
             throw new PointAmountInvalidException("충전하려는 포인트는 0보다 커야 합니다.");

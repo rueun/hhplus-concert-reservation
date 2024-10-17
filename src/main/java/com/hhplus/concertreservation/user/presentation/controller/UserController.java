@@ -1,5 +1,7 @@
 package com.hhplus.concertreservation.user.presentation.controller;
 
+import com.hhplus.concertreservation.user.application.useccase.ChargeUserPointUseCase;
+import com.hhplus.concertreservation.user.domain.model.entity.UserPoint;
 import com.hhplus.concertreservation.user.presentation.dto.request.ChargeUserPointRequest;
 import com.hhplus.concertreservation.user.presentation.dto.response.ChargeUserPointResponse;
 import com.hhplus.concertreservation.user.presentation.dto.response.GetUserPointResponse;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "User", description = "사용자 API")
 public class UserController {
 
+    private final ChargeUserPointUseCase chargeUserPointUseCase;
+
 
     @Operation(summary = "포인트 충전")
     @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ChargeUserPointResponse.class)))
@@ -26,8 +30,9 @@ public class UserController {
             @PathVariable Long userId,
             @RequestBody ChargeUserPointRequest request
     ) {
-        ChargeUserPointResponse response = new ChargeUserPointResponse(1000);
-        return ResponseEntity.ok(response);
+
+        final UserPoint userPoint = chargeUserPointUseCase.chargeUserPoint(userId, request.amount());
+        return ResponseEntity.ok(ChargeUserPointResponse.of(userPoint));
     }
 
 
