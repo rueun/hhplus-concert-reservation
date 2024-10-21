@@ -2,8 +2,8 @@ package com.hhplus.concertreservation.support.domain.exception;
 
 import org.springframework.boot.logging.LogLevel;
 
-public enum ErrorType {
-    /*private final ErrorCode code;
-    private final String message;
-    private final LogLevel logLevel;*/
+public interface ErrorType {
+    ErrorCode getCode();
+    String getMessage();
+    LogLevel getLogLevel();
 }
