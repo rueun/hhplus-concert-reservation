@@ -1,6 +1,6 @@
 package com.hhplus.concertreservation.user.infrastruture.entity;
 
-import com.hhplus.concertreservation.common.auditing.BaseEntity;
+import com.hhplus.concertreservation.support.domain.auditing.BaseEntity;
 import com.hhplus.concertreservation.user.domain.model.entity.UserPoint;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

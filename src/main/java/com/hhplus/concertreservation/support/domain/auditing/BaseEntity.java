@@ -1,4 +1,4 @@
-package com.hhplus.concertreservation.common.auditing;
+package com.hhplus.concertreservation.support.domain.auditing;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,12 +1,13 @@
-package com.hhplus.concertreservation.common.exception;
+package com.hhplus.concertreservation.support.api;
 
+import com.hhplus.concertreservation.support.domain.exception.BusinessException;
+import com.hhplus.concertreservation.support.domain.exception.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@RestControllerAdvice
-class ApiControllerAdvice extends ResponseEntityExceptionHandler {
+@org.springframework.web.bind.annotation.RestControllerAdvice
+class RestControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = BusinessException.class)
     public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {

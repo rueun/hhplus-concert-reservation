@@ -1,6 +1,6 @@
 package com.hhplus.concertreservation.queue.infrastruture.entity;
 
-import com.hhplus.concertreservation.common.auditing.BaseEntity;
+import com.hhplus.concertreservation.support.domain.auditing.BaseEntity;
 import com.hhplus.concertreservation.queue.domain.model.entity.WaitingQueue;
 import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
 import jakarta.persistence.*;

@@ -1,4 +1,4 @@
-package com.hhplus.concertreservation.common.exception;
+package com.hhplus.concertreservation.support.domain.exception;
 
 import lombok.Getter;
 

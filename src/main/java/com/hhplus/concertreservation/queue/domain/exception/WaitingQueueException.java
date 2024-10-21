@@ -1,6 +1,6 @@
 package com.hhplus.concertreservation.queue.domain.exception;
 
-import com.hhplus.concertreservation.common.exception.BusinessException;
+import com.hhplus.concertreservation.support.domain.exception.BusinessException;
 
 public class WaitingQueueException extends BusinessException {
     public WaitingQueueException(WaitingQueueErrorCode errorCode) {
