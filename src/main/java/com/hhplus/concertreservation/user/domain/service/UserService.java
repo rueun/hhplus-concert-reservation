@@ -1,6 +1,7 @@
 package com.hhplus.concertreservation.user.domain.service;
 
-import com.hhplus.concertreservation.user.domain.exception.UserNotFoundException;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
+import com.hhplus.concertreservation.user.domain.exception.UserErrorType;
 import com.hhplus.concertreservation.user.domain.model.entity.UserPoint;
 import com.hhplus.concertreservation.user.domain.repository.UserReader;
 import com.hhplus.concertreservation.user.domain.repository.UserWriter;
@@ -16,7 +17,7 @@ public class UserService {
 
     public void checkUserExist(final Long userId) {
         if (!userReader.existsById(userId)) {
-            throw new UserNotFoundException();
+            throw new CoreException(UserErrorType.USER_NOT_FOUND);
         }
     }
 

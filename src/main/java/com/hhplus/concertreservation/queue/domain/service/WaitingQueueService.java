@@ -2,12 +2,12 @@ package com.hhplus.concertreservation.queue.domain.service;
 
 import com.hhplus.concertreservation.common.time.TimeProvider;
 import com.hhplus.concertreservation.common.uuid.UUIDGenerator;
-import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueExpiredException;
-import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueNotActivatedException;
+import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueErrorType;
 import com.hhplus.concertreservation.queue.domain.model.dto.WaitingQueueInfo;
 import com.hhplus.concertreservation.queue.domain.model.entity.WaitingQueue;
 import com.hhplus.concertreservation.queue.domain.repository.WaitingQueueReader;
 import com.hhplus.concertreservation.queue.domain.repository.WaitingQueueWriter;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -51,18 +51,17 @@ public class WaitingQueueService {
     /**
      * 현재 대기열이 활성화 상태인지 확인. 각 요청 전에 대기열 상태를 활성화 상태인지 확인할 때 사용
      * @param token 대기열 토큰 정보
-     * @throws WaitingQueueExpiredException 대기열 만료 예외
-     * @throws WaitingQueueNotActivatedException 대기열 비활성화 예외
+     * @throws CoreException 대기열이 만료되었거나 활성화 상태가 아닌 경우
      */
     public void checkActivatedQueue(final String token) {
         final WaitingQueue currentWaitingQueue = waitingQueueReader.getByToken(token);
 
         if (currentWaitingQueue.isExpired()) {
-            throw new WaitingQueueExpiredException("대기열이 만료되었습니다.");
+            throw new CoreException(WaitingQueueErrorType.WAITING_QUEUE_EXPIRED, "대기열이 만료되었습니다.");
         }
 
         if (!currentWaitingQueue.isActivated()) {
-            throw new WaitingQueueNotActivatedException("대기열이 활성상태가 아닙니다.");
+            throw new CoreException(WaitingQueueErrorType.WAITING_QUEUE_NOT_ACTIVATED, "대기열이 활성상태가 아닙니다.");
         }
     }
 

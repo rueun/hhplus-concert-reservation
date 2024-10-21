@@ -1,7 +1,7 @@
 package com.hhplus.concertreservation.user.domain.service;
 
-import com.hhplus.concertreservation.user.domain.exception.PointAmountInvalidException;
-import com.hhplus.concertreservation.user.domain.exception.UserNotFoundException;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
+import com.hhplus.concertreservation.user.domain.exception.UserErrorType;
 import com.hhplus.concertreservation.user.domain.model.entity.UserPoint;
 import com.hhplus.concertreservation.user.domain.repository.UserReader;
 import com.hhplus.concertreservation.user.domain.repository.UserWriter;
@@ -56,8 +56,10 @@ class UserServiceTest {
 
         // when & then
         thenThrownBy(() -> userService.checkUserExist(userId))
-                .isInstanceOf(UserNotFoundException.class)
-                .hasMessage("해당 유저를 찾을 수 없습니다");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("해당 유저를 찾을 수 없습니다")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(UserErrorType.USER_NOT_FOUND);
     }
 
     @Test
@@ -130,8 +132,10 @@ class UserServiceTest {
 
         // when & then
         assertThatThrownBy(() -> userService.chargePoint(userId, chargeAmount))
-                .isInstanceOf(PointAmountInvalidException.class)
-                .hasMessage("충전하려는 포인트는 0보다 커야 합니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("충전하려는 포인트는 0보다 커야 합니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(UserErrorType.POINT_AMOUNT_INVALID);
 
         assertAll(
                 () -> then(userReader).should(times(1)).existsById(userId),
@@ -156,8 +160,10 @@ class UserServiceTest {
 
         // when & then
         assertThatThrownBy(() -> userService.usePoint(userId, useAmount))
-                .isInstanceOf(PointAmountInvalidException.class)
-                .hasMessage("잔여 포인트가 부족합니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("잔여 포인트가 부족합니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(UserErrorType.USER_POINT_NOT_ENOUGH);
 
         assertAll(
                 () -> then(userReader).should(times(1)).existsById(userId),

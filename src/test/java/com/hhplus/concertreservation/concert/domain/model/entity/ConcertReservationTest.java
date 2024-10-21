@@ -1,8 +1,9 @@
 package com.hhplus.concertreservation.concert.domain.model.entity;
 
-import com.hhplus.concertreservation.concert.domain.exception.InvalidConcertReservationStatusException;
+import com.hhplus.concertreservation.concert.domain.exception.ConcertErrorType;
 import com.hhplus.concertreservation.concert.domain.model.dto.command.ReserveConcertCommand;
 import com.hhplus.concertreservation.concert.domain.model.enums.ConcertReservationStatus;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -69,8 +70,10 @@ class ConcertReservationTest {
 
         // when & then
         thenThrownBy(reservation::complete)
-                .isInstanceOf(InvalidConcertReservationStatusException.class)
-                .hasMessage("임시 예약 상태인 경우만 결제 완료 처리할 수 있습니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("임시 예약 상태인 경우만 결제 완료 처리할 수 있습니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(ConcertErrorType.INVALID_CONCERT_RESERVATION_STATUS);
     }
 
     @Test
@@ -97,7 +100,9 @@ class ConcertReservationTest {
 
         // when & then
         thenThrownBy(reservation::cancelTemporaryReservation)
-                .isInstanceOf(InvalidConcertReservationStatusException.class)
-                .hasMessage("임시 예약 상태인 경우만 취소할 수 있습니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("임시 예약 상태인 경우만 취소할 수 있습니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(ConcertErrorType.INVALID_CONCERT_RESERVATION_STATUS);
     }
 }

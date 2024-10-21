@@ -1,9 +1,7 @@
 package com.hhplus.concertreservation.concert.domain.service;
 
 import com.hhplus.concertreservation.common.time.TimeProvider;
-import com.hhplus.concertreservation.concert.domain.exception.ConcertSeatUnavailableException;
-import com.hhplus.concertreservation.concert.domain.exception.InvalidConcertReservationStatusException;
-import com.hhplus.concertreservation.concert.domain.exception.NotConcertReservationPeriodException;
+import com.hhplus.concertreservation.concert.domain.exception.ConcertErrorType;
 import com.hhplus.concertreservation.concert.domain.model.dto.ConcertReservationInfo;
 import com.hhplus.concertreservation.concert.domain.model.dto.command.ReserveConcertCommand;
 import com.hhplus.concertreservation.concert.domain.model.entity.Concert;
@@ -14,6 +12,7 @@ import com.hhplus.concertreservation.concert.domain.model.enums.ConcertReservati
 import com.hhplus.concertreservation.concert.domain.model.enums.ConcertSeatStatus;
 import com.hhplus.concertreservation.concert.domain.repository.ConcertReader;
 import com.hhplus.concertreservation.concert.domain.repository.ConcertWriter;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -99,8 +98,10 @@ class ConcertServiceTest {
 
         // when & then
         thenThrownBy(() -> concertService.reserveConcert(command))
-                .isInstanceOf(NotConcertReservationPeriodException.class)
-                .hasMessage("예약 가능한 기간이 아닙니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("예약 가능한 기간이 아닙니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(ConcertErrorType.RESERVATION_PERIOD_NOT_AVAILABLE);
     }
 
     @Test
@@ -129,8 +130,10 @@ class ConcertServiceTest {
 
         // when & then
         thenThrownBy(() -> concertService.reserveConcert(command))
-                .isInstanceOf(ConcertSeatUnavailableException.class)
-                .hasMessage("예약 가능한 좌석이 아닙니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("예약 가능한 좌석이 아닙니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(ConcertErrorType.CONCERT_SEAT_UNAVAILABLE);
     }
 
 
@@ -198,8 +201,10 @@ class ConcertServiceTest {
 
         // when & then
         thenThrownBy(() -> concertService.completeReservation(reservationId))
-                .isInstanceOf(InvalidConcertReservationStatusException.class)
-                .hasMessage("임시 예약 상태인 경우만 결제 완료 처리할 수 있습니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("임시 예약 상태인 경우만 결제 완료 처리할 수 있습니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(ConcertErrorType.INVALID_CONCERT_RESERVATION_STATUS);
     }
 
 
@@ -364,8 +369,10 @@ class ConcertServiceTest {
 
         // when & then
         thenThrownBy(() -> concertService.cancelTemporaryReservation(1L))
-                .isInstanceOf(InvalidConcertReservationStatusException.class)
-                .hasMessage("임시 예약 상태인 경우만 취소할 수 있습니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("임시 예약 상태인 경우만 취소할 수 있습니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(ConcertErrorType.INVALID_CONCERT_RESERVATION_STATUS);
     }
 
 }

@@ -1,8 +1,9 @@
 package com.hhplus.concertreservation.concert.domain.model.entity;
 
-import com.hhplus.concertreservation.concert.domain.exception.InvalidConcertReservationStatusException;
+import com.hhplus.concertreservation.concert.domain.exception.ConcertErrorType;
 import com.hhplus.concertreservation.concert.domain.model.dto.command.ReserveConcertCommand;
 import com.hhplus.concertreservation.concert.domain.model.enums.ConcertReservationStatus;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,7 +45,7 @@ public class ConcertReservation {
 
     public void complete() {
         if (this.status != ConcertReservationStatus.TEMPORARY_RESERVED) {
-            throw new InvalidConcertReservationStatusException("임시 예약 상태인 경우만 결제 완료 처리할 수 있습니다.");
+            throw new CoreException(ConcertErrorType.INVALID_CONCERT_RESERVATION_STATUS, "임시 예약 상태인 경우만 결제 완료 처리할 수 있습니다.");
         }
 
         this.status = ConcertReservationStatus.CONFIRMED;
@@ -52,7 +53,7 @@ public class ConcertReservation {
 
     public void cancelTemporaryReservation() {
         if (this.status != ConcertReservationStatus.TEMPORARY_RESERVED) {
-            throw new InvalidConcertReservationStatusException("임시 예약 상태인 경우만 취소할 수 있습니다.");
+            throw new CoreException(ConcertErrorType.INVALID_CONCERT_RESERVATION_STATUS, "임시 예약 상태인 경우만 취소할 수 있습니다.");
         }
 
         this.status = ConcertReservationStatus.CANCELED;
