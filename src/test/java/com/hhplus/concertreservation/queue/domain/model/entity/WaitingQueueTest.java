@@ -1,6 +1,6 @@
 package com.hhplus.concertreservation.queue.domain.model.entity;
 
-import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
+import com.hhplus.concertreservation.queue.domain.model.enums.QueueStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

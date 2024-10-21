@@ -1,7 +1,7 @@
 package com.hhplus.concertreservation.concert.domain.model.entity;
 
 import com.hhplus.concertreservation.concert.domain.exception.ConcertSeatUnavailableException;
-import com.hhplus.concertreservation.concert.domain.model.vo.ConcertSeatStatus;
+import com.hhplus.concertreservation.concert.domain.model.enums.ConcertSeatStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

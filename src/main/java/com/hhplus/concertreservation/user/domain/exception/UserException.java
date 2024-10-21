@@ -1,8 +1,8 @@
 package com.hhplus.concertreservation.user.domain.exception;
 
-import com.hhplus.concertreservation.support.domain.exception.BusinessException;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
 
-public class UserException extends BusinessException {
+public class UserException extends CoreException {
     public UserException(UserErrorCode errorCode) {
         super(errorCode.getStatus(), errorCode.getCode(), errorCode.getMessage());
     }

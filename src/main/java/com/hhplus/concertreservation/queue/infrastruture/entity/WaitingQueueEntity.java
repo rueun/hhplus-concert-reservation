@@ -2,7 +2,7 @@ package com.hhplus.concertreservation.queue.infrastruture.entity;
 
 import com.hhplus.concertreservation.support.domain.auditing.BaseEntity;
 import com.hhplus.concertreservation.queue.domain.model.entity.WaitingQueue;
-import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
+import com.hhplus.concertreservation.queue.domain.model.enums.QueueStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

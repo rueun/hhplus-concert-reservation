@@ -1,6 +1,6 @@
 package com.hhplus.concertreservation.queue.domain.model.entity;
 
-import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
+import com.hhplus.concertreservation.queue.domain.model.enums.QueueStatus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

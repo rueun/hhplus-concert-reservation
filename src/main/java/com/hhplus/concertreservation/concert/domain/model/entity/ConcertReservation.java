@@ -2,7 +2,7 @@ package com.hhplus.concertreservation.concert.domain.model.entity;
 
 import com.hhplus.concertreservation.concert.domain.exception.InvalidConcertReservationStatusException;
 import com.hhplus.concertreservation.concert.domain.model.dto.command.ReserveConcertCommand;
-import com.hhplus.concertreservation.concert.domain.model.vo.ConcertReservationStatus;
+import com.hhplus.concertreservation.concert.domain.model.enums.ConcertReservationStatus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

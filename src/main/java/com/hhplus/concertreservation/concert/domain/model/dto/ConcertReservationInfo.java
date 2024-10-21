@@ -2,7 +2,7 @@ package com.hhplus.concertreservation.concert.domain.model.dto;
 
 import com.hhplus.concertreservation.concert.domain.model.entity.ConcertReservation;
 import com.hhplus.concertreservation.concert.domain.model.entity.ConcertSeat;
-import com.hhplus.concertreservation.concert.domain.model.vo.ConcertReservationStatus;
+import com.hhplus.concertreservation.concert.domain.model.enums.ConcertReservationStatus;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

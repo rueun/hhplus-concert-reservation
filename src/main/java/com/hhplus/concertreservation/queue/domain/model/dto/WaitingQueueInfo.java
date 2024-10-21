@@ -1,7 +1,7 @@
 package com.hhplus.concertreservation.queue.domain.model.dto;
 
 import com.hhplus.concertreservation.queue.domain.model.entity.WaitingQueue;
-import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
+import com.hhplus.concertreservation.queue.domain.model.enums.QueueStatus;
 
 import java.time.LocalDateTime;
 

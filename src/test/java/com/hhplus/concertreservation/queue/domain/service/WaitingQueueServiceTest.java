@@ -6,7 +6,7 @@ import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueExpiredE
 import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueNotActivatedException;
 import com.hhplus.concertreservation.queue.domain.model.dto.WaitingQueueInfo;
 import com.hhplus.concertreservation.queue.domain.model.entity.WaitingQueue;
-import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
+import com.hhplus.concertreservation.queue.domain.model.enums.QueueStatus;
 import com.hhplus.concertreservation.queue.domain.repository.WaitingQueueReader;
 import com.hhplus.concertreservation.queue.domain.repository.WaitingQueueWriter;
 import org.junit.jupiter.api.DisplayName;

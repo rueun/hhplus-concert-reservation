@@ -1,6 +1,6 @@
 package com.hhplus.concertreservation.payment.presentation.dto.response;
 
-import com.hhplus.concertreservation.payment.domain.model.vo.PaymentStatus;
+import com.hhplus.concertreservation.payment.domain.model.enums.PaymentStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record PaymentResponse(

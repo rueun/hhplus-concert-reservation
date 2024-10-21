@@ -1,7 +1,7 @@
 package com.hhplus.concertreservation.concert.presentation.dto.response;
 
 import com.hhplus.concertreservation.concert.domain.model.entity.ConcertSeat;
-import com.hhplus.concertreservation.concert.domain.model.vo.ConcertSeatStatus;
+import com.hhplus.concertreservation.concert.domain.model.enums.ConcertSeatStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record ConcertSeatResponse(

@@ -1,4 +1,4 @@
-package com.hhplus.concertreservation.payment.domain.model.vo;
+package com.hhplus.concertreservation.payment.domain.model.enums;
 
 import lombok.Getter;
 

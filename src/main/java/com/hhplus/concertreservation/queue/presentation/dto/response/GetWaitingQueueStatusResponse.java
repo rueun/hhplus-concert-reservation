@@ -1,7 +1,7 @@
 package com.hhplus.concertreservation.queue.presentation.dto.response;
 
 import com.hhplus.concertreservation.queue.domain.model.dto.WaitingQueueInfo;
-import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
+import com.hhplus.concertreservation.queue.domain.model.enums.QueueStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record GetWaitingQueueStatusResponse(

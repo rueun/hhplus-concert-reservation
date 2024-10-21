@@ -2,7 +2,7 @@ package com.hhplus.concertreservation.concert.domain.model.entity;
 
 import com.hhplus.concertreservation.concert.domain.exception.InvalidConcertReservationStatusException;
 import com.hhplus.concertreservation.concert.domain.model.dto.command.ReserveConcertCommand;
-import com.hhplus.concertreservation.concert.domain.model.vo.ConcertReservationStatus;
+import com.hhplus.concertreservation.concert.domain.model.enums.ConcertReservationStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

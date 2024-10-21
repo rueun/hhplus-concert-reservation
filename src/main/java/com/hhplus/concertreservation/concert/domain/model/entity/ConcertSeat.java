@@ -1,7 +1,7 @@
 package com.hhplus.concertreservation.concert.domain.model.entity;
 
 import com.hhplus.concertreservation.concert.domain.exception.ConcertSeatUnavailableException;
-import com.hhplus.concertreservation.concert.domain.model.vo.ConcertSeatStatus;
+import com.hhplus.concertreservation.concert.domain.model.enums.ConcertSeatStatus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
