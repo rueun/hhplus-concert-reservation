@@ -1,7 +1,7 @@
 package com.hhplus.concertreservation.payment.domain.model.entity;
 
 import com.hhplus.concertreservation.payment.domain.model.dto.CreatePaymentCommand;
-import com.hhplus.concertreservation.payment.domain.model.vo.PaymentStatus;
+import com.hhplus.concertreservation.payment.domain.model.enums.PaymentStatus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

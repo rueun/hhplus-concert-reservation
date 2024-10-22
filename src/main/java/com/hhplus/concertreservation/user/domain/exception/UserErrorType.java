@@ -8,7 +8,7 @@ public enum UserErrorType implements ErrorType {
 
     USER_NOT_FOUND(ErrorCode.NOT_FOUND, "해당 유저를 찾을 수 없습니다", LogLevel.WARN),
     USER_POINT_NOT_FOUND(ErrorCode.NOT_FOUND, "포인트를 찾을 수 없습니다", LogLevel.WARN),
-    USER_POINT_NOT_ENOUGH(ErrorCode.CLIENT_ERROR, "포인트가 부족합니다", LogLevel.WARN),
+    USER_POINT_NOT_ENOUGH(ErrorCode.CLIENT_ERROR, "포인트가 부족합니다", LogLevel.INFO),
     POINT_AMOUNT_INVALID(ErrorCode.BUSINESS_ERROR, "충전/사용할 포인트 금액이 유효하지 않습니다", LogLevel.WARN);
 
     private final ErrorCode code;
@@ -34,5 +34,10 @@ public enum UserErrorType implements ErrorType {
     @Override
     public LogLevel getLogLevel() {
         return logLevel;
+    }
+
+    @Override
+    public String getSubErrorCode() {
+        return this.name();
     }
 }

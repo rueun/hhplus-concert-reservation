@@ -2,7 +2,7 @@ package com.hhplus.concertreservation.payment.infrastruture.entity;
 
 import com.hhplus.concertreservation.support.domain.auditing.BaseEntity;
 import com.hhplus.concertreservation.payment.domain.model.entity.Payment;
-import com.hhplus.concertreservation.payment.domain.model.vo.PaymentStatus;
+import com.hhplus.concertreservation.payment.domain.model.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

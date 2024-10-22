@@ -262,8 +262,10 @@ class WaitingQueueServiceTest {
 
         // when & then
         thenThrownBy(() -> waitingQueue.activate(LocalDateTime.now()))
-                .isInstanceOf(WaitingQueueAlreadyActivatedException.class)
-                .hasMessage("이미 활성화된 대기열입니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("이미 활성화된 대기열입니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(WaitingQueueErrorType.WAITING_QUEUE_ALREADY_ACTIVATED);
     }
 
     @Test
@@ -277,8 +279,10 @@ class WaitingQueueServiceTest {
 
         // when & then
         thenThrownBy(() -> waitingQueue.activate(LocalDateTime.now()))
-                .isInstanceOf(WaitingQueueExpiredException.class)
-                .hasMessage("만료된 대기열은 활성화할 수 없습니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("만료된 대기열은 활성화할 수 없습니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(WaitingQueueErrorType.WAITING_QUEUE_EXPIRED);
     }
 
 

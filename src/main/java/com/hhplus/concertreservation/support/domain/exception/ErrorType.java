@@ -6,4 +6,5 @@ public interface ErrorType {
     ErrorCode getCode();
     String getMessage();
     LogLevel getLogLevel();
+    String getSubErrorCode();
 }

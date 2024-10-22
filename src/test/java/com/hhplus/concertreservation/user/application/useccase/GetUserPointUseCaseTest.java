@@ -1,7 +1,8 @@
 package com.hhplus.concertreservation.user.application.useccase;
 
-import com.hhplus.concertreservation.user.domain.exception.UserNotFoundException;
-import com.hhplus.concertreservation.user.domain.exception.UserPointNotFoundException;
+import com.hhplus.concertreservation.concert.domain.exception.ConcertErrorType;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
+import com.hhplus.concertreservation.user.domain.exception.UserErrorType;
 import com.hhplus.concertreservation.user.domain.model.entity.User;
 import com.hhplus.concertreservation.user.domain.model.entity.UserPoint;
 import com.hhplus.concertreservation.user.domain.repository.UserWriter;
@@ -44,7 +45,10 @@ class GetUserPointUseCaseTest {
     void 사용자_정보가_없는_경우_예외_발생() {
         //when & then
         assertThatThrownBy(() -> getUserPointUseCase.getUserPoint(1L))
-                .isInstanceOf(UserNotFoundException.class);
+                .isInstanceOf(CoreException.class)
+                .hasMessage("해당 유저를 찾을 수 없습니다")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(UserErrorType.USER_NOT_FOUND);
     }
 
     @Test
@@ -54,6 +58,8 @@ class GetUserPointUseCaseTest {
 
         //when & then
         assertThatThrownBy(() -> getUserPointUseCase.getUserPoint(1L))
-                .isInstanceOf(UserPointNotFoundException.class);
+                .hasMessage("포인트를 찾을 수 없습니다")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(UserErrorType.USER_POINT_NOT_FOUND);
     }
 }

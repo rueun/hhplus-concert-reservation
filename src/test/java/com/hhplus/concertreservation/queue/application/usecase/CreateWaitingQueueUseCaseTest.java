@@ -1,8 +1,9 @@
 package com.hhplus.concertreservation.queue.application.usecase;
 
 import com.hhplus.concertreservation.queue.domain.model.entity.WaitingQueue;
-import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
-import com.hhplus.concertreservation.user.domain.exception.UserNotFoundException;
+import com.hhplus.concertreservation.queue.domain.model.enums.QueueStatus;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
+import com.hhplus.concertreservation.user.domain.exception.UserErrorType;
 import com.hhplus.concertreservation.user.domain.model.entity.User;
 import com.hhplus.concertreservation.user.domain.repository.UserWriter;
 import org.junit.jupiter.api.DisplayName;
@@ -58,6 +59,9 @@ class CreateWaitingQueueUseCaseTest {
 
         // when & then
         thenThrownBy(() -> createWaitingQueueUseCase.createWaitingQueue(userId))
-                .isInstanceOf(UserNotFoundException.class);
+                .isInstanceOf(CoreException.class)
+                .hasMessage("해당 유저를 찾을 수 없습니다")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(UserErrorType.USER_NOT_FOUND);
     }
 }

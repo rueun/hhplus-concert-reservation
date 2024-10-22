@@ -2,17 +2,17 @@ package com.hhplus.concertreservation.concert.application.usecase;
 
 import com.hhplus.concertreservation.common.time.FakeTimeProvider;
 import com.hhplus.concertreservation.common.time.TimeProvider;
-import com.hhplus.concertreservation.concert.domain.exception.ConcertSeatUnavailableException;
-import com.hhplus.concertreservation.concert.domain.exception.NotConcertReservationPeriodException;
+import com.hhplus.concertreservation.concert.domain.exception.ConcertErrorType;
 import com.hhplus.concertreservation.concert.domain.model.dto.ConcertReservationInfo;
 import com.hhplus.concertreservation.concert.domain.model.dto.command.ReserveConcertCommand;
 import com.hhplus.concertreservation.concert.domain.model.entity.Concert;
 import com.hhplus.concertreservation.concert.domain.model.entity.ConcertSeat;
 import com.hhplus.concertreservation.concert.domain.model.entity.ConcertSession;
-import com.hhplus.concertreservation.concert.domain.model.vo.ConcertReservationStatus;
-import com.hhplus.concertreservation.concert.domain.model.vo.ConcertSeatStatus;
+import com.hhplus.concertreservation.concert.domain.model.enums.ConcertReservationStatus;
+import com.hhplus.concertreservation.concert.domain.model.enums.ConcertSeatStatus;
 import com.hhplus.concertreservation.concert.domain.repository.ConcertReader;
 import com.hhplus.concertreservation.concert.domain.repository.ConcertWriter;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import com.hhplus.concertreservation.user.domain.model.entity.User;
 import com.hhplus.concertreservation.user.domain.repository.UserWriter;
 import org.junit.jupiter.api.DisplayName;
@@ -137,8 +137,10 @@ class ReserveConcertUseCaseTest {
         thenThrownBy(() -> {
             reserveConcertUseCase.reserveConcert(command);
         })
-                .isInstanceOf(NotConcertReservationPeriodException.class)
-                .hasMessage("예약 가능한 기간이 아닙니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("예약 가능한 기간이 아닙니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(ConcertErrorType.RESERVATION_PERIOD_NOT_AVAILABLE);
 
     }
 
@@ -188,8 +190,10 @@ class ReserveConcertUseCaseTest {
         thenThrownBy(() -> {
             reserveConcertUseCase.reserveConcert(command);
         })
-                .isInstanceOf(ConcertSeatUnavailableException.class)
-                .hasMessage("예약 가능한 좌석이 아닙니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("예약 가능한 좌석이 아닙니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(ConcertErrorType.CONCERT_SEAT_UNAVAILABLE);
     }
 
 

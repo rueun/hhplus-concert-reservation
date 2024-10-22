@@ -11,14 +11,14 @@ public class CoreException extends RuntimeException {
     public CoreException(ErrorType errorType) {
         super(errorType.getMessage());
         this.errorType = errorType;
-        this.errorCode = errorType.getCode().name();
+        this.errorCode = errorType.getSubErrorCode();
         this.message = errorType.getMessage();
     }
 
     public CoreException(ErrorType errorType, String message) {
         super(message);
         this.errorType = errorType;
-        this.errorCode = errorType.getCode().name();
+        this.errorCode = errorType.getSubErrorCode();
         this.message = message;
     }
 }
