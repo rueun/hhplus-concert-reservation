@@ -1,5 +1,6 @@
-package com.hhplus.concertreservation.support.api.filter;
+package com.hhplus.concertreservation.common.config;
 
+import com.hhplus.concertreservation.support.api.filter.LoggingFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
