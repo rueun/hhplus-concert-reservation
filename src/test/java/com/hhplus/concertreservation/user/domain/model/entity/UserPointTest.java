@@ -1,7 +1,7 @@
 package com.hhplus.concertreservation.user.domain.model.entity;
 
-import com.hhplus.concertreservation.user.domain.exception.PointAmountInvalidException;
-import com.hhplus.concertreservation.user.domain.exception.UserPointNotEnoughException;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
+import com.hhplus.concertreservation.user.domain.exception.UserErrorType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -41,8 +41,10 @@ class UserPointTest {
 
         // when & then
         assertThatThrownBy(() -> userPoint.charge(chargeAmount))
-                .isInstanceOf(PointAmountInvalidException.class)
-                .hasMessage("충전하려는 포인트는 0보다 커야 합니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("충전하려는 포인트는 0보다 커야 합니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(UserErrorType.POINT_AMOUNT_INVALID);
     }
 
     @Test
@@ -74,8 +76,10 @@ class UserPointTest {
 
         // when & then
         assertThatThrownBy(() -> userPoint.use(useAmount))
-                .isInstanceOf(PointAmountInvalidException.class)
-                .hasMessage("사용하려는 포인트는 0보다 커야 합니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("사용하려는 포인트는 0보다 커야 합니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(UserErrorType.POINT_AMOUNT_INVALID);
     }
 
     @Test
@@ -89,8 +93,10 @@ class UserPointTest {
 
         // when & then
         assertThatThrownBy(() -> userPoint.use(1500L))
-                .isInstanceOf(UserPointNotEnoughException.class)
-                .hasMessage("잔여 포인트가 부족합니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("잔여 포인트가 부족합니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(UserErrorType.USER_POINT_NOT_ENOUGH);
     }
 
 }

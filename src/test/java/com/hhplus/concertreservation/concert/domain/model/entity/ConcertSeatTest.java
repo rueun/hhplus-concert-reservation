@@ -1,7 +1,8 @@
 package com.hhplus.concertreservation.concert.domain.model.entity;
 
-import com.hhplus.concertreservation.concert.domain.exception.ConcertSeatUnavailableException;
+import com.hhplus.concertreservation.concert.domain.exception.ConcertErrorType;
 import com.hhplus.concertreservation.concert.domain.model.enums.ConcertSeatStatus;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -39,8 +40,10 @@ class ConcertSeatTest {
 
         // when & then
         thenThrownBy(concertSeat::reserveTemporary)
-                .isInstanceOf(ConcertSeatUnavailableException.class)
-                .hasMessage("예약 가능한 좌석이 아닙니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("예약 가능한 좌석이 아닙니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(ConcertErrorType.CONCERT_SEAT_UNAVAILABLE);
     }
 
     @Test
@@ -94,8 +97,10 @@ class ConcertSeatTest {
 
         // when & then
         thenThrownBy(concertSeat::confirm)
-                .isInstanceOf(ConcertSeatUnavailableException.class)
-                .hasMessage("임시 예약된 좌석만 확정할 수 있습니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("임시 예약된 좌석만 확정할 수 있습니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(ConcertErrorType.CONCERT_SEAT_UNAVAILABLE);
     }
 
 }

@@ -1,7 +1,8 @@
 package com.hhplus.concertreservation.concert.domain.model.entity;
 
-import com.hhplus.concertreservation.concert.domain.exception.ConcertSeatUnavailableException;
+import com.hhplus.concertreservation.concert.domain.exception.ConcertErrorType;
 import com.hhplus.concertreservation.concert.domain.model.enums.ConcertSeatStatus;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,14 +24,14 @@ public class ConcertSeat {
 
     public void reserveTemporary() {
         if (!isAvailable()) {
-            throw new ConcertSeatUnavailableException("예약 가능한 좌석이 아닙니다.");
+            throw new CoreException(ConcertErrorType.CONCERT_SEAT_UNAVAILABLE, "예약 가능한 좌석이 아닙니다.");
         }
         this.status = ConcertSeatStatus.TEMPORARY_RESERVED;
     }
 
     public void confirm() {
         if (this.status != ConcertSeatStatus.TEMPORARY_RESERVED) {
-            throw new ConcertSeatUnavailableException("임시 예약된 좌석만 확정할 수 있습니다.");
+            throw new CoreException(ConcertErrorType.CONCERT_SEAT_UNAVAILABLE, "임시 예약된 좌석만 확정할 수 있습니다.");
         }
 
         this.status = ConcertSeatStatus.CONFIRMED;

@@ -2,14 +2,13 @@ package com.hhplus.concertreservation.queue.domain.service;
 
 import com.hhplus.concertreservation.common.time.TimeProvider;
 import com.hhplus.concertreservation.common.uuid.UUIDGenerator;
-import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueAlreadyActivatedException;
-import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueExpiredException;
-import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueNotActivatedException;
+import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueErrorType;
 import com.hhplus.concertreservation.queue.domain.model.dto.WaitingQueueInfo;
 import com.hhplus.concertreservation.queue.domain.model.entity.WaitingQueue;
 import com.hhplus.concertreservation.queue.domain.model.enums.QueueStatus;
 import com.hhplus.concertreservation.queue.domain.repository.WaitingQueueReader;
 import com.hhplus.concertreservation.queue.domain.repository.WaitingQueueWriter;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -197,7 +196,11 @@ class WaitingQueueServiceTest {
 
         // when & then
         thenThrownBy(() -> waitingQueueService.checkActivatedQueue(token))
-                .isInstanceOf(WaitingQueueExpiredException.class);
+                .isInstanceOf(CoreException.class)
+                .hasMessage("대기열이 만료되었습니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(WaitingQueueErrorType.WAITING_QUEUE_EXPIRED);
+
     }
 
     @Test
@@ -215,7 +218,10 @@ class WaitingQueueServiceTest {
 
         // when & then
         thenThrownBy(() -> waitingQueueService.checkActivatedQueue(token))
-                .isInstanceOf(WaitingQueueNotActivatedException.class);
+                .isInstanceOf(CoreException.class)
+                .hasMessage("대기열이 활성상태가 아닙니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(WaitingQueueErrorType.WAITING_QUEUE_NOT_ACTIVATED);
     }
 
     @Test
@@ -256,8 +262,10 @@ class WaitingQueueServiceTest {
 
         // when & then
         thenThrownBy(() -> waitingQueue.activate(LocalDateTime.now()))
-                .isInstanceOf(WaitingQueueAlreadyActivatedException.class)
-                .hasMessage("이미 활성화된 대기열입니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("이미 활성화된 대기열입니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(WaitingQueueErrorType.WAITING_QUEUE_ALREADY_ACTIVATED);
     }
 
     @Test
@@ -271,8 +279,10 @@ class WaitingQueueServiceTest {
 
         // when & then
         thenThrownBy(() -> waitingQueue.activate(LocalDateTime.now()))
-                .isInstanceOf(WaitingQueueExpiredException.class)
-                .hasMessage("만료된 대기열은 활성화할 수 없습니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("만료된 대기열은 활성화할 수 없습니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(WaitingQueueErrorType.WAITING_QUEUE_EXPIRED);
     }
 
 

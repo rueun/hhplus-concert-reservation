@@ -1,7 +1,7 @@
 package com.hhplus.concertreservation.user.infrastruture.repository;
 
-import com.hhplus.concertreservation.user.domain.exception.UserNotFoundException;
-import com.hhplus.concertreservation.user.domain.exception.UserPointNotFoundException;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
+import com.hhplus.concertreservation.user.domain.exception.UserErrorType;
 import com.hhplus.concertreservation.user.domain.model.entity.User;
 import com.hhplus.concertreservation.user.domain.model.entity.UserPoint;
 import com.hhplus.concertreservation.user.domain.repository.UserReader;
@@ -21,7 +21,7 @@ public class UserJpaReader implements UserReader {
     public User getById(final Long userId) {
         return userJpaRepository.findById(userId)
                 .map(UserEntity::toDomain)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(() -> new CoreException(UserErrorType.USER_POINT_NOT_FOUND));
     }
 
     @Override
@@ -33,6 +33,6 @@ public class UserJpaReader implements UserReader {
     public UserPoint getUserPointByUserId(final Long userId) {
         return userPointJpaRepository.findById(userId)
                 .map(UserPointEntity::toDomain)
-                .orElseThrow(UserPointNotFoundException::new);
+                .orElseThrow(() -> new CoreException(UserErrorType.USER_POINT_NOT_FOUND));
     }
 }

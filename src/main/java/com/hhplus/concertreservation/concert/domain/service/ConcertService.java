@@ -1,7 +1,7 @@
 package com.hhplus.concertreservation.concert.domain.service;
 
 import com.hhplus.concertreservation.common.time.TimeProvider;
-import com.hhplus.concertreservation.concert.domain.exception.NotConcertReservationPeriodException;
+import com.hhplus.concertreservation.concert.domain.exception.ConcertErrorType;
 import com.hhplus.concertreservation.concert.domain.model.dto.ConcertReservationInfo;
 import com.hhplus.concertreservation.concert.domain.model.dto.ConcertSeatsInfo;
 import com.hhplus.concertreservation.concert.domain.model.dto.command.ReserveConcertCommand;
@@ -11,6 +11,7 @@ import com.hhplus.concertreservation.concert.domain.model.entity.ConcertSeat;
 import com.hhplus.concertreservation.concert.domain.model.entity.ConcertSession;
 import com.hhplus.concertreservation.concert.domain.repository.ConcertReader;
 import com.hhplus.concertreservation.concert.domain.repository.ConcertWriter;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,7 @@ public class ConcertService {
     public ConcertReservationInfo reserveConcert(final ReserveConcertCommand command) {
         final Concert concert = concertReader.getConcertById(command.concertId());
         if (!concert.isWithinReservationPeriod(timeProvider.now())) {
-            throw new NotConcertReservationPeriodException("예약 가능한 기간이 아닙니다.");
+            throw new CoreException(ConcertErrorType.RESERVATION_PERIOD_NOT_AVAILABLE, "예약 가능한 기간이 아닙니다.");
         }
 
         // 콘서트 좌석 업데이트

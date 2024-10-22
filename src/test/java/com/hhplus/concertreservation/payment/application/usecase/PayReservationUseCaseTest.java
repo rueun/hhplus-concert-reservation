@@ -1,18 +1,19 @@
 package com.hhplus.concertreservation.payment.application.usecase;
 
-import com.hhplus.concertreservation.concert.domain.exception.InvalidConcertReservationStatusException;
+import com.hhplus.concertreservation.concert.domain.exception.ConcertErrorType;
 import com.hhplus.concertreservation.concert.domain.model.entity.ConcertReservation;
 import com.hhplus.concertreservation.concert.domain.model.entity.ConcertSeat;
-import com.hhplus.concertreservation.concert.domain.model.vo.ConcertReservationStatus;
-import com.hhplus.concertreservation.concert.domain.model.vo.ConcertSeatStatus;
+import com.hhplus.concertreservation.concert.domain.model.enums.ConcertReservationStatus;
+import com.hhplus.concertreservation.concert.domain.model.enums.ConcertSeatStatus;
 import com.hhplus.concertreservation.concert.domain.repository.ConcertReader;
 import com.hhplus.concertreservation.concert.domain.repository.ConcertWriter;
-import com.hhplus.concertreservation.payment.domain.model.vo.PaymentStatus;
+import com.hhplus.concertreservation.payment.domain.model.enums.PaymentStatus;
 import com.hhplus.concertreservation.queue.domain.model.entity.WaitingQueue;
-import com.hhplus.concertreservation.queue.domain.model.vo.QueueStatus;
+import com.hhplus.concertreservation.queue.domain.model.enums.QueueStatus;
 import com.hhplus.concertreservation.queue.domain.repository.WaitingQueueReader;
 import com.hhplus.concertreservation.queue.domain.repository.WaitingQueueWriter;
-import com.hhplus.concertreservation.user.domain.exception.UserPointNotEnoughException;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
+import com.hhplus.concertreservation.user.domain.exception.UserErrorType;
 import com.hhplus.concertreservation.user.domain.model.entity.User;
 import com.hhplus.concertreservation.user.domain.model.entity.UserPoint;
 import com.hhplus.concertreservation.user.domain.repository.UserReader;
@@ -26,9 +27,9 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ActiveProfiles("test")
@@ -182,8 +183,10 @@ class PayReservationUseCaseTest {
         // when & then
         assertAll(
                 () -> assertThatThrownBy(() -> payReservationUseCase.payReservation(1L, 1L, "token"))
-                        .isInstanceOf(InvalidConcertReservationStatusException.class)
+                        .isInstanceOf(CoreException.class)
                         .hasMessage("예약이 임시 예약 상태가 아닙니다.")
+                        .extracting(e -> ((CoreException) e).getErrorType())
+                        .isEqualTo(ConcertErrorType.INVALID_CONCERT_RESERVATION_STATUS)
         );
     }
 
@@ -233,8 +236,10 @@ class PayReservationUseCaseTest {
         // when & then
         assertAll(
                 () -> assertThatThrownBy(() -> payReservationUseCase.payReservation(1L, 1L, "token"))
-                        .isInstanceOf(UserPointNotEnoughException.class)
+                        .isInstanceOf(CoreException.class)
                         .hasMessage("잔여 포인트가 부족합니다.")
+                        .extracting(e -> ((CoreException) e).getErrorType())
+                        .isEqualTo(UserErrorType.USER_POINT_NOT_ENOUGH)
         );
     }
 

@@ -1,9 +1,6 @@
 package com.hhplus.concertreservation.concert.infrastruture.repository;
 
-import com.hhplus.concertreservation.concert.domain.exception.ConcertNotFoundException;
-import com.hhplus.concertreservation.concert.domain.exception.ConcertReservationNotFoundException;
-import com.hhplus.concertreservation.concert.domain.exception.ConcertSeatNotFoundException;
-import com.hhplus.concertreservation.concert.domain.exception.ConcertSesstionNotFoundException;
+import com.hhplus.concertreservation.concert.domain.exception.ConcertErrorType;
 import com.hhplus.concertreservation.concert.domain.model.entity.Concert;
 import com.hhplus.concertreservation.concert.domain.model.entity.ConcertReservation;
 import com.hhplus.concertreservation.concert.domain.model.entity.ConcertSeat;
@@ -13,13 +10,16 @@ import com.hhplus.concertreservation.concert.infrastruture.entity.ConcertEntity;
 import com.hhplus.concertreservation.concert.infrastruture.entity.ConcertReservationEntity;
 import com.hhplus.concertreservation.concert.infrastruture.entity.ConcertSeatEntity;
 import com.hhplus.concertreservation.concert.infrastruture.entity.ConcertSessionEntity;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ConcertJpaReader implements ConcertReader {
 
     private final ConcertJpaRepository concertJpaRepository;
@@ -31,28 +31,28 @@ public class ConcertJpaReader implements ConcertReader {
     public Concert getConcertById(final Long concertId) {
         return concertJpaRepository.findById(concertId)
                 .map(ConcertEntity::toDomain)
-                .orElseThrow(ConcertNotFoundException::new);
+                .orElseThrow(() -> new CoreException(ConcertErrorType.CONCERT_NOT_FOUND));
     }
 
     @Override
     public ConcertSession getConcertSessionById(final Long concertSessionId) {
         return concertSessionJpaRepository.findById(concertSessionId)
                 .map(ConcertSessionEntity::toDomain)
-                .orElseThrow(ConcertSesstionNotFoundException::new);
+                .orElseThrow(() -> new CoreException(ConcertErrorType.CONCERT_SESSION_NOT_FOUND));
     }
 
     @Override
     public ConcertSeat getConcertSeatById(final Long concertSeatId) {
         return concertSeatJpaRepository.findById(concertSeatId)
                 .map(ConcertSeatEntity::toDomain)
-                .orElseThrow(ConcertSeatNotFoundException::new);
+                .orElseThrow(() -> new CoreException(ConcertErrorType.CONCERT_SEAT_NOT_FOUND));
     }
 
     @Override
     public ConcertReservation getConcertReservationById(final Long concertReservationId) {
         return concertReservationJpaRepository.findById(concertReservationId)
                 .map(ConcertReservationEntity::toDomain)
-                .orElseThrow(ConcertReservationNotFoundException::new);
+                .orElseThrow(() -> new CoreException(ConcertErrorType.CONCERT_RESERVATION_NOT_FOUND));
     }
 
     @Override

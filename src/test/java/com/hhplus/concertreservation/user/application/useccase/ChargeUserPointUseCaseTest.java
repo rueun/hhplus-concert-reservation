@@ -1,6 +1,7 @@
 package com.hhplus.concertreservation.user.application.useccase;
 
-import com.hhplus.concertreservation.user.domain.exception.PointAmountInvalidException;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
+import com.hhplus.concertreservation.user.domain.exception.UserErrorType;
 import com.hhplus.concertreservation.user.domain.model.entity.User;
 import com.hhplus.concertreservation.user.domain.model.entity.UserPoint;
 import com.hhplus.concertreservation.user.domain.repository.UserReader;
@@ -65,8 +66,10 @@ class ChargeUserPointUseCaseTest {
 
         //when & then
         assertThatThrownBy(() -> chargeUserPointUseCase.chargeUserPoint(1L, amount))
-                .isInstanceOf(PointAmountInvalidException.class)
-                .hasMessage("충전하려는 포인트는 0보다 커야 합니다.");
+                .isInstanceOf(CoreException.class)
+                .hasMessage("충전하려는 포인트는 0보다 커야 합니다.")
+                .extracting(e -> ((CoreException) e).getErrorType())
+                .isEqualTo(UserErrorType.POINT_AMOUNT_INVALID);
     }
 
 
