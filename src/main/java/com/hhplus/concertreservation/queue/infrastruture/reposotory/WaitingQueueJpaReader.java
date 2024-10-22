@@ -32,6 +32,7 @@ public class WaitingQueueJpaReader implements WaitingQueueReader {
 
     @Override
     public Optional<WaitingQueue> getLatestActivatedQueue() {
-        return waitingQueueJpaRepository.getLatestActivatedQueue();
+        return waitingQueueJpaRepository.getLatestActivatedQueue()
+                .map(WaitingQueueEntity::toDomain);
     }
 }

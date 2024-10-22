@@ -74,7 +74,7 @@ class ConcertServiceTest {
 
         ConcertReservation concertReservation = ConcertReservation.create(command, 30000, LocalDateTime.now());
         given(concertWriter.saveAll(anyList())).willReturn(List.of(concertSeat1, concertSeat2));
-        given(concertWriter.save(any())).willReturn(concertReservation);
+        given(concertWriter.save(any(ConcertReservation.class))).willReturn(concertReservation);
 
         // when
         final ConcertReservationInfo result = concertService.reserveConcert(command);
