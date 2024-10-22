@@ -1,6 +1,7 @@
 package com.hhplus.concertreservation.user.domain.model.entity;
 
 import com.hhplus.concertreservation.user.domain.exception.PointAmountInvalidException;
+import com.hhplus.concertreservation.user.domain.exception.UserPointNotEnoughException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -88,7 +89,7 @@ class UserPointTest {
 
         // when & then
         assertThatThrownBy(() -> userPoint.use(1500L))
-                .isInstanceOf(PointAmountInvalidException.class)
+                .isInstanceOf(UserPointNotEnoughException.class)
                 .hasMessage("잔여 포인트가 부족합니다.");
     }
 
