@@ -25,7 +25,7 @@ public interface WaitingQueueJpaRepository extends JpaRepository<WaitingQueueEnt
 
 
     @Query(value = """
-        SELECT * FROM waiting_queue_entity q
+        SELECT * FROM waiting_queue q
         WHERE q.status = 'WAITING'
         ORDER BY q.id ASC
         LIMIT :activationCount
