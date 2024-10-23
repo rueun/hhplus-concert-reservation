@@ -15,4 +15,5 @@ public interface ConcertReader {
     List<ConcertSeat> getConcertSeatsByIds(List<Long> seatIds);
     List<ConcertSession> getConcertSessionsByConcertId(Long concertId);
     List<ConcertSeat> getConcertSeatsBySessionId(Long concertSessionId);
+    List<ConcertReservation> getTemporaryReservationsToBeExpired(int minutes);
 }

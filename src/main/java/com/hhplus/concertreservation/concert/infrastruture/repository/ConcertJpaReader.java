@@ -1,5 +1,6 @@
 package com.hhplus.concertreservation.concert.infrastruture.repository;
 
+import com.hhplus.concertreservation.common.time.TimeProvider;
 import com.hhplus.concertreservation.concert.domain.exception.ConcertErrorType;
 import com.hhplus.concertreservation.concert.domain.model.entity.Concert;
 import com.hhplus.concertreservation.concert.domain.model.entity.ConcertReservation;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -26,6 +28,8 @@ public class ConcertJpaReader implements ConcertReader {
     private final ConcertSessionJpaRepository concertSessionJpaRepository;
     private final ConcertSeatJpaRepository concertSeatJpaRepository;
     private final ConcertReservationJpaRepository concertReservationJpaRepository;
+
+    private final TimeProvider timeProvider;
 
     @Override
     public Concert getConcertById(final Long concertId) {
@@ -73,6 +77,16 @@ public class ConcertJpaReader implements ConcertReader {
     public List<ConcertSeat> getConcertSeatsBySessionId(final Long concertSessionId) {
         return concertSeatJpaRepository.findAllByConcertSessionId(concertSessionId).stream()
                 .map(ConcertSeatEntity::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<ConcertReservation> getTemporaryReservationsToBeExpired(final int minutes) {
+
+        final LocalDateTime expirationTime = timeProvider.now().minusMinutes(minutes);
+
+        return concertReservationJpaRepository.findTemporaryReservationsToBeExpired(expirationTime).stream()
+                .map(ConcertReservationEntity::toDomain)
                 .toList();
     }
 }

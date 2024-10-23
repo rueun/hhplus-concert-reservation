@@ -1,6 +1,5 @@
 package com.hhplus.concertreservation.user.application.useccase;
 
-import com.hhplus.concertreservation.concert.domain.exception.ConcertErrorType;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import com.hhplus.concertreservation.user.domain.exception.UserErrorType;
 import com.hhplus.concertreservation.user.domain.model.entity.User;

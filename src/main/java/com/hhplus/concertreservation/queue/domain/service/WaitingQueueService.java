@@ -11,6 +11,8 @@ import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class WaitingQueueService {
@@ -75,6 +77,25 @@ public class WaitingQueueService {
         final WaitingQueue currentWaitingQueue = waitingQueueReader.getByToken(token);
         currentWaitingQueue.activate(timeProvider.now());
         waitingQueueWriter.save(currentWaitingQueue);
+    }
+
+
+    /**
+     * 가장 오래된 '대기상태' 대기열 목록 조회
+     * @param activationCount 조회하려는 활성화 대기열 개수
+     * @return '대기' 상태인 대기열 목록
+     */
+    public List<WaitingQueue> getWaitingQueues(final int activationCount) {
+        return waitingQueueReader.getWaitingQueues(activationCount);
+    }
+
+    /**
+     * 대기열 만료 처리 대기열 목록 조회
+     * @param minutes 만료 시간 (분)
+     * @return 만료 처리 대기열 목록
+     */
+    public List<WaitingQueue> getWaitingQueueToBeExpired(final int minutes) {
+        return waitingQueueReader.getWaitingQueueToBeExpired(minutes);
     }
 
 

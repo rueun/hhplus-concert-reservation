@@ -126,6 +126,15 @@ public class ConcertService {
     }
 
     /**
+     * 임시 예약 만료 처리 대상 조회
+     * @param minutes 만료 시간 (분) - 해당 시간이 지난 임시 예약을 조회
+     * @return 만료 처리 대상 임시 예약 목록
+     */
+    public List<ConcertReservation> getTemporaryReservationToBeExpired(final int minutes) {
+        return concertReader.getTemporaryReservationsToBeExpired(minutes);
+    }
+
+    /**
      * 콘서트 임시 예약 취소
      * 스케줄러를 통해 호출되는 메서드
      * @param reservationId 예약 ID
