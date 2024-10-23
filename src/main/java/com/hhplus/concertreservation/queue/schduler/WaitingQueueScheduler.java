@@ -18,7 +18,7 @@ public class WaitingQueueScheduler {
 
     @Scheduled(fixedDelayString = "60000")
     public void activateWaitingQueue() {
-        log.info("대기열 활성화 스케줄러 실행. time : {}", System.currentTimeMillis());
+        log.info("대기열 활성화 스케줄러 실행");
         final List<WaitingQueue> waitingQueues = waitingQueueService.getWaitingQueues(200);
         waitingQueues.forEach(waitingQueue -> {
             try {
@@ -32,7 +32,7 @@ public class WaitingQueueScheduler {
 
     @Scheduled(fixedDelayString = "60000")
     public void expireWaitingQueue() {
-        log.info("대기열 만료 스케줄러 실행. time : {}", System.currentTimeMillis());
+        log.info("대기열 만료 스케줄러 실행");
         final List<WaitingQueue> waitingQueues = waitingQueueService.getWaitingQueueToBeExpired(10);
         waitingQueues.forEach(waitingQueue -> {
             try {

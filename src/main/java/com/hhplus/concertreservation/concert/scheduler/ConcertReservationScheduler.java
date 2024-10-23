@@ -18,7 +18,7 @@ public class ConcertReservationScheduler {
 
     @Scheduled(fixedDelayString = "60000")
     public void expireTemporaryReservations() {
-        log.info("임시예약 만료 스케줄러 실행. time : {}", System.currentTimeMillis());
+        log.info("임시예약 만료 스케줄러 실행");
         final List<ConcertReservation> concertReservations = concertService.getTemporaryReservationToBeExpired(5);
         concertReservations.forEach(concertReservation -> {
             try {
