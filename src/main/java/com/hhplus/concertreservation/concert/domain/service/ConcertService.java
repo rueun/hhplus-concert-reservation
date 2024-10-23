@@ -13,11 +13,13 @@ import com.hhplus.concertreservation.concert.domain.repository.ConcertReader;
 import com.hhplus.concertreservation.concert.domain.repository.ConcertWriter;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ConcertService {
@@ -54,6 +56,9 @@ public class ConcertService {
         final ConcertReservation concertReservation = ConcertReservation.create(command, totalPrice, timeProvider.now());
         final ConcertReservation savedConcertReservation = concertWriter.save(concertReservation);
 
+        log.info("임시 예약 완료: 콘서트 ID = {}, 예약 좌석 수 = {}, 총 가격 = {}",
+                command.concertId(), concertSeats.size(), totalPrice);
+
         return new ConcertReservationInfo(savedConcertReservation, savedConcertSeats);
     }
 
@@ -76,6 +81,9 @@ public class ConcertService {
 
         concertWriter.save(concertReservation);
         concertWriter.saveAll(concertSeats);
+
+        log.info("예약 확정 완료: 예약 ID = {}, 예약 좌석 ID = {}",
+                reservationId, concertReservation.getSeatIds());
     }
 
 
@@ -132,5 +140,8 @@ public class ConcertService {
 
         concertWriter.save(concertReservation);
         concertWriter.saveAll(concertSeats);
+
+        log.info("임시 예약 취소 완료: 예약 ID = {}, 취소된 좌석 ID = {}",
+                reservationId, concertReservation.getSeatIds());
     }
 }

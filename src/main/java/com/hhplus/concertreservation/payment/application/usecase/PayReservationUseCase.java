@@ -11,8 +11,10 @@ import com.hhplus.concertreservation.queue.domain.service.WaitingQueueService;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import com.hhplus.concertreservation.user.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @UseCase
 @RequiredArgsConstructor
 public class PayReservationUseCase {
@@ -39,6 +41,8 @@ public class PayReservationUseCase {
 
         // 대기열 만료
         waitingQueueService.expireQueue(token);
+
+        log.info("결제 완료: 사용자 ID = {}, 예약 ID = {}, 결제 ID = {}", userId, reservationId, payment.getId());
         return payment;
     }
 }

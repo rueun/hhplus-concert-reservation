@@ -6,8 +6,10 @@ import com.hhplus.concertreservation.user.domain.model.entity.UserPoint;
 import com.hhplus.concertreservation.user.domain.repository.UserReader;
 import com.hhplus.concertreservation.user.domain.repository.UserWriter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -30,13 +32,19 @@ public class UserService {
         checkUserExist(userId);
         final UserPoint userPoint = userReader.getUserPointByUserId(userId);
         userPoint.charge(amount);
-        return userWriter.saveUserPoint(userPoint);
+        final UserPoint savedUserPoint = userWriter.saveUserPoint(userPoint);
+
+        log.info("포인트 충전 완료: 사용자 ID = {}, 충전 금액 = {}", userId, amount);
+        return savedUserPoint;
     }
 
     public UserPoint usePoint(final Long userId, final long amount) {
         checkUserExist(userId);
         final UserPoint userPoint = userReader.getUserPointByUserId(userId);
         userPoint.use(amount);
-        return userWriter.saveUserPoint(userPoint);
+        final UserPoint savedUserPoint = userWriter.saveUserPoint(userPoint);
+
+        log.info("포인트 사용 완료: 사용자 ID = {}, 사용 금액 = {}", userId, amount);
+        return savedUserPoint;
     }
 }
