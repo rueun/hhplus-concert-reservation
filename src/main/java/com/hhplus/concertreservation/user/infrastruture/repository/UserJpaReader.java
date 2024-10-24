@@ -30,9 +30,17 @@ public class UserJpaReader implements UserReader {
     }
 
     @Override
-    public UserPoint getUserPointByUserId(final Long userId) {
+    public UserPoint getByUserId(final Long userId) {
         return userPointJpaRepository.findById(userId)
                 .map(UserPointEntity::toDomain)
                 .orElseThrow(() -> new CoreException(UserErrorType.USER_POINT_NOT_FOUND));
+    }
+
+    @Override
+    public UserPoint getByUserIdWithPessimisticLock(final Long userId) {
+        return userPointJpaRepository.findByIdWithPessimisticLock(userId)
+                .map(UserPointEntity::toDomain)
+                .orElseThrow(() -> new CoreException(UserErrorType.USER_POINT_NOT_FOUND));
+
     }
 }

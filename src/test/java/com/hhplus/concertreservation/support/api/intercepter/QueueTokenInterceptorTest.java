@@ -4,6 +4,7 @@ import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueErrorTyp
 import com.hhplus.concertreservation.queue.domain.service.WaitingQueueService;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 
+@DisplayName("대기열 토큰 인터셉터 테스트")
 @ExtendWith(MockitoExtension.class)
 class QueueTokenInterceptorTest {
 

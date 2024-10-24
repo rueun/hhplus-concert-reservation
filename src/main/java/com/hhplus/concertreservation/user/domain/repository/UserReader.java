@@ -7,5 +7,7 @@ public interface UserReader {
 
     User getById(Long userId);
     boolean existsById(Long userId);
-    UserPoint getUserPointByUserId(Long userId);
+    UserPoint getByUserId(Long userId);
+
+    UserPoint getByUserIdWithPessimisticLock(Long userId);
 }

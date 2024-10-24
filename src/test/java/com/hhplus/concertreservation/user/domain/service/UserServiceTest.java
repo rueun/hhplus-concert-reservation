@@ -74,7 +74,7 @@ class UserServiceTest {
                 .build();
 
         given(userReader.existsById(userId)).willReturn(true);
-        given(userReader.getUserPointByUserId(userId)).willReturn(userPoint);
+        given(userReader.getByUserIdWithPessimisticLock(userId)).willReturn(userPoint);
         given(userWriter.saveUserPoint(any(UserPoint.class))).willReturn(userPoint);
 
         // when
@@ -84,7 +84,7 @@ class UserServiceTest {
         assertAll(
                 () -> assertEquals(1500L, updatedUserPoint.getAmount()),
                 () -> then(userReader).should(times(1)).existsById(userId),
-                () -> then(userReader).should(times(1)).getUserPointByUserId(userId),
+                () -> then(userReader).should(times(1)).getByUserIdWithPessimisticLock(userId),
                 () -> then(userWriter).should(times(1)).saveUserPoint(userPoint)
         );
     }
@@ -101,7 +101,7 @@ class UserServiceTest {
                 .build();
 
         given(userReader.existsById(userId)).willReturn(true);
-        given(userReader.getUserPointByUserId(userId)).willReturn(userPoint);
+        given(userReader.getByUserIdWithPessimisticLock(userId)).willReturn(userPoint);
         given(userWriter.saveUserPoint(any(UserPoint.class))).willReturn(userPoint);
 
         // when
@@ -111,7 +111,7 @@ class UserServiceTest {
         assertAll(
                 () -> assertEquals(700L, updatedUserPoint.getAmount()),
                 () -> then(userReader).should(times(1)).existsById(userId),
-                () -> then(userReader).should(times(1)).getUserPointByUserId(userId),
+                () -> then(userReader).should(times(1)).getByUserIdWithPessimisticLock(userId),
                 () -> then(userWriter).should(times(1)).saveUserPoint(userPoint)
         );
     }
@@ -128,7 +128,7 @@ class UserServiceTest {
                 .build();
 
         given(userReader.existsById(userId)).willReturn(true);
-        given(userReader.getUserPointByUserId(userId)).willReturn(userPoint);
+        given(userReader.getByUserIdWithPessimisticLock(userId)).willReturn(userPoint);
 
         // when & then
         assertThatThrownBy(() -> userService.chargePoint(userId, chargeAmount))
@@ -139,7 +139,7 @@ class UserServiceTest {
 
         assertAll(
                 () -> then(userReader).should(times(1)).existsById(userId),
-                () -> then(userReader).should(times(1)).getUserPointByUserId(userId),
+                () -> then(userReader).should(times(1)).getByUserIdWithPessimisticLock(userId),
                 () -> then(userWriter).should(never()).saveUserPoint(any())
         );
     }
@@ -156,7 +156,7 @@ class UserServiceTest {
                 .build();
 
         given(userReader.existsById(userId)).willReturn(true);
-        given(userReader.getUserPointByUserId(userId)).willReturn(userPoint);
+        given(userReader.getByUserIdWithPessimisticLock(userId)).willReturn(userPoint);
 
         // when & then
         assertThatThrownBy(() -> userService.usePoint(userId, useAmount))
@@ -167,7 +167,7 @@ class UserServiceTest {
 
         assertAll(
                 () -> then(userReader).should(times(1)).existsById(userId),
-                () -> then(userReader).should(times(1)).getUserPointByUserId(userId),
+                () -> then(userReader).should(times(1)).getByUserIdWithPessimisticLock(userId),
                 () -> then(userWriter).should(never()).saveUserPoint(any())
         );
 

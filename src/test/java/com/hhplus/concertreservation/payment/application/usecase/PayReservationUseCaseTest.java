@@ -75,11 +75,13 @@ class PayReservationUseCaseTest {
         ConcertSeat concertSeat1 = ConcertSeat.builder()
                 .id(1L)
                 .status(ConcertSeatStatus.TEMPORARY_RESERVED)
+                .version(0L)
                 .build();
 
         ConcertSeat concertSeat2 = ConcertSeat.builder()
                 .id(2L)
                 .status(ConcertSeatStatus.TEMPORARY_RESERVED)
+                .version(0L)
                 .build();
 
         ConcertReservation concertReservation = ConcertReservation.builder()
@@ -118,7 +120,7 @@ class PayReservationUseCaseTest {
         );
 
         // 포인트 차감
-        final UserPoint updatedUserPoint = userReader.getUserPointByUserId(1L);
+        final UserPoint updatedUserPoint = userReader.getByUserId(1L);
         assertThat(updatedUserPoint.getAmount()).isEqualTo(80000);
 
         // 결제된 예약건 상태 변경
@@ -152,11 +154,13 @@ class PayReservationUseCaseTest {
 
         ConcertSeat concertSeat1 = ConcertSeat.builder()
                 .id(1L)
+                .version(0L)
                 .status(ConcertSeatStatus.CONFIRMED)
                 .build();
 
         ConcertSeat concertSeat2 = ConcertSeat.builder()
                 .id(2L)
+                .version(0L)
                 .status(ConcertSeatStatus.CONFIRMED)
                 .build();
 
@@ -205,11 +209,13 @@ class PayReservationUseCaseTest {
 
         ConcertSeat concertSeat1 = ConcertSeat.builder()
                 .id(1L)
+                .version(0L)
                 .status(ConcertSeatStatus.TEMPORARY_RESERVED)
                 .build();
 
         ConcertSeat concertSeat2 = ConcertSeat.builder()
                 .id(2L)
+                .version(0L)
                 .status(ConcertSeatStatus.TEMPORARY_RESERVED)
                 .build();
 
