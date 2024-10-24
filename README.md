@@ -8,7 +8,7 @@
 ### 3. [API Specification](https://github.com/rueun/hhplus-concert-reservation/blob/step6/docs/API_SPECIFICATION.md)
 ### 4. [ERD](https://github.com/rueun/hhplus-concert-reservation/blob/step6/docs/ERD.md)
 ### 5. [Project Structure](https://github.com/rueun/hhplus-concert-reservation/blob/step6/docs/PROJECT_STRUCTURE.md)
-
+### 6. [(3주차-5주차) Chapter2 서버구축 회고](https://devlog-rueun.tistory.com/entry/%ED%95%AD%ED%95%B4-%ED%94%8C%EB%9F%AC%EC%8A%A4-%EB%B0%B1%EC%97%94%EB%93%9C-6%EA%B8%B0-%EC%B1%95%ED%84%B023%EC%A3%BC%EC%B0%A8-5%EC%A3%BC%EC%B0%A8-%EC%84%9C%EB%B2%84%EA%B5%AC%EC%B6%95-%ED%9A%8C%EA%B3%A0)
 <br>
 
 ## swagger-ui
@@ -100,3 +100,28 @@
 > API 의 완성이 목표가 아닌, 기본 및 주요 기능의 비즈니스 로직 및 유즈케이스는 구현이 완료 되어야 함. ( `Business Layer` )
 
 > DB Index , 대용량 처리를 위한 개선 포인트 등은 추후 챕터에서 진행하므로 목표는 `기능 개발의 완료` 로 합니다. 최적화 작업 등을 고려하는 것 보다 모든 기능을 정상적으로 제공할 수 있도록 해주세요. 특정 기능을 왜 이렇게 개발하였는지 합당한 이유와 함께 기능 개발을 진행해주시면 됩니다.
+
+
+## 5주차 요구사항
+### **`DEFAULT`**
+
+- 비즈니스 별 발생할 수 있는 에러 코드 정의 및 관리 체계 구축
+- 프레임워크별 글로벌 에러 핸들러를 통해 예외 로깅 및 응답 처리 핸들러 구현
+  - `spring` - **RestControllerAdvice**
+  - `nestjs` - **ExceptionFilter**
+
+### **`STEP 09`**
+
+- 시스템 성격에 적합하게 Filter, Interceptor 를 활용해 기능의 관점을 분리하여 개선
+- 모든 API 가 정상적으로 기능을 제공하도록 완성
+
+> 각 시나리오별 요구사항 내에 정의된 기능은 정상적으로 동작할 수 있어야 합니다. 개선 및 최적화에 초점을 두는 것이 아닌, 추후 개선해나갈 수 있도록 동작하는 기능을 완성하는 것이 목적입니다.
+>
+
+### **`STEP 10`**
+
+- 시나리오별 동시성 **통합 테스트** 작성
+- **Chapter 2** 회고록 작성
+
+> DB Index , 대용량 처리를 위한 개선 포인트 등은 추후 챕터에서 진행하므로 목표는 `기능 개발의 완료` 로 합니다. 최적화 작업 등을 고려하는 것 보다 모든 기능을 정상적으로 제공할 수 있도록 해주세요. 특정 기능을 왜 이렇게 개발하였는지 합당한 이유와 함께 기능 개발을 진행해주시면 됩니다.
+>
