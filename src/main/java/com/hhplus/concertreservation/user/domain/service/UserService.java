@@ -8,6 +8,7 @@ import com.hhplus.concertreservation.user.domain.repository.UserWriter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -25,12 +26,13 @@ public class UserService {
 
     public UserPoint getUserPoint(final Long userId) {
         checkUserExist(userId);
-        return userReader.getUserPointByUserId(userId);
+        return userReader.getByUserId(userId);
     }
 
+    @Transactional
     public UserPoint chargePoint(final Long userId, final long amount) {
         checkUserExist(userId);
-        final UserPoint userPoint = userReader.getUserPointByUserId(userId);
+        final UserPoint userPoint = userReader.getByUserIdWithPessimisticLock(userId);
         userPoint.charge(amount);
         final UserPoint savedUserPoint = userWriter.saveUserPoint(userPoint);
 
@@ -38,9 +40,10 @@ public class UserService {
         return savedUserPoint;
     }
 
+    @Transactional
     public UserPoint usePoint(final Long userId, final long amount) {
         checkUserExist(userId);
-        final UserPoint userPoint = userReader.getUserPointByUserId(userId);
+        final UserPoint userPoint = userReader.getByUserIdWithPessimisticLock(userId);
         userPoint.use(amount);
         final UserPoint savedUserPoint = userWriter.saveUserPoint(userPoint);
 

@@ -22,14 +22,10 @@ public class UserPointEntity extends BaseEntity {
 
     private long amount;
 
-    @Version
-    private Long version;
-
     public UserPointEntity(final UserPoint userPoint) {
         this.id = userPoint.getId();
         this.userId = userPoint.getUserId();
         this.amount = userPoint.getAmount();
-        this.version = userPoint.getVersion();
     }
 
     public UserPoint toDomain() {
@@ -37,7 +33,6 @@ public class UserPointEntity extends BaseEntity {
                 .id(id)
                 .userId(userId)
                 .amount(amount)
-                .version(version)
                 .build();
     }
 }
