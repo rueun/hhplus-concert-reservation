@@ -36,7 +36,7 @@ public interface WaitingQueueJpaRepository extends JpaRepository<WaitingQueueEnt
     @Query("""
         SELECT wq
         FROM WaitingQueueEntity wq
-        WHERE wq.status = com.hhplus.concertreservation.queue.domain.model.enums.QueueStatus.ACTIVATED
+        WHERE wq.status = com.hhplus.concertreservation.apps.queue.domain.model.enums.QueueStatus.ACTIVATED
         AND wq.activatedAt <= :expirationTime
     """)
     List<WaitingQueueEntity> findWaitingQueueToBeExpired(@Param("expirationTime") LocalDateTime expirationTime);
