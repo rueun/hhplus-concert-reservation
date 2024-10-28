@@ -1,7 +1,7 @@
 package com.hhplus.concertreservation.support.api.intercepter;
 
-import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueErrorType;
-import com.hhplus.concertreservation.queue.domain.service.WaitingQueueService;
+import com.hhplus.concertreservation.apps.queue.domain.exception.WaitingQueueErrorType;
+import com.hhplus.concertreservation.apps.queue.domain.service.WaitingQueueService;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

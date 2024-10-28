@@ -1,11 +1,12 @@
 package com.hhplus.concertreservation.user.application.useccase;
 
+import com.hhplus.concertreservation.apps.user.application.useccase.ChargeUserPointUseCase;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
-import com.hhplus.concertreservation.user.domain.exception.UserErrorType;
-import com.hhplus.concertreservation.user.domain.model.entity.User;
-import com.hhplus.concertreservation.user.domain.model.entity.UserPoint;
-import com.hhplus.concertreservation.user.domain.repository.UserReader;
-import com.hhplus.concertreservation.user.domain.repository.UserWriter;
+import com.hhplus.concertreservation.apps.user.domain.exception.UserErrorType;
+import com.hhplus.concertreservation.apps.user.domain.model.entity.User;
+import com.hhplus.concertreservation.apps.user.domain.model.entity.UserPoint;
+import com.hhplus.concertreservation.apps.user.domain.repository.UserReader;
+import com.hhplus.concertreservation.apps.user.domain.repository.UserWriter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

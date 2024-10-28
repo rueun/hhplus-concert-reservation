@@ -1,9 +1,10 @@
 package com.hhplus.concertreservation.user.domain.service;
 
-import com.hhplus.concertreservation.user.domain.model.entity.User;
-import com.hhplus.concertreservation.user.domain.model.entity.UserPoint;
-import com.hhplus.concertreservation.user.domain.repository.UserReader;
-import com.hhplus.concertreservation.user.domain.repository.UserWriter;
+import com.hhplus.concertreservation.apps.user.domain.model.entity.User;
+import com.hhplus.concertreservation.apps.user.domain.model.entity.UserPoint;
+import com.hhplus.concertreservation.apps.user.domain.repository.UserReader;
+import com.hhplus.concertreservation.apps.user.domain.repository.UserWriter;
+import com.hhplus.concertreservation.apps.user.domain.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

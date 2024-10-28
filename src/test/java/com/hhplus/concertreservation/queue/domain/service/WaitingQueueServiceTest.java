@@ -1,13 +1,14 @@
 package com.hhplus.concertreservation.queue.domain.service;
 
+import com.hhplus.concertreservation.apps.queue.domain.service.WaitingQueueService;
 import com.hhplus.concertreservation.common.time.TimeProvider;
 import com.hhplus.concertreservation.common.uuid.UUIDGenerator;
-import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueErrorType;
-import com.hhplus.concertreservation.queue.domain.model.dto.WaitingQueueInfo;
-import com.hhplus.concertreservation.queue.domain.model.entity.WaitingQueue;
-import com.hhplus.concertreservation.queue.domain.model.enums.QueueStatus;
-import com.hhplus.concertreservation.queue.domain.repository.WaitingQueueReader;
-import com.hhplus.concertreservation.queue.domain.repository.WaitingQueueWriter;
+import com.hhplus.concertreservation.apps.queue.domain.exception.WaitingQueueErrorType;
+import com.hhplus.concertreservation.apps.queue.domain.model.dto.WaitingQueueInfo;
+import com.hhplus.concertreservation.apps.queue.domain.model.entity.WaitingQueue;
+import com.hhplus.concertreservation.apps.queue.domain.model.enums.QueueStatus;
+import com.hhplus.concertreservation.apps.queue.domain.repository.WaitingQueueReader;
+import com.hhplus.concertreservation.apps.queue.domain.repository.WaitingQueueWriter;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

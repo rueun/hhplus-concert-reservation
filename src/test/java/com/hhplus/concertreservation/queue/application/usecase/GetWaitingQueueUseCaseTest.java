@@ -1,10 +1,11 @@
 package com.hhplus.concertreservation.queue.application.usecase;
 
-import com.hhplus.concertreservation.queue.domain.model.dto.WaitingQueueInfo;
-import com.hhplus.concertreservation.queue.domain.model.entity.WaitingQueue;
-import com.hhplus.concertreservation.queue.domain.model.enums.QueueStatus;
-import com.hhplus.concertreservation.queue.domain.repository.WaitingQueueReader;
-import com.hhplus.concertreservation.queue.domain.repository.WaitingQueueWriter;
+import com.hhplus.concertreservation.apps.queue.application.usecase.GetWaitingQueueUseCase;
+import com.hhplus.concertreservation.apps.queue.domain.model.dto.WaitingQueueInfo;
+import com.hhplus.concertreservation.apps.queue.domain.model.entity.WaitingQueue;
+import com.hhplus.concertreservation.apps.queue.domain.model.enums.QueueStatus;
+import com.hhplus.concertreservation.apps.queue.domain.repository.WaitingQueueReader;
+import com.hhplus.concertreservation.apps.queue.domain.repository.WaitingQueueWriter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

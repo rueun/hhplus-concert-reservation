@@ -1,5 +1,6 @@
 package com.hhplus.concertreservation.concert.domain.model.entity;
 
+import com.hhplus.concertreservation.apps.concert.domain.model.entity.ConcertSession;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

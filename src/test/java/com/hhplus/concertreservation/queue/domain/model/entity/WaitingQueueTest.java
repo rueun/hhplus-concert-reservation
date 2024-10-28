@@ -1,7 +1,8 @@
 package com.hhplus.concertreservation.queue.domain.model.entity;
 
-import com.hhplus.concertreservation.queue.domain.exception.WaitingQueueErrorType;
-import com.hhplus.concertreservation.queue.domain.model.enums.QueueStatus;
+import com.hhplus.concertreservation.apps.queue.domain.exception.WaitingQueueErrorType;
+import com.hhplus.concertreservation.apps.queue.domain.model.entity.WaitingQueue;
+import com.hhplus.concertreservation.apps.queue.domain.model.enums.QueueStatus;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,10 +1,11 @@
 package com.hhplus.concertreservation.concert.application.usecase;
 
+import com.hhplus.concertreservation.apps.concert.application.usecase.GetAvailableConcertSessionsUseCase;
 import com.hhplus.concertreservation.common.time.FakeTimeProvider;
 import com.hhplus.concertreservation.common.time.TimeProvider;
-import com.hhplus.concertreservation.concert.domain.model.entity.Concert;
-import com.hhplus.concertreservation.concert.domain.model.entity.ConcertSession;
-import com.hhplus.concertreservation.concert.domain.repository.ConcertWriter;
+import com.hhplus.concertreservation.apps.concert.domain.model.entity.Concert;
+import com.hhplus.concertreservation.apps.concert.domain.model.entity.ConcertSession;
+import com.hhplus.concertreservation.apps.concert.domain.repository.ConcertWriter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

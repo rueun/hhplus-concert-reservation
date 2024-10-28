@@ -1,8 +1,9 @@
 package com.hhplus.concertreservation.concert.domain.model.entity;
 
-import com.hhplus.concertreservation.concert.domain.exception.ConcertErrorType;
-import com.hhplus.concertreservation.concert.domain.model.dto.command.ReserveConcertCommand;
-import com.hhplus.concertreservation.concert.domain.model.enums.ConcertReservationStatus;
+import com.hhplus.concertreservation.apps.concert.domain.exception.ConcertErrorType;
+import com.hhplus.concertreservation.apps.concert.domain.model.dto.command.ReserveConcertCommand;
+import com.hhplus.concertreservation.apps.concert.domain.model.entity.ConcertReservation;
+import com.hhplus.concertreservation.apps.concert.domain.model.enums.ConcertReservationStatus;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

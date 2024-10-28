@@ -1,11 +1,12 @@
 package com.hhplus.concertreservation.queue.application.usecase;
 
-import com.hhplus.concertreservation.queue.domain.model.entity.WaitingQueue;
-import com.hhplus.concertreservation.queue.domain.model.enums.QueueStatus;
+import com.hhplus.concertreservation.apps.queue.application.usecase.CreateWaitingQueueUseCase;
+import com.hhplus.concertreservation.apps.queue.domain.model.entity.WaitingQueue;
+import com.hhplus.concertreservation.apps.queue.domain.model.enums.QueueStatus;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
-import com.hhplus.concertreservation.user.domain.exception.UserErrorType;
-import com.hhplus.concertreservation.user.domain.model.entity.User;
-import com.hhplus.concertreservation.user.domain.repository.UserWriter;
+import com.hhplus.concertreservation.apps.user.domain.exception.UserErrorType;
+import com.hhplus.concertreservation.apps.user.domain.model.entity.User;
+import com.hhplus.concertreservation.apps.user.domain.repository.UserWriter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

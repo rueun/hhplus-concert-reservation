@@ -1,7 +1,8 @@
 package com.hhplus.concertreservation.user.domain.model.entity;
 
+import com.hhplus.concertreservation.apps.user.domain.model.entity.UserPoint;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
-import com.hhplus.concertreservation.user.domain.exception.UserErrorType;
+import com.hhplus.concertreservation.apps.user.domain.exception.UserErrorType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

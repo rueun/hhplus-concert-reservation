@@ -1,14 +1,15 @@
 package com.hhplus.concertreservation.concert.application.usecase;
 
-import com.hhplus.concertreservation.concert.domain.model.dto.command.ReserveConcertCommand;
-import com.hhplus.concertreservation.concert.domain.model.entity.Concert;
-import com.hhplus.concertreservation.concert.domain.model.entity.ConcertSeat;
-import com.hhplus.concertreservation.concert.domain.model.entity.ConcertSession;
-import com.hhplus.concertreservation.concert.domain.model.enums.ConcertSeatStatus;
-import com.hhplus.concertreservation.concert.domain.repository.ConcertWriter;
+import com.hhplus.concertreservation.apps.concert.application.usecase.ReserveConcertUseCase;
+import com.hhplus.concertreservation.apps.concert.domain.model.dto.command.ReserveConcertCommand;
+import com.hhplus.concertreservation.apps.concert.domain.model.entity.Concert;
+import com.hhplus.concertreservation.apps.concert.domain.model.entity.ConcertSeat;
+import com.hhplus.concertreservation.apps.concert.domain.model.entity.ConcertSession;
+import com.hhplus.concertreservation.apps.concert.domain.model.enums.ConcertSeatStatus;
+import com.hhplus.concertreservation.apps.concert.domain.repository.ConcertWriter;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
-import com.hhplus.concertreservation.user.domain.model.entity.User;
-import com.hhplus.concertreservation.user.domain.repository.UserWriter;
+import com.hhplus.concertreservation.apps.user.domain.model.entity.User;
+import com.hhplus.concertreservation.apps.user.domain.repository.UserWriter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
