@@ -1,8 +1,5 @@
 package com.hhplus.concertreservation.apps.concert.application.usecase;
 
-import com.hhplus.concertreservation.apps.concert.application.usecase.ReserveConcertUseCase;
-import com.hhplus.concertreservation.common.time.FakeTimeProvider;
-import com.hhplus.concertreservation.common.time.TimeProvider;
 import com.hhplus.concertreservation.apps.concert.domain.exception.ConcertErrorType;
 import com.hhplus.concertreservation.apps.concert.domain.model.dto.ConcertReservationInfo;
 import com.hhplus.concertreservation.apps.concert.domain.model.dto.command.ReserveConcertCommand;
@@ -13,9 +10,11 @@ import com.hhplus.concertreservation.apps.concert.domain.model.enums.ConcertRese
 import com.hhplus.concertreservation.apps.concert.domain.model.enums.ConcertSeatStatus;
 import com.hhplus.concertreservation.apps.concert.domain.repository.ConcertReader;
 import com.hhplus.concertreservation.apps.concert.domain.repository.ConcertWriter;
-import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import com.hhplus.concertreservation.apps.user.domain.model.entity.User;
 import com.hhplus.concertreservation.apps.user.domain.repository.UserWriter;
+import com.hhplus.concertreservation.common.time.FakeTimeProvider;
+import com.hhplus.concertreservation.common.time.TimeProvider;
+import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +28,9 @@ import org.springframework.test.context.ActiveProfiles;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ActiveProfiles("test")
@@ -63,8 +62,8 @@ class ReserveConcertUseCaseTest {
         Concert concert = Concert.builder()
                 .id(1L)
                 .name("콘서트1")
-                .reservationOpenAt(LocalDateTime.parse("2024-10-01T00:00:00"))
-                .reservationCloseAt(LocalDateTime.parse("2024-10-30T00:00:00"))
+                .reservationOpenAt(LocalDateTime.now())
+                .reservationCloseAt(LocalDateTime.now().plusDays(30))
                 .build();
 
         ConcertSession concertSession = ConcertSession.builder()

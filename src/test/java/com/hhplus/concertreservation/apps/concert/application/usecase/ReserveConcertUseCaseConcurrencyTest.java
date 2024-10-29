@@ -11,12 +11,15 @@ import com.hhplus.concertreservation.apps.user.domain.repository.UserWriter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,8 +56,8 @@ class ReserveConcertUseCaseConcurrencyTest {
         Concert concert = Concert.builder()
                 .id(1L)
                 .name("콘서트1")
-                .reservationOpenAt(LocalDateTime.parse("2024-10-01T00:00:00"))
-                .reservationCloseAt(LocalDateTime.parse("2024-11-30T00:00:00"))
+                .reservationOpenAt(LocalDateTime.now())
+                .reservationCloseAt(LocalDateTime.now().plusDays(1))
                 .build();
 
         ConcertSession concertSession = ConcertSession.builder()
@@ -134,16 +137,22 @@ class ReserveConcertUseCaseConcurrencyTest {
 
     @Test
     void 동시에_동일한_사용자가_동일한_좌석에_대해서_예약_요청을_하는경우_한_번만_예약_성공한다() {
+        // Logger 설정
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+
         // given
-        final int threadCount = 10; // 스레드 수를 동적으로 설정
+        final int threadCount = 10;
         final CountDownLatch countDownLatch = new CountDownLatch(threadCount);
         final ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
         final AtomicInteger successCount = new AtomicInteger(0);
         final AtomicInteger failedCount = new AtomicInteger(0);
+        List<Long> durations = new ArrayList<>();  // 각 작업의 소요 시간을 기록할 리스트
+        long startTime = System.nanoTime();  // 전체 테스트 시작 시간
 
         // when
         IntStream.range(0, threadCount).forEach(i -> {
             executorService.submit(() -> {
+                long taskStartTime = System.nanoTime();  // 작업 시작 시간
                 try {
                     final ReserveConcertCommand command = new ReserveConcertCommand(1L, 1L, 1L, List.of(1L, 2L));
                     reserveConcertUseCase.reserveConcert(command);
@@ -151,6 +160,8 @@ class ReserveConcertUseCaseConcurrencyTest {
                 } catch (Exception e) {
                     failedCount.incrementAndGet();
                 } finally {
+                    long taskEndTime = System.nanoTime();  // 작업 종료 시간
+                    durations.add(taskEndTime - taskStartTime);  // 작업 시간 계산 후 리스트에 추가
                     countDownLatch.countDown();
                 }
             });
@@ -162,12 +173,27 @@ class ReserveConcertUseCaseConcurrencyTest {
             e.printStackTrace();
         }
 
+        long endTime = System.nanoTime();  // 전체 테스트 종료 시간
+
         // then
         assertAll(
                 () -> assertEquals(1, successCount.get()),
                 () -> assertEquals(9, failedCount.get())
         );
+
+        long totalDuration = endTime - startTime;
+        logger.info("전체 테스트 수행 시간 (ms): {}", totalDuration / 1_000_000);
+
+        long minDuration = durations.stream().min(Long::compare).orElse(0L);
+        logger.info("최소 소요 작업 시간 (ms): {}", minDuration / 1_000_000);
+
+        long maxDuration = durations.stream().max(Long::compare).orElse(0L);
+        logger.info("최대 소요 작업 시간 (ms): {}", maxDuration / 1_000_000);
+
+        double avgDuration = durations.stream().mapToLong(Long::longValue).average().orElse(0.0);
+        logger.info("평균 소요 작업 시간 (ms): {}", avgDuration / 1_000_000);
     }
+
 
     @Test
     void 동시에_여러_사용자가_동일한_좌석에_대해서_예약_요청을_하는경우_한_명만_예약_성공한다2() {
