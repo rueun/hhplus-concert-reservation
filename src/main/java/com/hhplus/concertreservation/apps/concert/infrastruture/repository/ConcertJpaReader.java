@@ -53,6 +53,13 @@ public class ConcertJpaReader implements ConcertReader {
     }
 
     @Override
+    public ConcertSeat getConcertSeatByIdWithPesimisticLock(final Long concertSeatId) {
+        return concertSeatJpaRepository.findByIdWithPesimisticLock(concertSeatId)
+                .map(ConcertSeatEntity::toDomain)
+                .orElseThrow(() -> new CoreException(ConcertErrorType.CONCERT_SEAT_NOT_FOUND));
+    }
+
+    @Override
     public ConcertReservation getConcertReservationById(final Long concertReservationId) {
         return concertReservationJpaRepository.findById(concertReservationId)
                 .map(ConcertReservationEntity::toDomain)
@@ -89,4 +96,5 @@ public class ConcertJpaReader implements ConcertReader {
                 .map(ConcertReservationEntity::toDomain)
                 .toList();
     }
+
 }

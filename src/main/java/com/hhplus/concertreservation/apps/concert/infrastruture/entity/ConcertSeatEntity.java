@@ -29,8 +29,6 @@ public class ConcertSeatEntity extends BaseEntity {
 
     private long price;
 
-    @Version
-    private Long version;
 
     public ConcertSeatEntity (final ConcertSeat concertSeat) {
         this.id = concertSeat.getId();
@@ -38,7 +36,6 @@ public class ConcertSeatEntity extends BaseEntity {
         this.seatNumber = concertSeat.getSeatNumber();
         this.status = concertSeat.getStatus();
         this.price = concertSeat.getPrice();
-        this.version = concertSeat.getVersion();
     }
 
     public ConcertSeat toDomain() {
@@ -50,7 +47,6 @@ public class ConcertSeatEntity extends BaseEntity {
                 .price(price)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
-                .version(version)
                 .build();
     }
 }

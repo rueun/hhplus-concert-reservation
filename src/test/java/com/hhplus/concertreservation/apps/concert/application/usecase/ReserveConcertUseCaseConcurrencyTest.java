@@ -69,21 +69,18 @@ class ReserveConcertUseCaseConcurrencyTest {
                 .id(1L)
                 .concertSessionId(concertSession.getId())
                 .status(ConcertSeatStatus.AVAILABLE)
-                .version(0L)
                 .build();
 
         ConcertSeat concertSeat2 = ConcertSeat.builder()
                 .id(2L)
                 .concertSessionId(concertSession.getId())
                 .status(ConcertSeatStatus.AVAILABLE)
-                .version(0L)
                 .build();
 
         ConcertSeat concertSeat3 = ConcertSeat.builder()
                 .id(3L)
                 .concertSessionId(concertSession.getId())
                 .status(ConcertSeatStatus.AVAILABLE)
-                .version(0L)
                 .build();
 
 
@@ -141,7 +138,7 @@ class ReserveConcertUseCaseConcurrencyTest {
         Logger logger = LoggerFactory.getLogger(this.getClass());
 
         // given
-        final int threadCount = 10;
+        final int threadCount = 500;
         final CountDownLatch countDownLatch = new CountDownLatch(threadCount);
         final ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
         final AtomicInteger successCount = new AtomicInteger(0);
@@ -178,7 +175,7 @@ class ReserveConcertUseCaseConcurrencyTest {
         // then
         assertAll(
                 () -> assertEquals(1, successCount.get()),
-                () -> assertEquals(9, failedCount.get())
+                () -> assertEquals(499, failedCount.get())
         );
 
         long totalDuration = endTime - startTime;

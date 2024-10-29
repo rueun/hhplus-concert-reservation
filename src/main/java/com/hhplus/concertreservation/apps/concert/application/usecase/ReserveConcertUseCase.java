@@ -16,6 +16,7 @@ public class ReserveConcertUseCase {
     private final UserService userService;
     private final ConcertService concertService;
 
+
     public ConcertReservationInfo reserveConcert(final ReserveConcertCommand command) {
         userService.checkUserExist(command.userId());
         // 콘서트 예약 처리

@@ -21,7 +21,6 @@ public class ConcertSeat {
     private long price;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Long version;
 
     public void reserveTemporary() {
         if (!isAvailable()) {
