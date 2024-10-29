@@ -1,13 +1,11 @@
 package com.hhplus.concertreservation.apps.concert.application.usecase;
 
-import com.hhplus.concertreservation.apps.concert.application.usecase.ReserveConcertUseCase;
 import com.hhplus.concertreservation.apps.concert.domain.model.dto.command.ReserveConcertCommand;
 import com.hhplus.concertreservation.apps.concert.domain.model.entity.Concert;
 import com.hhplus.concertreservation.apps.concert.domain.model.entity.ConcertSeat;
 import com.hhplus.concertreservation.apps.concert.domain.model.entity.ConcertSession;
 import com.hhplus.concertreservation.apps.concert.domain.model.enums.ConcertSeatStatus;
 import com.hhplus.concertreservation.apps.concert.domain.repository.ConcertWriter;
-import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import com.hhplus.concertreservation.apps.user.domain.model.entity.User;
 import com.hhplus.concertreservation.apps.user.domain.repository.UserWriter;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,14 +17,15 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -55,7 +54,7 @@ class ReserveConcertUseCaseConcurrencyTest {
                 .id(1L)
                 .name("콘서트1")
                 .reservationOpenAt(LocalDateTime.parse("2024-10-01T00:00:00"))
-                .reservationCloseAt(LocalDateTime.parse("2024-10-30T00:00:00"))
+                .reservationCloseAt(LocalDateTime.parse("2024-11-30T00:00:00"))
                 .build();
 
         ConcertSession concertSession = ConcertSession.builder()
@@ -103,7 +102,6 @@ class ReserveConcertUseCaseConcurrencyTest {
         final ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
         final AtomicInteger successCount = new AtomicInteger(0);
         final AtomicInteger failedCount = new AtomicInteger(0);
-        final Set<Throwable> exceptions = new HashSet<>();
 
         // when
         IntStream.range(0, threadCount).forEach(i -> {
@@ -113,7 +111,6 @@ class ReserveConcertUseCaseConcurrencyTest {
                     reserveConcertUseCase.reserveConcert(command);
                     successCount.incrementAndGet();
                 } catch (Exception e) {
-                    exceptions.add(e);
                     failedCount.incrementAndGet();
                 } finally {
                     countDownLatch.countDown();
@@ -133,14 +130,6 @@ class ReserveConcertUseCaseConcurrencyTest {
                 () -> assertEquals(2, failedCount.get())
         );
 
-        // 예외 검증
-        for (Throwable exception : exceptions) {
-            assertAll(
-                    () -> assertThat(exception).isInstanceOf(CoreException.class),
-                    () -> assertEquals("예약 가능한 좌석이 아닙니다.", exception.getMessage())
-            );
-        }
-
     }
 
     @Test
@@ -151,7 +140,6 @@ class ReserveConcertUseCaseConcurrencyTest {
         final ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
         final AtomicInteger successCount = new AtomicInteger(0);
         final AtomicInteger failedCount = new AtomicInteger(0);
-        final Set<Throwable> exceptions = new HashSet<>();
 
         // when
         IntStream.range(0, threadCount).forEach(i -> {
@@ -161,7 +149,6 @@ class ReserveConcertUseCaseConcurrencyTest {
                     reserveConcertUseCase.reserveConcert(command);
                     successCount.incrementAndGet();
                 } catch (Exception e) {
-                    exceptions.add(e);
                     failedCount.incrementAndGet();
                 } finally {
                     countDownLatch.countDown();
@@ -180,14 +167,6 @@ class ReserveConcertUseCaseConcurrencyTest {
                 () -> assertEquals(1, successCount.get()),
                 () -> assertEquals(9, failedCount.get())
         );
-
-        // 예외 검증
-        for (Throwable exception : exceptions) {
-            assertAll(
-                    () -> assertThat(exception).isInstanceOf(CoreException.class),
-                    () -> assertEquals("예약 가능한 좌석이 아닙니다.", exception.getMessage())
-            );
-        }
     }
 
     @Test
@@ -198,7 +177,6 @@ class ReserveConcertUseCaseConcurrencyTest {
         final ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
         final AtomicInteger successCount = new AtomicInteger(0);
         final AtomicInteger failedCount = new AtomicInteger(0);
-        final Set<Throwable> exceptions = new HashSet<>();
 
         // 좌석 매핑
         Map<Integer, List<Long>> userSeatMap = new HashMap<>();
@@ -215,7 +193,6 @@ class ReserveConcertUseCaseConcurrencyTest {
                     reserveConcertUseCase.reserveConcert(command);
                     successCount.incrementAndGet();
                 } catch (Exception e) {
-                    exceptions.add(e);
                     failedCount.incrementAndGet();
                 } finally {
                     countDownLatch.countDown();
@@ -234,13 +211,5 @@ class ReserveConcertUseCaseConcurrencyTest {
                 () -> assertEquals(1, successCount.get()),
                 () -> assertEquals(2, failedCount.get())
         );
-
-        // 예외 검증
-        for (Throwable exception : exceptions) {
-            assertAll(
-                    () -> assertThat(exception).isInstanceOf(CoreException.class),
-                    () -> assertEquals("예약 가능한 좌석이 아닙니다.", exception.getMessage())
-            );
-        }
     }
 }

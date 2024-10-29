@@ -1,6 +1,5 @@
 package com.hhplus.concertreservation.apps.user.application.useccase;
 
-import com.hhplus.concertreservation.apps.user.application.useccase.ChargeUserPointUseCase;
 import com.hhplus.concertreservation.apps.user.domain.model.entity.User;
 import com.hhplus.concertreservation.apps.user.domain.model.entity.UserPoint;
 import com.hhplus.concertreservation.apps.user.domain.repository.UserReader;
