@@ -5,6 +5,7 @@ import com.hhplus.concertreservation.apps.concert.domain.model.dto.command.Reser
 import com.hhplus.concertreservation.apps.concert.domain.service.ConcertService;
 import com.hhplus.concertreservation.apps.user.domain.service.UserService;
 import com.hhplus.concertreservation.common.UseCase;
+import com.hhplus.concertreservation.common.aop.annotation.MultiDistributedLock;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +17,7 @@ public class ReserveConcertUseCase {
     private final UserService userService;
     private final ConcertService concertService;
 
-
+    @MultiDistributedLock(prefix = "consertSeatId", key = "#command.seatIds")
     public ConcertReservationInfo reserveConcert(final ReserveConcertCommand command) {
         userService.checkUserExist(command.userId());
         // 콘서트 예약 처리

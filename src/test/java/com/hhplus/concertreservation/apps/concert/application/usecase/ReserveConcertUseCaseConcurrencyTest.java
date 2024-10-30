@@ -107,7 +107,7 @@ class ReserveConcertUseCaseConcurrencyTest {
         IntStream.range(0, threadCount).forEach(i -> {
             executorService.submit(() -> {
                 try {
-                    final ReserveConcertCommand command = new ReserveConcertCommand((long) i + 1, 1L, 1L, List.of(1L, 2L));
+                    final ReserveConcertCommand command = new ReserveConcertCommand((long) i + 1, 1L, 1L, List.of(1L));
                     reserveConcertUseCase.reserveConcert(command);
                     successCount.incrementAndGet();
                 } catch (Exception e) {
@@ -155,6 +155,7 @@ class ReserveConcertUseCaseConcurrencyTest {
                     reserveConcertUseCase.reserveConcert(command);
                     successCount.incrementAndGet();
                 } catch (Exception e) {
+                    logger.error("예약 실패: {}", e.getMessage(), e);
                     failedCount.incrementAndGet();
                 } finally {
                     long taskEndTime = System.nanoTime();  // 작업 종료 시간

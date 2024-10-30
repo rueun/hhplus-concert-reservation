@@ -42,7 +42,7 @@ public class ConcertService {
 
         // 콘서트 좌석 업데이트
         final List<ConcertSeat> concertSeats = command.seatIds().stream()
-                .map(concertReader::getConcertSeatByIdWithPesimisticLock)
+                .map(concertReader::getConcertSeatById)
                 .toList();
 
         concertSeats.forEach(ConcertSeat::reserveTemporary);
