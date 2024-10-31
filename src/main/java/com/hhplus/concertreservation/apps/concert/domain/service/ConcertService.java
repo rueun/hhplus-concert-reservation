@@ -59,8 +59,23 @@ public class ConcertService {
         return new ConcertReservationInfo(savedConcertReservation, savedConcertSeats);
     }
 
-    public ConcertReservation  getConcertReservation(final Long concertReservationId) {
+    /**
+     * 콘서트 예약 조회
+     * @param concertReservationId 예약 ID
+     * @return 예약 정보
+     */
+    public ConcertReservation getConcertReservation(final Long concertReservationId) {
         return concertReader.getConcertReservationById(concertReservationId);
+    }
+
+
+    /**
+     * 콘서트 예약 조회 (비관적 잠금)
+     * @param concertReservationId 예약 ID
+     * @return 예약 정보
+     */
+    public ConcertReservation getConcertReservationWithPessimisticLock(final Long concertReservationId) {
+        return concertReader.getByIdWithPessimisticLock(concertReservationId);
     }
 
 

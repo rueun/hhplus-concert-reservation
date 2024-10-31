@@ -97,4 +97,11 @@ public class ConcertJpaReader implements ConcertReader {
                 .toList();
     }
 
+    @Override
+    public ConcertReservation getByIdWithPessimisticLock(final Long concertReservationId) {
+        return concertReservationJpaRepository.findByWithPessimisticLock(concertReservationId)
+                .map(ConcertReservationEntity::toDomain)
+                .orElseThrow(() -> new CoreException(ConcertErrorType.CONCERT_RESERVATION_NOT_FOUND));
+    }
+
 }

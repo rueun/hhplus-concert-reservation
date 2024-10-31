@@ -86,7 +86,6 @@ class PayReservationConcurrencyTest {
 
         ConcertReservation concertReservation = ConcertReservation.builder()
                 .id(1L)
-                .version(0L)
                 .seatIds(List.of(concertSeat.getId()))
                 .totalPrice(20000)
                 .status(ConcertReservationStatus.TEMPORARY_RESERVED)
@@ -121,6 +120,7 @@ class PayReservationConcurrencyTest {
                     successCount.incrementAndGet();
                 } catch (Exception e) {
                     failedCount.incrementAndGet();
+                    logger.error("결제 실패: {}", e.getMessage(), e);
                 } finally {
                     long taskEndTime = System.nanoTime();  // 작업 종료 시간
                     durations.add(taskEndTime - taskStartTime);  // 작업 시간 계산 후 리스트에 추가

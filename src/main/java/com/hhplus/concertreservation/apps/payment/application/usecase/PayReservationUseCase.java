@@ -26,7 +26,7 @@ public class PayReservationUseCase {
 
     @Transactional
     public Payment payReservation(final Long userId, final Long reservationId, final String token) {
-        final ConcertReservation concertReservation = concertService.getConcertReservation(reservationId);
+        final ConcertReservation concertReservation = concertService.getConcertReservationWithPessimisticLock(reservationId);
         if (!concertReservation.isTemporaryReserved()) {
             throw new CoreException(ConcertErrorType.INVALID_CONCERT_RESERVATION_STATUS, "예약이 임시 예약 상태가 아닙니다.");
         }

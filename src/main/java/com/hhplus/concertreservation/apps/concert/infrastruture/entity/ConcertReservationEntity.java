@@ -42,8 +42,6 @@ public class ConcertReservationEntity extends BaseEntity {
     @Column(name = "reservation_at")
     private LocalDateTime reservationAt;
 
-    @Version
-    private Long version;
 
     public ConcertReservationEntity (final ConcertReservation concertReservation) {
         this.id = concertReservation.getId();
@@ -56,7 +54,6 @@ public class ConcertReservationEntity extends BaseEntity {
         this.reservationAt = concertReservation.getReservationAt();
         this.createdAt = concertReservation.getCreatedAt();
         this.updatedAt = concertReservation.getUpdatedAt();
-        this.version = concertReservation.getVersion();
     }
 
     public ConcertReservation toDomain() {
@@ -71,7 +68,6 @@ public class ConcertReservationEntity extends BaseEntity {
                 .reservationAt(reservationAt)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
-                .version(version)
                 .build();
     }
 }
