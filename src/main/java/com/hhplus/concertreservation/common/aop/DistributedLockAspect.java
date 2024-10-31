@@ -29,7 +29,7 @@ public class DistributedLockAspect {
         Method method = signature.getMethod();
         DistributedLock distributedLock = method.getAnnotation(DistributedLock.class);
 
-        String key = REDISSON_LOCK_PREFIX + CustomSpringELParser.getDynamicValue(signature.getParameterNames(), joinPoint.getArgs(), distributedLock.key());
+        String key = REDISSON_LOCK_PREFIX + distributedLock.prefix() + CustomSpringELParser.getDynamicValue(signature.getParameterNames(), joinPoint.getArgs(), distributedLock.key());
 
         // (1) 락의 이름으로 RLock 인스턴스를 생성
         RLock rLock = redissonClient.getLock(key);

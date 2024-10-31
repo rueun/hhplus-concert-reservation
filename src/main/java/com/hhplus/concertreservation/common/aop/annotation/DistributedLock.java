@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 @Documented
 public @interface DistributedLock {
 
+    String prefix();
+
     /**
      * 락의 키 값(고유 값)
      */
