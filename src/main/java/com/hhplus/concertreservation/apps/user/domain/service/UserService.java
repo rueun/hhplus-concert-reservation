@@ -4,11 +4,11 @@ import com.hhplus.concertreservation.apps.user.domain.exception.UserErrorType;
 import com.hhplus.concertreservation.apps.user.domain.model.entity.UserPoint;
 import com.hhplus.concertreservation.apps.user.domain.repository.UserReader;
 import com.hhplus.concertreservation.apps.user.domain.repository.UserWriter;
-import com.hhplus.concertreservation.common.aop.annotation.DistributedLock;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -29,10 +29,11 @@ public class UserService {
         return userReader.getByUserId(userId);
     }
 
-    @DistributedLock(prefix = "userPoint", key = "#userId", waitTime = 500)
+
+    @Transactional
     public UserPoint chargePoint(final Long userId, final long amount) {
         checkUserExist(userId);
-        final UserPoint userPoint = userReader.getByUserId(userId);
+        final UserPoint userPoint = userReader.getByUserIdWithPessimisticLock(userId);
         userPoint.charge(amount);
         final UserPoint savedUserPoint = userWriter.saveUserPoint(userPoint);
 
@@ -40,10 +41,11 @@ public class UserService {
         return savedUserPoint;
     }
 
-    @DistributedLock(prefix = "userPoint", key = "#userId", waitTime = 500)
+
+    @Transactional
     public UserPoint usePoint(final Long userId, final long amount) {
         checkUserExist(userId);
-        final UserPoint userPoint = userReader.getByUserId(userId);
+        final UserPoint userPoint = userReader.getByUserIdWithPessimisticLock(userId);
         userPoint.use(amount);
         final UserPoint savedUserPoint = userWriter.saveUserPoint(userPoint);
 
