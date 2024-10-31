@@ -17,7 +17,6 @@ public class ReserveConcertUseCase {
     private final UserService userService;
     private final ConcertService concertService;
 
-    @MultiDistributedLock(prefix = "consertSeatId", key = "#command.seatIds")
     public ConcertReservationInfo reserveConcert(final ReserveConcertCommand command) {
         userService.checkUserExist(command.userId());
         // 콘서트 예약 처리

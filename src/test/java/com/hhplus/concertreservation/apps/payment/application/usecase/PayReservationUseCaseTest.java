@@ -75,11 +75,13 @@ class PayReservationUseCaseTest {
 
         ConcertSeat concertSeat1 = ConcertSeat.builder()
                 .id(1L)
+                .version(0L)
                 .status(ConcertSeatStatus.TEMPORARY_RESERVED)
                 .build();
 
         ConcertSeat concertSeat2 = ConcertSeat.builder()
                 .id(2L)
+                .version(0L)
                 .status(ConcertSeatStatus.TEMPORARY_RESERVED)
                 .build();
 
@@ -153,11 +155,13 @@ class PayReservationUseCaseTest {
 
         ConcertSeat concertSeat1 = ConcertSeat.builder()
                 .id(1L)
+                .version(0L)
                 .status(ConcertSeatStatus.CONFIRMED)
                 .build();
 
         ConcertSeat concertSeat2 = ConcertSeat.builder()
                 .id(2L)
+                .version(0L)
                 .status(ConcertSeatStatus.CONFIRMED)
                 .build();
 
@@ -206,11 +210,13 @@ class PayReservationUseCaseTest {
 
         ConcertSeat concertSeat1 = ConcertSeat.builder()
                 .id(1L)
+                .version(0L)
                 .status(ConcertSeatStatus.TEMPORARY_RESERVED)
                 .build();
 
         ConcertSeat concertSeat2 = ConcertSeat.builder()
                 .id(2L)
+                .version(0L)
                 .status(ConcertSeatStatus.TEMPORARY_RESERVED)
                 .build();
 

@@ -62,8 +62,8 @@ class ReserveConcertUseCaseTest {
         Concert concert = Concert.builder()
                 .id(1L)
                 .name("콘서트1")
-                .reservationOpenAt(LocalDateTime.now())
-                .reservationCloseAt(LocalDateTime.now().plusDays(30))
+                .reservationOpenAt(LocalDateTime.parse("2024-10-01T00:00:00"))
+                .reservationCloseAt(LocalDateTime.parse("2024-10-30T00:00:00"))
                 .build();
 
         ConcertSession concertSession = ConcertSession.builder()
@@ -73,6 +73,7 @@ class ReserveConcertUseCaseTest {
 
         ConcertSeat concertSeat1 = ConcertSeat.builder()
                 .id(1L)
+                .version(0L)
                 .concertSessionId(concertSession.getId())
                 .status(ConcertSeatStatus.AVAILABLE)
                 .price(10000)
@@ -80,6 +81,7 @@ class ReserveConcertUseCaseTest {
 
         ConcertSeat concertSeat2 = ConcertSeat.builder()
                 .id(2L)
+                .version(0L)
                 .concertSessionId(concertSession.getId())
                 .status(ConcertSeatStatus.AVAILABLE)
                 .price(20000)
@@ -167,6 +169,7 @@ class ReserveConcertUseCaseTest {
 
         ConcertSeat concertSeat1 = ConcertSeat.builder()
                 .id(1L)
+                .version(0L)
                 .concertSessionId(concertSession.getId())
                 .status(ConcertSeatStatus.TEMPORARY_RESERVED)
                 .price(10000)
@@ -174,6 +177,7 @@ class ReserveConcertUseCaseTest {
 
         ConcertSeat concertSeat2 = ConcertSeat.builder()
                 .id(2L)
+                .version(0L)
                 .concertSessionId(concertSession.getId())
                 .status(ConcertSeatStatus.AVAILABLE)
                 .price(20000)

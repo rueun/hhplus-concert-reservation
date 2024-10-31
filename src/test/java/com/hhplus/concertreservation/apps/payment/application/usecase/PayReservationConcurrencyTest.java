@@ -81,6 +81,7 @@ class PayReservationConcurrencyTest {
 
         ConcertSeat concertSeat = ConcertSeat.builder()
                 .id(1L)
+                .version(0L)
                 .status(ConcertSeatStatus.TEMPORARY_RESERVED)
                 .build();
 

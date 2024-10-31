@@ -30,7 +30,7 @@ public class ConcertService {
 
     /**
      * 콘서트 임시 예약
-     * @param command
+     * @param command 콘서트 임시 예약 요청
      * @return 예약 정보
      */
     @Transactional
