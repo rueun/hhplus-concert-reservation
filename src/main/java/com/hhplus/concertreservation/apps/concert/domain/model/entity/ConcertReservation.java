@@ -26,6 +26,7 @@ public class ConcertReservation {
     private LocalDateTime reservationAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Long version;
 
     public static ConcertReservation create(final ReserveConcertCommand command, final long totalPrice, final LocalDateTime reservationAt) {
         return ConcertReservation.builder()
