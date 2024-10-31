@@ -9,6 +9,7 @@
 ### 4. [ERD](https://github.com/rueun/hhplus-concert-reservation/blob/step6/docs/ERD.md)
 ### 5. [Project Structure](https://github.com/rueun/hhplus-concert-reservation/blob/step6/docs/PROJECT_STRUCTURE.md)
 ### 6. [(3주차-5주차) Chapter2 서버구축 회고](https://devlog-rueun.tistory.com/entry/%ED%95%AD%ED%95%B4-%ED%94%8C%EB%9F%AC%EC%8A%A4-%EB%B0%B1%EC%97%94%EB%93%9C-6%EA%B8%B0-%EC%B1%95%ED%84%B023%EC%A3%BC%EC%B0%A8-5%EC%A3%BC%EC%B0%A8-%EC%84%9C%EB%B2%84%EA%B5%AC%EC%B6%95-%ED%9A%8C%EA%B3%A0)
+### 7. [Concurrency Analysis Report](https://github.com/rueun/hhplus-concert-reservation/blob/step11/docs/CONCURRENCY_REPORT.md)
 <br>
 
 ## swagger-ui
@@ -116,7 +117,7 @@
 - 모든 API 가 정상적으로 기능을 제공하도록 완성
 
 > 각 시나리오별 요구사항 내에 정의된 기능은 정상적으로 동작할 수 있어야 합니다. 개선 및 최적화에 초점을 두는 것이 아닌, 추후 개선해나갈 수 있도록 동작하는 기능을 완성하는 것이 목적입니다.
->
+
 
 ### **`STEP 10`**
 
@@ -124,4 +125,18 @@
 - **Chapter 2** 회고록 작성
 
 > DB Index , 대용량 처리를 위한 개선 포인트 등은 추후 챕터에서 진행하므로 목표는 `기능 개발의 완료` 로 합니다. 최적화 작업 등을 고려하는 것 보다 모든 기능을 정상적으로 제공할 수 있도록 해주세요. 특정 기능을 왜 이렇게 개발하였는지 합당한 이유와 함께 기능 개발을 진행해주시면 됩니다.
->
+
+
+
+## 6주차 요구사항
+
+---
+### **`STEP 11_기본`**
+
+- 나의 시나리오에서 발생할 수 있는 동시성 이슈에 대해 파악하고 가능한 동시성 제어 방식들을 도입해보고 각각의 장단점을 파악한 내용을 정리 제출
+  - 구현의 복잡도, 성능, 효율성 등
+  - README 작성 혹은 외부 링크, 프로젝트 내의 다른 문서에 작성하였다면 README 에 링크 게재
+
+### **`STEP 12_심화`**
+
+- **DB Lock 을 활용한 동시성 제어 방식** 에서 해당 비즈니스 로직에서 적합하다고 판단하여 차용한 동시성 제어 방식을 구현하여 비즈니스 로직에 적용하고, 통합테스트 등으로 이를 검증하는 코드 작성 및 제출
