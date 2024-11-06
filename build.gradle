@@ -30,6 +30,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'org.hibernate:hibernate-validator:6.2.0.Final'
 
     // MySQL 데이터베이스 의존성 추가
     runtimeOnly 'com.mysql:mysql-connector-j'
@@ -40,6 +41,14 @@ dependencies {
     // swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
 
+    // redisson
+    implementation 'org.redisson:redisson-spring-boot-starter:3.27.0'
+
+    implementation 'org.springframework.retry:spring-retry'
+    implementation 'org.springframework:spring-aspects'
+
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
 tasks.named('test') {
