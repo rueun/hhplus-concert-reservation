@@ -1,19 +1,17 @@
 package com.hhplus.concertreservation.apps.concert.domain.service;
 
+import com.hhplus.concertreservation.apps.concert.domain.model.entity.*;
 import com.hhplus.concertreservation.common.time.TimeProvider;
 import com.hhplus.concertreservation.apps.concert.domain.exception.ConcertErrorType;
 import com.hhplus.concertreservation.apps.concert.domain.model.dto.ConcertReservationInfo;
 import com.hhplus.concertreservation.apps.concert.domain.model.dto.ConcertSeatsInfo;
 import com.hhplus.concertreservation.apps.concert.domain.model.dto.command.ReserveConcertCommand;
-import com.hhplus.concertreservation.apps.concert.domain.model.entity.Concert;
-import com.hhplus.concertreservation.apps.concert.domain.model.entity.ConcertReservation;
-import com.hhplus.concertreservation.apps.concert.domain.model.entity.ConcertSeat;
-import com.hhplus.concertreservation.apps.concert.domain.model.entity.ConcertSession;
 import com.hhplus.concertreservation.apps.concert.domain.repository.ConcertReader;
 import com.hhplus.concertreservation.apps.concert.domain.repository.ConcertWriter;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -105,15 +103,17 @@ public class ConcertService {
      * @param concertId 콘서트 ID
      * @return 예약 가능한 세션 목록
      */
-    public List<ConcertSession> getAvailableConcertSessions(final Long concertId) {
+    @Cacheable(value = "availableConcertSessions", key = "#concertId", cacheManager = "cacheManager")
+    public ConcertSessions getAvailableConcertSessions(final Long concertId) {
         final Concert concert = concertReader.getConcertById(concertId);
         if (!concert.isWithinReservationPeriod(timeProvider.now())) {
-            return List.of();
+            return new ConcertSessions(List.of());
         }
 
-        return concertReader.getConcertSessionsByConcertId(concertId).stream()
+        final List<ConcertSession> concertSessions = concertReader.getConcertSessionsByConcertId(concertId).stream()
                 .filter(session -> session.isAvailable(timeProvider.now()))
                 .toList();
+        return new ConcertSessions(concertSessions);
     }
 
 

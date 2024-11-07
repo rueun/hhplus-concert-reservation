@@ -1,11 +1,10 @@
 package com.hhplus.concertreservation.apps.concert.application.usecase;
 
-import com.hhplus.concertreservation.apps.concert.application.usecase.GetAvailableConcertSessionsUseCase;
-import com.hhplus.concertreservation.common.time.FakeTimeProvider;
-import com.hhplus.concertreservation.common.time.TimeProvider;
 import com.hhplus.concertreservation.apps.concert.domain.model.entity.Concert;
 import com.hhplus.concertreservation.apps.concert.domain.model.entity.ConcertSession;
 import com.hhplus.concertreservation.apps.concert.domain.repository.ConcertWriter;
+import com.hhplus.concertreservation.common.time.FakeTimeProvider;
+import com.hhplus.concertreservation.common.time.TimeProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,8 @@ import org.springframework.test.context.ActiveProfiles;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ActiveProfiles("test")

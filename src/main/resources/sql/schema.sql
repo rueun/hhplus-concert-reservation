@@ -1,3 +1,12 @@
+DROP TABLE IF EXISTS `concert`;
+DROP TABLE IF EXISTS `concert_session`;
+DROP TABLE IF EXISTS `concert_seat`;
+DROP TABLE IF EXISTS `concert_reservation`;
+DROP TABLE IF EXISTS `payment`;
+DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `user_point`;
+DROP TABLE IF EXISTS `waiting_queue`;
+
 CREATE TABLE `concert`
 (
     `id`                   bigint NOT NULL AUTO_INCREMENT,
