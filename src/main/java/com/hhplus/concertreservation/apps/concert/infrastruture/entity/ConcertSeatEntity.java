@@ -32,6 +32,7 @@ public class ConcertSeatEntity extends BaseEntity {
     @Version
     private Long version;
 
+
     public ConcertSeatEntity (final ConcertSeat concertSeat) {
         this.id = concertSeat.getId();
         this.concertSessionId = concertSeat.getConcertSessionId();
@@ -39,6 +40,7 @@ public class ConcertSeatEntity extends BaseEntity {
         this.status = concertSeat.getStatus();
         this.price = concertSeat.getPrice();
         this.version = concertSeat.getVersion();
+
     }
 
     public ConcertSeat toDomain() {

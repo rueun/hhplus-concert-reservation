@@ -1,10 +1,10 @@
 package com.hhplus.concertreservation.apps.user.domain.service;
 
 import com.hhplus.concertreservation.apps.user.domain.exception.UserErrorType;
+import com.hhplus.concertreservation.apps.user.domain.model.entity.UserPoint;
 import com.hhplus.concertreservation.apps.user.domain.repository.UserReader;
 import com.hhplus.concertreservation.apps.user.domain.repository.UserWriter;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
-import com.hhplus.concertreservation.apps.user.domain.model.entity.UserPoint;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,6 +29,7 @@ public class UserService {
         return userReader.getByUserId(userId);
     }
 
+
     @Transactional
     public UserPoint chargePoint(final Long userId, final long amount) {
         checkUserExist(userId);
@@ -39,6 +40,7 @@ public class UserService {
         log.info("포인트 충전 완료: 사용자 ID = {}, 충전 금액 = {}", userId, amount);
         return savedUserPoint;
     }
+
 
     @Transactional
     public UserPoint usePoint(final Long userId, final long amount) {

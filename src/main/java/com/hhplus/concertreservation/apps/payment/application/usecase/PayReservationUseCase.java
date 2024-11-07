@@ -9,6 +9,7 @@ import com.hhplus.concertreservation.apps.payment.domain.service.PaymentService;
 import com.hhplus.concertreservation.apps.queue.domain.service.WaitingQueueService;
 import com.hhplus.concertreservation.apps.user.domain.service.UserService;
 import com.hhplus.concertreservation.common.UseCase;
+import com.hhplus.concertreservation.common.aop.annotation.DistributedLock;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,8 @@ public class PayReservationUseCase {
     private final ConcertService concertService;
     private final WaitingQueueService waitingQueueService;
 
-    @Transactional
+
+    @DistributedLock(prefix = "concertReservation", key = "#reservationId", waitTime = 1000)
     public Payment payReservation(final Long userId, final Long reservationId, final String token) {
         final ConcertReservation concertReservation = concertService.getConcertReservation(reservationId);
         if (!concertReservation.isTemporaryReserved()) {
