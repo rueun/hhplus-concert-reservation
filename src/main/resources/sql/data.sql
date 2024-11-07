@@ -27,7 +27,7 @@ INSERT INTO concert (id, name, reservation_open_at, reservation_close_at) VALUES
 INSERT INTO concert (id, name, reservation_open_at, reservation_close_at) VALUES (2, '콘서트2', '2024-10-01 00:00:00', '2024-10-31 00:00:00');
 INSERT INTO concert (id, name, reservation_open_at, reservation_close_at) VALUES (3, '콘서트3', '2024-10-01 00:00:00', '2024-10-31 00:00:00');
 INSERT INTO concert (id, name, reservation_open_at, reservation_close_at) VALUES (4, '콘서트4', '2024-11-01 00:00:00', '2024-11-30 00:00:00');
-INSERT INTO concert (id, name, reservation_open_at, reservation_close_at) VALUES (5, '콘서트5', '2024-11-01 00:00:00', '2024-11-3 00:00:00');
+INSERT INTO concert (id, name, reservation_open_at, reservation_close_at) VALUES (5, '콘서트5', '2024-11-01 00:00:00', '2024-11-30 00:00:00');
 
 
 INSERT INTO concert_session (id, concert_id, concert_at, total_seat_count) VALUES (1, 1, '2024-12-01 00:00:00', 100);
@@ -90,3 +90,5 @@ INSERT INTO concert_seat (id, concert_session_id, price, seat_number, status, ve
 INSERT INTO concert_seat (id, concert_session_id, price, seat_number, status, version) VALUES (48, 8, 10000, 3, 'AVAILABLE', 0);
 INSERT INTO concert_seat (id, concert_session_id, price, seat_number, status, version) VALUES (49, 8, 10000, 4, 'AVAILABLE', 0);
 INSERT INTO concert_seat (id, concert_session_id, price, seat_number, status, version) VALUES (50, 8, 10000, 5, 'AVAILABLE', 0);
+
+INSERT INTO waiting_queue(id, user_id, status, token) VALUES (1, 1, 'WAITING', 'token1');
