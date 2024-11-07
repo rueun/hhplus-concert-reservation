@@ -18,6 +18,7 @@ public class WaitingQueue {
     private Long id;
     private Long userId;
     private String token;
+    private long waitingOrder;
     private QueueStatus status;
     private LocalDateTime activatedAt;
     private LocalDateTime expiredAt;

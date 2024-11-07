@@ -90,5 +90,3 @@ INSERT INTO concert_seat (id, concert_session_id, price, seat_number, status, ve
 INSERT INTO concert_seat (id, concert_session_id, price, seat_number, status, version) VALUES (48, 8, 10000, 3, 'AVAILABLE', 0);
 INSERT INTO concert_seat (id, concert_session_id, price, seat_number, status, version) VALUES (49, 8, 10000, 4, 'AVAILABLE', 0);
 INSERT INTO concert_seat (id, concert_session_id, price, seat_number, status, version) VALUES (50, 8, 10000, 5, 'AVAILABLE', 0);
-
-INSERT INTO waiting_queue(id, user_id, status, token) VALUES (1, 1, 'WAITING', 'token1');

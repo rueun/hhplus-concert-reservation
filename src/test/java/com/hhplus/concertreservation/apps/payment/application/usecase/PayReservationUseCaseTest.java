@@ -103,7 +103,7 @@ class PayReservationUseCaseTest {
         concertWriter.saveAll(List.of(concertSeat1, concertSeat2));
         concertWriter.save(concertReservation);
 
-        waitingQueueWriter.save(waitingQueue);
+        waitingQueueWriter.createWaitingQueue(waitingQueue);
 
         // when
         final var payment = payReservationUseCase.payReservation(1L, 1L, "token");
@@ -183,7 +183,7 @@ class PayReservationUseCaseTest {
         concertWriter.saveAll(List.of(concertSeat1, concertSeat2));
         concertWriter.save(concertReservation);
 
-        waitingQueueWriter.save(waitingQueue);
+        waitingQueueWriter.createWaitingQueue(waitingQueue);
 
         // when & then
         assertAll(
@@ -238,7 +238,7 @@ class PayReservationUseCaseTest {
         concertWriter.saveAll(List.of(concertSeat1, concertSeat2));
         concertWriter.save(concertReservation);
 
-        waitingQueueWriter.save(waitingQueue);
+        waitingQueueWriter.createWaitingQueue(waitingQueue);
 
         // when & then
         assertAll(

@@ -13,7 +13,6 @@ import com.hhplus.concertreservation.common.aop.annotation.DistributedLock;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @UseCase
@@ -41,8 +40,8 @@ public class PayReservationUseCase {
         // 콘서트 예약 및 좌석 상태 변경
         concertService.completeReservation(reservationId);
 
-        // 대기열 만료
-        waitingQueueService.expireQueue(token);
+        // 활성 대기열 만료
+        waitingQueueService.expireActiveQueue(token);
 
         log.info("결제 완료: 사용자 ID = {}, 예약 ID = {}, 결제 ID = {}", userId, reservationId, payment.getId());
         return payment;
