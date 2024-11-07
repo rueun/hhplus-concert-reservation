@@ -16,10 +16,10 @@ public class WaitingQueueScheduler {
 
     private final WaitingQueueService waitingQueueService;
 
-    @Scheduled(fixedDelayString = "60000")
+    @Scheduled(fixedDelayString = "10000")
     public void activateWaitingQueue() {
         log.info("대기열 활성화 스케줄러 실행");
-        final List<WaitingQueue> waitingQueues = waitingQueueService.getWaitingQueues(200);
+        final List<WaitingQueue> waitingQueues = waitingQueueService.getWaitingQueuesToBeActivated(3000);
         waitingQueues.forEach(waitingQueue -> {
             try {
                 waitingQueueService.activateQueue(waitingQueue.getToken());
@@ -28,19 +28,4 @@ public class WaitingQueueScheduler {
             }
         });
     }
-
-
-    @Scheduled(fixedDelayString = "60000")
-    public void expireWaitingQueue() {
-        log.info("대기열 만료 스케줄러 실행");
-        final List<WaitingQueue> waitingQueues = waitingQueueService.getWaitingQueueToBeExpired(10);
-        waitingQueues.forEach(waitingQueue -> {
-            try {
-                waitingQueueService.expireQueue(waitingQueue.getToken());
-            } catch (Exception e) {
-                log.warn("대기열 토큰 만료 중 오류 발생 (Token: {}): {}", waitingQueue.getToken(), e.getMessage());
-            }
-        });
-    }
-
 }
