@@ -1,7 +1,5 @@
 package com.hhplus.concertreservation.apps.concert.domain.service;
 
-import com.hhplus.concertreservation.apps.concert.domain.service.ConcertService;
-import com.hhplus.concertreservation.common.time.TimeProvider;
 import com.hhplus.concertreservation.apps.concert.domain.exception.ConcertErrorType;
 import com.hhplus.concertreservation.apps.concert.domain.model.dto.ConcertReservationInfo;
 import com.hhplus.concertreservation.apps.concert.domain.model.dto.command.ReserveConcertCommand;
@@ -13,6 +11,7 @@ import com.hhplus.concertreservation.apps.concert.domain.model.enums.ConcertRese
 import com.hhplus.concertreservation.apps.concert.domain.model.enums.ConcertSeatStatus;
 import com.hhplus.concertreservation.apps.concert.domain.repository.ConcertReader;
 import com.hhplus.concertreservation.apps.concert.domain.repository.ConcertWriter;
+import com.hhplus.concertreservation.common.time.TimeProvider;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -222,7 +221,7 @@ class ConcertServiceTest {
         given(concertReader.getConcertById(1L)).willReturn(concert);
 
         // when
-        List<ConcertSession> result = concertService.getAvailableConcertSessions(1L);
+        List<ConcertSession> result = concertService.getAvailableConcertSessions(1L).getSessions();
 
         // then
         assertEquals(0, result.size());
@@ -256,7 +255,7 @@ class ConcertServiceTest {
         given(concertReader.getConcertSessionsByConcertId(1L)).willReturn(List.of(concertSession1, concertSession2));
 
         // when
-        List<ConcertSession> result = concertService.getAvailableConcertSessions(1L);
+        List<ConcertSession> result = concertService.getAvailableConcertSessions(1L).getSessions();
 
         // then
         assertAll(
