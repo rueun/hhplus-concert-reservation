@@ -5,6 +5,7 @@ import com.hhplus.concertreservation.apps.concert.domain.model.dto.command.Reser
 import com.hhplus.concertreservation.apps.concert.domain.service.ConcertService;
 import com.hhplus.concertreservation.apps.user.domain.service.UserService;
 import com.hhplus.concertreservation.common.UseCase;
+import com.hhplus.concertreservation.common.aop.annotation.MultiDistributedLock;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

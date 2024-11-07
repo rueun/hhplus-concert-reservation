@@ -42,6 +42,7 @@ public class ConcertReservationEntity extends BaseEntity {
     @Column(name = "reservation_at")
     private LocalDateTime reservationAt;
 
+
     public ConcertReservationEntity (final ConcertReservation concertReservation) {
         this.id = concertReservation.getId();
         this.userId = concertReservation.getUserId();

@@ -15,7 +15,6 @@ public class UserPoint {
     private Long id;
     private Long userId;
     private long amount;
-    private Long version;
 
     public static UserPoint create(final Long userId) {
         return UserPoint.builder()

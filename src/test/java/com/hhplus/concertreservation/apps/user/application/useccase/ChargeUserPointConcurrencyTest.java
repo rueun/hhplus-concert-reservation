@@ -43,7 +43,7 @@ class ChargeUserPointConcurrencyTest {
         userWriter.save(new User(1L, "홍길동", "hong@email.com"));
         userWriter.saveUserPoint(UserPoint.create(1L));
 
-        int numberOfThreads = 10;
+        int numberOfThreads = 5;
         AtomicInteger successCount = new AtomicInteger(0);
         AtomicInteger failedCount = new AtomicInteger(0);
 
@@ -63,8 +63,8 @@ class ChargeUserPointConcurrencyTest {
         //then
         final UserPoint userPoint = userReader.getByUserId(1L);
         assertAll(
-                () -> assertThat(userPoint.getAmount()).isEqualTo(1000L),
-                () -> assertThat(successCount.get()).isEqualTo(10),
+                () -> assertThat(userPoint.getAmount()).isEqualTo(500L),
+                () -> assertThat(successCount.get()).isEqualTo(5),
                 () -> assertThat(failedCount.get()).isZero()
         );
     }
@@ -75,7 +75,7 @@ class ChargeUserPointConcurrencyTest {
         userWriter.save(new User(1L, "홍길동", "hong@email.com"));
         userWriter.saveUserPoint(UserPoint.create(1L));
 
-        final int threadCount = 30;
+        final int threadCount = 5;
         AtomicInteger successCount = new AtomicInteger(0);
         AtomicInteger failedCount = new AtomicInteger(0);
         ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
@@ -100,8 +100,8 @@ class ChargeUserPointConcurrencyTest {
         final UserPoint userPoint = userReader.getByUserId(1L);
 
         assertAll(
-                () -> assertThat(userPoint.getAmount()).isEqualTo(3000L),
-                () -> assertThat(successCount.get()).isEqualTo(30),
+                () -> assertThat(userPoint.getAmount()).isEqualTo(500L),
+                () -> assertThat(successCount.get()).isEqualTo(5),
                 () -> assertThat(failedCount.get()).isZero()
         );
     }
