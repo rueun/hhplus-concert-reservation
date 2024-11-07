@@ -6,13 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WaitingQueueReader {
-    WaitingQueue getById(Long id);
-
     WaitingQueue getByToken(String token);
-
-    Optional<WaitingQueue> getLatestActivatedQueue();
-
-    List<WaitingQueue> getWaitingQueues(int activationCount);
-
-    List<WaitingQueue> getWaitingQueueToBeExpired(int minutes);
+    List<WaitingQueue> getWaitingQueuesToBeActivated(int activationCount);
+    WaitingQueue getActiveQueueByToken(String token);
 }
