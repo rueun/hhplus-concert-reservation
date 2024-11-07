@@ -237,12 +237,12 @@ public class GetAvailableConcertSessionsUseCase {
 
 #### 캐시 적용 전/후 그래프
 - 캐시 적용 전
-  ![캐시 적용 전 그래프](images/k6-before-cache.png)
+![캐시 적용 전 그래프](images/k6-before-cache.png)
 
 <br>
 
 - 캐시 적용 후
-  ![캐시 적용 후 그래프](images/k6-after-cache.png)
+![캐시 적용 후 그래프](images/k6-after-cache.png)
 
 ---
 
