@@ -1,6 +1,5 @@
 package com.hhplus.concertreservation.apps.queue.application.usecase;
 
-import com.hhplus.concertreservation.apps.queue.application.usecase.GetWaitingQueueUseCase;
 import com.hhplus.concertreservation.apps.queue.domain.model.dto.WaitingQueueInfo;
 import com.hhplus.concertreservation.apps.queue.domain.model.entity.WaitingQueue;
 import com.hhplus.concertreservation.apps.queue.domain.model.enums.QueueStatus;
@@ -13,7 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ActiveProfiles("test")
@@ -52,9 +52,9 @@ class GetWaitingQueueUseCaseTest {
                 .status(QueueStatus.WAITING)
                 .build();
 
-        waitingQueueWriter.save(waitingQueue1);
-        waitingQueueWriter.save(waitingQueue2);
-        waitingQueueWriter.save(waitingQueue3);
+        waitingQueueWriter.createWaitingQueue(waitingQueue1);
+        waitingQueueWriter.createWaitingQueue(waitingQueue2);
+        waitingQueueWriter.createWaitingQueue(waitingQueue3);
 
         // when
         final WaitingQueueInfo waitingQueueInfo1 = getWaitingQueueUseCase.getWaitingQueueInfo("token-uuid1");
@@ -90,9 +90,9 @@ class GetWaitingQueueUseCaseTest {
                 .status(QueueStatus.WAITING)
                 .build();
 
-        waitingQueueWriter.save(waitingQueue1);
-        waitingQueueWriter.save(waitingQueue2);
-        waitingQueueWriter.save(waitingQueue3);
+        waitingQueueWriter.createWaitingQueue(waitingQueue1);
+        waitingQueueWriter.createWaitingQueue(waitingQueue2);
+        waitingQueueWriter.createWaitingQueue(waitingQueue3);
 
         // when
         final WaitingQueueInfo waitingQueueInfo1 = getWaitingQueueUseCase.getWaitingQueueInfo("token-uuid1");
@@ -101,9 +101,9 @@ class GetWaitingQueueUseCaseTest {
 
         // then
         assertAll(
-                () -> assertEquals(1L, waitingQueueInfo1.waitingNumber()),
-                () -> assertEquals(2L, waitingQueueInfo2.waitingNumber()),
-                () -> assertEquals(3L, waitingQueueInfo3.waitingNumber())
+                () -> assertEquals(0L, waitingQueueInfo1.waitingNumber()),
+                () -> assertEquals(1L, waitingQueueInfo2.waitingNumber()),
+                () -> assertEquals(2L, waitingQueueInfo3.waitingNumber())
         );
     }
 }

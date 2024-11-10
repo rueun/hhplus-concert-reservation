@@ -101,7 +101,7 @@ class PayReservationConcurrencyTest {
         userWriter.saveUserPoint(userPoint);
         concertWriter.saveAll(List.of(concertSeat));
         concertWriter.save(concertReservation);
-        waitingQueueWriter.save(waitingQueue);
+        waitingQueueWriter.createWaitingQueue(waitingQueue);
 
 
         final int threadCount = 3;

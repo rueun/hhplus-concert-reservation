@@ -2,9 +2,11 @@ package com.hhplus.concertreservation.apps.queue.domain.model.dto;
 
 import com.hhplus.concertreservation.apps.queue.domain.model.entity.WaitingQueue;
 import com.hhplus.concertreservation.apps.queue.domain.model.enums.QueueStatus;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 
+@Builder
 public record WaitingQueueInfo(
         Long id,
         Long userId,
@@ -31,5 +33,14 @@ public record WaitingQueueInfo(
                 waitingQueue.getUpdatedAt(),
                 waitingNumber
         );
+    }
+
+    public static WaitingQueueInfo of(final WaitingQueue currentWaitingQueue) {
+        return WaitingQueueInfo.builder()
+                .userId(currentWaitingQueue.getUserId())
+                .token(currentWaitingQueue.getToken())
+                .status(currentWaitingQueue.getStatus())
+                .waitingNumber(currentWaitingQueue.getWaitingOrder())
+                .build();
     }
 }

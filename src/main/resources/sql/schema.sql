@@ -5,7 +5,6 @@ DROP TABLE IF EXISTS `concert_reservation`;
 DROP TABLE IF EXISTS `payment`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `user_point`;
-DROP TABLE IF EXISTS `waiting_queue`;
 
 CREATE TABLE `concert`
 (
@@ -99,18 +98,3 @@ CREATE TABLE `user_point`
     `user_id`    bigint DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-
-CREATE TABLE `waiting_queue`
-(
-    `id`               bigint NOT NULL AUTO_INCREMENT,
-    `created_at`       datetime(6) DEFAULT NULL,
-    `updated_at`       datetime(6) DEFAULT NULL,
-    `activated_at`     datetime(6) DEFAULT NULL,
-    `expired_at`       datetime(6) DEFAULT NULL,
-    `last_actioned_at` datetime(6) DEFAULT NULL,
-    `status`           varchar(255) DEFAULT NULL,
-    `token`            varchar(255) DEFAULT NULL,
-    `user_id`          bigint       DEFAULT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

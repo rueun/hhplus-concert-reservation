@@ -40,8 +40,7 @@ public class WaitingQueueController {
     @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GetWaitingQueueStatusResponse.class)))
     @GetMapping
     public ResponseEntity<GetWaitingQueueStatusResponse> getWaitingQueue(
-            @RequestHeader("QUEUE-TOKEN") String token,
-            @RequestHeader("USER-ID") Long userId
+            @RequestHeader("QUEUE-TOKEN") String token
     ) {
         final WaitingQueueInfo waitingQueueInfo = getWaitingQueueUseCase.getWaitingQueueInfo(token);
         return ResponseEntity.ok(GetWaitingQueueStatusResponse.of(waitingQueueInfo));

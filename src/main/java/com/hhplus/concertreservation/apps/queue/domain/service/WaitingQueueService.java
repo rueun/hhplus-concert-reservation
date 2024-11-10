@@ -1,12 +1,11 @@
 package com.hhplus.concertreservation.apps.queue.domain.service;
 
-import com.hhplus.concertreservation.common.time.TimeProvider;
-import com.hhplus.concertreservation.common.uuid.UUIDGenerator;
 import com.hhplus.concertreservation.apps.queue.domain.exception.WaitingQueueErrorType;
 import com.hhplus.concertreservation.apps.queue.domain.model.dto.WaitingQueueInfo;
 import com.hhplus.concertreservation.apps.queue.domain.model.entity.WaitingQueue;
 import com.hhplus.concertreservation.apps.queue.domain.repository.WaitingQueueReader;
 import com.hhplus.concertreservation.apps.queue.domain.repository.WaitingQueueWriter;
+import com.hhplus.concertreservation.common.uuid.UUIDGenerator;
 import com.hhplus.concertreservation.support.domain.exception.CoreException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,15 +18,17 @@ public class WaitingQueueService {
 
     private final WaitingQueueReader waitingQueueReader;
     private final WaitingQueueWriter waitingQueueWriter;
-
     private final UUIDGenerator uuidGenerator;
-    private final TimeProvider timeProvider;
 
+    /**
+     * 대기열 생성
+     * @param userId 사용자 ID
+     * @return 생성된 대기열 정보
+     */
     public WaitingQueue createWaitingQueue(final Long userId) {
         final String token = uuidGenerator.generate();
-        return waitingQueueWriter.save(new WaitingQueue(userId, token));
+        return waitingQueueWriter.createWaitingQueue(new WaitingQueue(userId, token));
     }
-
 
     /**
      * 대기열 정보 조회
@@ -37,17 +38,17 @@ public class WaitingQueueService {
      */
     public WaitingQueueInfo getWaitingQueueInfo(final String token) {
         final WaitingQueue currentWaitingQueue = waitingQueueReader.getByToken(token);
+        return WaitingQueueInfo.of(currentWaitingQueue);
+    }
 
-        if (currentWaitingQueue.isWaiting()) {
-            // 마지막 활성화된 대기열 정보를 조회하여 대기 순서를 계산
-            Long waitingOrder = waitingQueueReader.getLatestActivatedQueue()
-                    .map(latestActivatedQueue -> currentWaitingQueue.getId() - latestActivatedQueue.getId())
-                    .orElse(currentWaitingQueue.getId());
 
-            return WaitingQueueInfo.of(currentWaitingQueue, waitingOrder);
-
-        }
-        return WaitingQueueInfo.of(currentWaitingQueue, 0L);
+    /**
+     * 가장 오래된 대기열 목록 조회
+     * @param activationCount 조회하려는 활성화 대기열 개수
+     * @return 활성화하려는 대기열 목록
+     */
+    public List<WaitingQueue> getWaitingQueuesToBeActivated(final int activationCount) {
+        return waitingQueueReader.getWaitingQueuesToBeActivated(activationCount);
     }
 
     /**
@@ -55,57 +56,29 @@ public class WaitingQueueService {
      * @param token 대기열 토큰 정보
      * @throws CoreException 대기열이 만료되었거나 활성화 상태가 아닌 경우
      */
-    public void checkActivatedQueue(final String token) {
-        final WaitingQueue currentWaitingQueue = waitingQueueReader.getByToken(token);
+    public void activateQueue(final String token) {
+        waitingQueueWriter.moveToActiveQueue(token);
+    }
 
-        if (currentWaitingQueue.isExpired()) {
-            throw new CoreException(WaitingQueueErrorType.WAITING_QUEUE_EXPIRED, "대기열이 만료되었습니다.");
-        }
+    /**
+     * 현재 대기열이 활성화 상태인지 확인. 각 요청 전에 대기열 상태를 활성화 상태인지 확인할 때 사용
+     * @param token 대기열 토큰 정보
+     * @throws CoreException 대기열 토큰이 활성화 상태가 아닌 경우
+     */
+    public void checkActivatedQueue(final String token) {
+        final WaitingQueue currentWaitingQueue = waitingQueueReader.getActiveQueueByToken(token);
 
         if (!currentWaitingQueue.isActivated()) {
-            throw new CoreException(WaitingQueueErrorType.WAITING_QUEUE_NOT_ACTIVATED, "대기열이 활성상태가 아닙니다.");
+            waitingQueueWriter.removeActiveQueue(token);
+            throw new CoreException(WaitingQueueErrorType.WAITING_QUEUE_NOT_ACTIVATED, "대기열 정보가 활성상태가 아닙니다.");
         }
     }
 
-
-
     /**
-     * 대기열 활성화 처리 (스케줄러에서 주기적으로 호출)
+     * 활성 대기열 만료 처리
      * @param token 대기열 토큰 정보
      */
-    public void activateQueue(final String token) {
-        final WaitingQueue currentWaitingQueue = waitingQueueReader.getByToken(token);
-        currentWaitingQueue.activate(timeProvider.now());
-        waitingQueueWriter.save(currentWaitingQueue);
-    }
-
-
-    /**
-     * 가장 오래된 '대기상태' 대기열 목록 조회
-     * @param activationCount 조회하려는 활성화 대기열 개수
-     * @return '대기' 상태인 대기열 목록
-     */
-    public List<WaitingQueue> getWaitingQueues(final int activationCount) {
-        return waitingQueueReader.getWaitingQueues(activationCount);
-    }
-
-    /**
-     * 대기열 만료 처리 대기열 목록 조회
-     * @param minutes 만료 시간 (분)
-     * @return 만료 처리 대기열 목록
-     */
-    public List<WaitingQueue> getWaitingQueueToBeExpired(final int minutes) {
-        return waitingQueueReader.getWaitingQueueToBeExpired(minutes);
-    }
-
-
-    /**
-     * 활성화된 대기열 만료 처리 (스케줄러에서 주기적으로 호출)
-     * @param token 대기열 토큰 정보
-     */
-    public void expireQueue(final String token) {
-        final WaitingQueue currentWaitingQueue = waitingQueueReader.getByToken(token);
-        currentWaitingQueue.expire(timeProvider.now());
-        waitingQueueWriter.save(currentWaitingQueue);
+    public void expireActiveQueue(final String token) {
+        waitingQueueWriter.removeActiveQueue(token);
     }
 }

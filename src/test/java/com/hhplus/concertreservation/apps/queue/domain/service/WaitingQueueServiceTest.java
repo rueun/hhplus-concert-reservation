@@ -57,7 +57,7 @@ class WaitingQueueServiceTest {
         given(uuidGenerator.generate()).willReturn(token);
 
         WaitingQueue expectedWaitingQueue = new WaitingQueue(userId, token);
-        given(waitingQueueWriter.save(any(WaitingQueue.class))).willReturn(expectedWaitingQueue);
+        given(waitingQueueWriter.createWaitingQueue(any(WaitingQueue.class))).willReturn(expectedWaitingQueue);
 
         // when
         final WaitingQueue waitingQueue = waitingQueueService.createWaitingQueue(userId);
@@ -67,8 +67,7 @@ class WaitingQueueServiceTest {
                 () -> assertEquals(userId, waitingQueue.getUserId()),
                 () -> assertEquals(token, waitingQueue.getToken()),
                 () -> assertEquals(QueueStatus.WAITING, waitingQueue.getStatus()),
-                () -> then(uuidGenerator).should(times(1)).generate(),
-                () -> then(waitingQueueWriter).should(times(1)).save(any(WaitingQueue.class))
+                () -> then(uuidGenerator).should(times(1)).generate()
         );
     }
 
@@ -93,8 +92,7 @@ class WaitingQueueServiceTest {
         assertAll(
                 () -> assertEquals(0L, waitingQueueInfo.waitingNumber()),
                 () -> assertEquals(status, waitingQueueInfo.status()),
-                () -> then(waitingQueueReader).should(times(1)).getByToken(token),
-                () -> then(waitingQueueReader).should(never()).getLatestActivatedQueue()
+                () -> then(waitingQueueReader).should(times(1)).getByToken(token)
         );
     }
 
@@ -113,8 +111,6 @@ class WaitingQueueServiceTest {
                 .build();
 
         given(waitingQueueReader.getByToken(token)).willReturn(waitingQueue);
-        // 최근 활성화된 대기열이 없는 경우 empty 반환
-        given(waitingQueueReader.getLatestActivatedQueue()).willReturn(Optional.empty());
 
         // when
         final WaitingQueueInfo waitingQueueInfo = waitingQueueService.getWaitingQueueInfo(token);
@@ -123,43 +119,11 @@ class WaitingQueueServiceTest {
         assertAll(
                 () -> assertEquals(100L, waitingQueueInfo.waitingNumber()),
                 () -> assertEquals(QueueStatus.WAITING, waitingQueueInfo.status()),
-                () -> then(waitingQueueReader).should(times(1)).getByToken(token),
-                () -> then(waitingQueueReader).should(times(1)).getLatestActivatedQueue()
+                () -> then(waitingQueueReader).should(times(1)).getByToken(token)
         );
     }
 
 
-    @Test
-    void 최근_활성화된_대기열이_있을_경우_대기번호는_활성화된_대기열_id와_조회된_대기열_id의_차이이다() {
-        // given
-        final String token = "token-uuid";
-
-        final WaitingQueue waitingQueue = WaitingQueue.builder()
-                .id(200L)
-                .token(token)
-                .status(QueueStatus.WAITING)
-                .build();
-
-        final WaitingQueue latestActivatedQueue = WaitingQueue.builder()
-                .id(150L)
-                .token("latest-activated-token")
-                .status(QueueStatus.ACTIVATED)
-                .build();
-
-        given(waitingQueueReader.getByToken(token)).willReturn(waitingQueue);
-        given(waitingQueueReader.getLatestActivatedQueue()).willReturn(Optional.of(latestActivatedQueue));
-
-        // when
-        final WaitingQueueInfo waitingQueueInfo = waitingQueueService.getWaitingQueueInfo(token);
-
-        // then
-        assertAll(
-                () -> assertEquals(50L, waitingQueueInfo.waitingNumber()),
-                () -> assertEquals(QueueStatus.WAITING, waitingQueueInfo.status()),
-                () -> then(waitingQueueReader).should(times(1)).getByToken(token),
-                () -> then(waitingQueueReader).should(times(1)).getLatestActivatedQueue()
-        );
-    }
 
 
     @Test
@@ -247,8 +211,7 @@ class WaitingQueueServiceTest {
         // then
         assertAll(
                 () -> assertEquals(QueueStatus.ACTIVATED, waitingQueue.getStatus()),
-                () -> assertEquals(now, waitingQueue.getActivatedAt()),
-                () -> then(waitingQueueWriter).should(times(1)).save(waitingQueue)
+                () -> assertEquals(now, waitingQueue.getActivatedAt())
         );
     }
 
@@ -305,13 +268,12 @@ class WaitingQueueServiceTest {
         when(timeProvider.now()).thenReturn(now);
 
         // when
-        waitingQueueService.expireQueue(token);
+        waitingQueueService.expireActiveQueue(token);
 
         // then
         assertAll(
                 () -> assertEquals(QueueStatus.EXPIRED, waitingQueue.getStatus()),
-                () -> assertEquals(now, waitingQueue.getExpiredAt()),
-                () -> then(waitingQueueWriter).should(times(1)).save(waitingQueue)
+                () -> assertEquals(now, waitingQueue.getExpiredAt())
         );
     }
 
