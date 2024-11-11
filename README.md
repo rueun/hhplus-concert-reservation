@@ -10,6 +10,8 @@
 ### 5. [Project Structure](https://github.com/rueun/hhplus-concert-reservation/blob/step6/docs/PROJECT_STRUCTURE.md)
 ### 6. [(3주차-5주차) Chapter2 서버구축 회고](https://devlog-rueun.tistory.com/entry/%ED%95%AD%ED%95%B4-%ED%94%8C%EB%9F%AC%EC%8A%A4-%EB%B0%B1%EC%97%94%EB%93%9C-6%EA%B8%B0-%EC%B1%95%ED%84%B023%EC%A3%BC%EC%B0%A8-5%EC%A3%BC%EC%B0%A8-%EC%84%9C%EB%B2%84%EA%B5%AC%EC%B6%95-%ED%9A%8C%EA%B3%A0)
 ### 7. [Concurrency Analysis Report](https://github.com/rueun/hhplus-concert-reservation/blob/step11/docs/CONCURRENCY_REPORT.md)
+### 8. [Cache-캐싱을 통한 성능 개선 전략](https://github.com/rueun/hhplus-concert-reservation/blob/main/docs/CACHE.md)
+### 9. [Waiting Queue System](https://github.com/rueun/hhplus-concert-reservation/blob/main/docs/WAITING_QUEUE_SYSTEM.md)
 <br>
 
 ## swagger-ui
