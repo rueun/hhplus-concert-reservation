@@ -28,8 +28,10 @@ public class ConcertReservationEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ConcertReservationStatus status;
 
+    @Column(name = "concert_id")
     private Long concertId;
 
+    @Column(name = "concert_session_id")
     private Long concertSessionId;
 
     @Column(name = "seat_ids")
