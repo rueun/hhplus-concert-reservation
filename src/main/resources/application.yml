@@ -33,13 +33,13 @@ spring:
       max-lifetime: 1800000
       idle-timeout: 30000
       connection-timeout: 30000
-  sql:
-    init:
-      mode: always
-      data-locations:
-      - classpath:sql/data.sql
-      schema-locations:
-      - classpath:sql/schema.sql
+#  sql:
+#    init:
+#      mode: always
+#      data-locations:
+#      - classpath:sql/data.sql
+#      schema-locations:
+#      - classpath:sql/schema.sql
   jpa:
     hibernate:
       ddl-auto: none
