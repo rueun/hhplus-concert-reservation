@@ -12,6 +12,8 @@
 ### 7. [Concurrency Analysis Report](https://github.com/rueun/hhplus-concert-reservation/blob/step11/docs/CONCURRENCY_REPORT.md)
 ### 8. [Cache-캐싱을 통한 성능 개선 전략](https://github.com/rueun/hhplus-concert-reservation/blob/main/docs/CACHE.md)
 ### 9. [Waiting Queue System](https://github.com/rueun/hhplus-concert-reservation/blob/main/docs/WAITING_QUEUE_SYSTEM.md)
+### 10. [DB-Index](https://github.com/rueun/hhplus-concert-reservation/blob/main/docs/DB_INDEX.md)
+### 11. [MSA 환경에서의 트랜잭션 처리 방안](https://github.com/rueun/hhplus-concert-reservation/blob/main/docs/DB_INDEX.md)
 <br>
 
 ## swagger-ui
