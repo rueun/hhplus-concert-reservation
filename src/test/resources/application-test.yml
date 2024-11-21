@@ -18,6 +18,9 @@ management:
         step: 5s
 
 spring:
+  config:
+    activate:
+      on-profile: test
   datasource:
     url: jdbc:h2:mem:hhplus-tdd-clean-architecture
     driver-class-name: org.h2.Driver
@@ -41,6 +44,18 @@ spring:
   sql:
     init:
       mode: never
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: concert-consumer-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
+      enable-auto-commit: false
 logging:
   level:
     root: info
+    org.apache.kafka: DEBUG
