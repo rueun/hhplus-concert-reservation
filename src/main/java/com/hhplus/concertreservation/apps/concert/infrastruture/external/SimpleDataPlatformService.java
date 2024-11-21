@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class SimpleDataPlatformService implements DataPlatformService {
 
     @Override
-    public void sendReservationData(final Long reservationId) {
+    public void sendReservationData(final String reservationId) {
         // send reservation data to data platform
         try {
             Thread.sleep(10000);
