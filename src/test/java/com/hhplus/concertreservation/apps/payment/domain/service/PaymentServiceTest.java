@@ -1,11 +1,10 @@
 package com.hhplus.concertreservation.apps.payment.domain.service;
 
-import com.hhplus.concertreservation.apps.payment.domain.service.PaymentService;
-import com.hhplus.concertreservation.common.time.TimeProvider;
 import com.hhplus.concertreservation.apps.payment.domain.model.dto.CreatePaymentCommand;
 import com.hhplus.concertreservation.apps.payment.domain.model.entity.Payment;
 import com.hhplus.concertreservation.apps.payment.domain.repository.PaymentReader;
 import com.hhplus.concertreservation.apps.payment.domain.repository.PaymentWriter;
+import com.hhplus.concertreservation.common.time.TimeProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
