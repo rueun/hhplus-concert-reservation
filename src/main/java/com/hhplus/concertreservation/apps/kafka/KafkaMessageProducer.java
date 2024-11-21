@@ -2,7 +2,6 @@ package com.hhplus.concertreservation.apps.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -29,11 +28,5 @@ public class KafkaMessageProducer {
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to serialize message", e);
         }
-    }
-
-    @PostConstruct
-    public void init() {
-        send("test-topic", "Hello, Kafka!");
-        send("test-topic", "key", "Hello, Kafka! with key");
     }
 }
