@@ -1,16 +1,14 @@
 package com.hhplus.concertreservation.apps.concert.domain.model.entity;
 
 import com.hhplus.concertreservation.apps.concert.domain.model.enums.OutboxStatus;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Outbox {
     private Long id;
     private String eventType;
