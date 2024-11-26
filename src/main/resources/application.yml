@@ -6,7 +6,7 @@ management:
     web:
       base-path: /actuator
       exposure:
-        include: "health,info,metrics"
+        include: health,info,metrics
     jmx:
       exposure:
         include: "*"
@@ -37,9 +37,9 @@ spring:
     init:
       mode: always
       data-locations:
-      - classpath:sql/data.sql
+        - classpath:sql/data.sql
       schema-locations:
-      - classpath:sql/schema.sql
+        - classpath:sql/schema.sql
   jpa:
     hibernate:
       ddl-auto: none
