@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS `concert_reservation`;
 DROP TABLE IF EXISTS `payment`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `user_point`;
+DROP TABLE IF EXISTS `outbox`;
 
 CREATE TABLE `concert`
 (
@@ -98,3 +99,16 @@ CREATE TABLE `user_point`
     `user_id`    bigint DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `outbox`
+(
+    `id`                 bigint NOT NULL AUTO_INCREMENT,
+    `created_at`         datetime(6) DEFAULT NULL,
+    `updated_at`         datetime(6) DEFAULT NULL,
+    `eventType`          varchar(255) DEFAULT NULL,
+    `eventKey`           varchar(255) DEFAULT NULL,
+    `payload`            text NOT NULL,
+    `status`             varchar(255) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

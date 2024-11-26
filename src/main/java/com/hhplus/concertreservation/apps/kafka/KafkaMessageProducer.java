@@ -2,11 +2,12 @@ package com.hhplus.concertreservation.apps.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class KafkaMessageProducer {
@@ -17,6 +18,7 @@ public class KafkaMessageProducer {
         try {
             String json = objectMapper.writeValueAsString(message);
             kafkaTemplate.send(topic, json);
+            log.info("Message sent to topic: {}, message: {}", topic, json);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to serialize message", e);
         }
@@ -26,14 +28,9 @@ public class KafkaMessageProducer {
         try {
             String json = objectMapper.writeValueAsString(message);
             kafkaTemplate.send(topic, key, json);
+            log.info("Message sent to topic: {}, key: {}, message: {}", topic, key, json);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to serialize message", e);
         }
-    }
-
-    @PostConstruct
-    public void init() {
-        send("test-topic", "Hello, Kafka!");
-        send("test-topic", "key", "Hello, Kafka! with key");
     }
 }

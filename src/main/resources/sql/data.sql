@@ -23,9 +23,9 @@ INSERT INTO user_point (id, user_id, amount) VALUES (9, 9, 100000);
 INSERT INTO user_point (id, user_id, amount) VALUES (10, 10, 100000);
 
 
-INSERT INTO concert (id, name, reservation_open_at, reservation_close_at) VALUES (1, '콘서트1', '2024-10-01 00:00:00', '2024-10-31 00:00:00');
-INSERT INTO concert (id, name, reservation_open_at, reservation_close_at) VALUES (2, '콘서트2', '2024-10-01 00:00:00', '2024-10-31 00:00:00');
-INSERT INTO concert (id, name, reservation_open_at, reservation_close_at) VALUES (3, '콘서트3', '2024-10-01 00:00:00', '2024-10-31 00:00:00');
+INSERT INTO concert (id, name, reservation_open_at, reservation_close_at) VALUES (1, '콘서트1', '2024-10-01 00:00:00', '2024-11-30 00:00:00');
+INSERT INTO concert (id, name, reservation_open_at, reservation_close_at) VALUES (2, '콘서트2', '2024-10-01 00:00:00', '2024-11-30 00:00:00');
+INSERT INTO concert (id, name, reservation_open_at, reservation_close_at) VALUES (3, '콘서트3', '2024-10-01 00:00:00', '2024-11-30 00:00:00');
 INSERT INTO concert (id, name, reservation_open_at, reservation_close_at) VALUES (4, '콘서트4', '2024-11-01 00:00:00', '2024-11-30 00:00:00');
 INSERT INTO concert (id, name, reservation_open_at, reservation_close_at) VALUES (5, '콘서트5', '2024-11-01 00:00:00', '2024-11-30 00:00:00');
 
@@ -90,3 +90,10 @@ INSERT INTO concert_seat (id, concert_session_id, price, seat_number, status, ve
 INSERT INTO concert_seat (id, concert_session_id, price, seat_number, status, version) VALUES (48, 8, 10000, 3, 'AVAILABLE', 0);
 INSERT INTO concert_seat (id, concert_session_id, price, seat_number, status, version) VALUES (49, 8, 10000, 4, 'AVAILABLE', 0);
 INSERT INTO concert_seat (id, concert_session_id, price, seat_number, status, version) VALUES (50, 8, 10000, 5, 'AVAILABLE', 0);
+
+INSERT INTO outbox
+(id, created_at, updated_at, eventType, eventKey, payload, status)
+VALUES(16, '2024-11-21 19:21:47.576071', '2024-11-21 19:29:48.297713', 'ConcertReservedEvent', 'f571f19b-a6da-4452-8ae1-c152481cd329', '{"eventKey":"f571f19b-a6da-4452-8ae1-c152481cd329","reservationId":1}', 'INIT');
+INSERT INTO outbox
+(id, created_at, updated_at, eventType, eventKey, payload, status)
+VALUES(17, '2024-11-21 19:29:47.576071', '2024-11-21 19:29:48.297713', 'ConcertReservedEvent', 'sdfrefgd-a6da-4452-8ae1-c152481cd329', '{"eventKey":"f571f19b-a6da-4452-8ae1-c152481cd329","reservationId":2}', 'PUBLISHED');
