@@ -23,24 +23,35 @@ public class RedisWaitingQueueReader implements WaitingQueueReader {
     private static final String ACTIVE_QUEUE_KEY = "active-queues";
     private static final String TOKEN_META_KEY_PREFIX = "token-meta:";
 
-
     @Override
     public WaitingQueue getByToken(final String token) {
+        Long rank = redisTemplate.opsForZSet().rank(WAITING_QUEUE_KEY, token);
 
-        final Long rank = redisTemplate.opsForZSet().rank(WAITING_QUEUE_KEY, token);
-        if (rank == null) {
-            throw new CoreException(WaitingQueueErrorType.WAITING_QUEUE_NOT_FOUND);
+        if (rank != null) { // 대기열에 있는 경우
+            return buildWaitingQueue(token, rank, QueueStatus.WAITING);
         }
 
-        final String userId = (String)redisTemplate.opsForHash().get(TOKEN_META_KEY_PREFIX + token, "userId");
+        if (Boolean.TRUE.equals(redisTemplate.opsForSet().isMember(ACTIVE_QUEUE_KEY, token))) { // 활성열에 있는 경우
+            return buildWaitingQueue(token, 0L, QueueStatus.ACTIVATED);
+        }
+
+        throw new CoreException(WaitingQueueErrorType.WAITING_QUEUE_NOT_FOUND);
+    }
+
+    private WaitingQueue buildWaitingQueue(final String token, final Long order, final QueueStatus status) {
+        final String userId = (String) redisTemplate.opsForHash().get(TOKEN_META_KEY_PREFIX + token, "userId");
+        if (userId == null) {
+            throw new CoreException(WaitingQueueErrorType.WAITING_QUEUE_NOT_FOUND);
+        }
 
         return WaitingQueue.builder()
                 .token(token)
                 .userId(Long.parseLong(userId))
-                .waitingOrder(rank)
-                .status(QueueStatus.WAITING)
+                .waitingOrder(order)
+                .status(status)
                 .build();
     }
+
 
     @Override
     public List<WaitingQueue> getWaitingQueuesToBeActivated(final int activationCount) {
