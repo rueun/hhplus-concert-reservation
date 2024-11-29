@@ -2,10 +2,11 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.4'
     id 'io.spring.dependency-management' version '1.1.6'
+    id 'com.palantir.docker' version '0.36.0'
 }
 
 group = 'com.hhplus'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 
 java {
     toolchain {
@@ -64,4 +65,19 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+docker {
+    // 빌드할 Docker 이미지 이름 설정
+    println "Building Docker image for ${project.name}:${project.version}"
+    name "${project.name}:${version}"
+
+    // Dockerfile 경로 설정
+    dockerfile file('Dockerfile')
+
+    // Docker 이미지에 포함할 파일 설정: bootJar로 빌드된 JAR 파일을 포함
+    files tasks.bootJar.outputs.files
+
+    // Dockerfile에 전달할 빌드 인자 설정
+    buildArgs(['JAR_FILE': tasks.bootJar.outputs.files.singleFile.name])
 }
