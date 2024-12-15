@@ -6,7 +6,7 @@ management:
     web:
       base-path: /actuator
       exposure:
-        include: health,info,metrics
+        include: health,info,metrics,prometheus
     jmx:
       exposure:
         include: "*"
@@ -57,10 +57,10 @@ spring:
     open-in-view: false
   data:
     redis:
-      host: localhost
-      port: 6379
+      host: ${SPRING_REDIS_HOST:localhost}
+      port: ${SPRING_REDIS_PORT:6379}
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP-SERVERS:localhost:9092}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
